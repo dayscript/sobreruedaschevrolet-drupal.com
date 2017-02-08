@@ -1,0 +1,5 @@
+name = Sobre ruedas
+description = Módulo custom que permite añadir funcionalidades extras al sistema.
+version = "7.x.0.1"
+core = 7.x
+package = Sobre ruedas
