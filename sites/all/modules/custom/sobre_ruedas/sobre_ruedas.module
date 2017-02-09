@@ -256,7 +256,6 @@ function sobre_ruedas_preprocess_node(&$vars) {
 function sobre_ruedas_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
     case 'user_login':
-    dpm($form);
       $form['title'] = array('#markup' => t('Login to my account'));
       $form['title']['#weight'] = -1;
       $form['name']['#title'] = '';
