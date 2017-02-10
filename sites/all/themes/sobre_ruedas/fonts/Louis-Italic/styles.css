@@ -1,0 +1,8 @@
+
+@font-face {
+  font-family: 'Louis-Italic';
+  src: url('Louis-Italic.eot?#iefix') format('embedded-opentype'),  url('Louis-Italic.otf')  format('opentype'),
+	     url('Louis-Italic.woff') format('woff'), url('Louis-Italic.ttf')  format('truetype'), url('Louis-Italic.svg#Louis-Italic') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
