@@ -272,5 +272,14 @@ function sobre_ruedas_form_alter(&$form, &$form_state, $form_id) {
       $form['name']['#attributes']['placeholder'] = t( 'Email');
       $form['actions']['submit']['#value'] = t('Change password');
       break;
+    case 'views_exposed_form':
+      global $user;        
+  }
+}
+
+
+function sobre_ruedas_views_pre_build(&$view){
+  global $user;
+  if ($view->name == 'benefits') {
   }
 }
