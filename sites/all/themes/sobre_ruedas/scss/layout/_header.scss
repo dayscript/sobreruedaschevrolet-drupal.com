@@ -1,1 +1,23 @@
-// Non-modular or client styles for .l-header region.
+.container-header{
+  border-bottom: solid 6px $secondary-color;
+  padding: 6px 0px;
+  .user{
+    font-family: $font-italic;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    margin-top: 14px;
+  }
+  .department{
+    font-size: 0.9em;
+  }
+  .block-system-user-menu{
+    ul{
+      list-style: none;
+      margin: 0;
+      font-size: 0.9em;
+      a{
+        color: $secondary-color;
+      }
+    }
+  }
+}

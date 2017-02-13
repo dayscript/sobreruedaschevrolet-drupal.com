@@ -2,35 +2,36 @@
 <div role="document" class="page">
 
   <!--.l-header -->
+  <div class="container-header">
   <header role="banner" class="l-header">
 
     <?php if (!empty($page['header'])): ?>
       <!--.l-header-region -->
+
       <section class="l-header-region row">
         <div class="columns">
           <?php print render($page['header']); ?>
-          <?php if ($logo): ?>
-            <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" id="logo">
-              <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
-            </a>
-          <?php endif; ?>
+
         </div>
       </section>
+
       <!--/.l-header-region -->
     <?php endif; ?>
 
   </header>
+    </div>
   <!--/.l-header -->
 
-  <?php if (!empty($page['featured'])): ?>
-    <!--.l-featured -->
-    <section class="l-featured row">
-      <div class="columns">
-        <?php print render($page['featured']); ?>
-      </div>
-    </section>
-    <!--/.l-featured -->
-  <?php endif; ?>
+    <?php if (!empty($page['featured'])): ?>
+      <!--.l-featured -->
+      <section class="l-featured row">
+        <div class="columns">
+          <?php print render($page['featured']); ?>
+        </div>
+      </section>
+      <!--/.l-featured -->
+    <?php endif; ?>
+
 
   <?php if ($messages && !$zurb_foundation_messages_modal): ?>
     <!--.l-messages -->
@@ -42,6 +43,7 @@
     <!--/.l-messages -->
   <?php endif; ?>
 
+  <div class="container-help">fdfdfd
   <?php if (!empty($page['help'])): ?>
     <!--.l-help -->
     <section class="l-help row">
@@ -51,8 +53,9 @@
     </section>
     <!--/.l-help -->
   <?php endif; ?>
-
+</div>
   <!--.l-main -->
+  <div class="main-container">
   <main role="main" class="row l-main">
     <!-- .l-main region -->
     <div class="<?php print $main_grid; ?> main columns">
@@ -93,6 +96,7 @@
       </aside>
     <?php endif; ?>
   </main>
+  </div>
   <!--/.l-main -->
 
   <?php if (!empty($page['triptych_first']) || !empty($page['triptych_middle']) || !empty($page['triptych_last'])): ?>
@@ -113,7 +117,9 @@
 
   <?php if (!empty($page['footer_firstcolumn']) || !empty($page['footer_secondcolumn']) || !empty($page['footer_thirdcolumn']) || !empty($page['footer_fourthcolumn'])): ?>
     <!--.footer-columns -->
+
     <section class="row l-footer-columns">
+      <hr>
       <?php if (!empty($page['footer_firstcolumn'])): ?>
         <div class="footer-first medium-3 columns">
           <?php print render($page['footer_firstcolumn']); ?>
@@ -139,7 +145,7 @@
   <?php endif; ?>
 
   <!--.l-footer -->
-  <footer class="l-footer panel row" role="contentinfo">
+  <footer class="l-footer row" role="contentinfo">
     <?php if (!empty($page['footer'])): ?>
       <div class="footer columns">
         <?php print render($page['footer']); ?>

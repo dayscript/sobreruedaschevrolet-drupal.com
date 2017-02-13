@@ -1,1 +1,27 @@
-// Non-modular or client styles for the .l-content region.
+.not-logged-in{
+  .container-header{
+    display: none;
+  }
+  .main-container{
+    background: url(../images/bg-login.jpg) center 0px no-repeat;
+    min-height: 500px;
+    border-bottom: solid 6px $secondary-color;
+    padding: 0;
+    margin-bottom: 40px;
+  }
+  hr{
+    display: none;
+  }
+  .breadcrumbs{
+    display: none;
+  }
+  .button-group{
+    display: none
+  }
+  #user-login{
+    max-width: 300px;
+  }
+  #edit-submit {
+    width: 100%;
+  }
+}

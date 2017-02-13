@@ -7,8 +7,23 @@
 
 // Headings
 //------------------------------------------
-// h1, h2, h3,
-// h4, h5, h6 {}
+h1, h2, h3,
+h4, h5, h6 {
+  text-transform: uppercase;
+  font-weight: normal;
+}
+.l-footer-columns{
+ h2{
+   font-family: "Open Sans";
+   font-size: 0.9em;
+   line-height: 0px;
+ }
+  .info{
+    font-size: 1.3em;
+    color: black;
+    letter-spacing: -1px;
+  }
+}
 
 // Anchors
 //-----------------------------------------------------------------------------
@@ -56,3 +71,10 @@
 // }
 
 // select {}
+
+.button{
+  text-transform: uppercase;
+}
+p{
+  font-size: 0.9rem;
+}

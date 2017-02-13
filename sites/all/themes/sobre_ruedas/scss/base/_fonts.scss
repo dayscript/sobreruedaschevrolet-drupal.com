@@ -1,0 +1,25 @@
+@font-face {
+  font-family: 'OpenSans';
+  src: url('../fonts/OpenSans/OpenSans.eot');
+  src: local('☺'), url('../fonts/OpenSans/OpenSans.woff') format('woff'), url('../fonts/OpenSans/OpenSans.ttf') format('truetype'), url('../fonts/OpenSans/OpenSans.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Louis-Regular';
+  src: url('../fonts/Louis-Regular/Louis-Regular.eot');
+  src: local('☺'), url('../fonts/Louis-Regular/Louis-Regular.woff') format('woff'), url('../fonts/Louis-Regular/Louis-Regular.ttf') format('truetype'), url('../fonts/Louis-Regular/Louis-Regular.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Louis-Italic';
+  src: url('../fonts/Louis-Regular/Louis-Italic.eot');
+  src: local('☺'), url('../fonts/Louis-Italic/Louis-Italic.woff') format('woff'), url('../fonts/Louis-Italic/Louis-Italic.ttf') format('truetype'), url('../fonts/Louis-Italic/Louis-Italic.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+$font-header:'Louis-Regular';
+$font-italic:'Louis-Italic';
