@@ -43,7 +43,7 @@
     <!--/.l-messages -->
   <?php endif; ?>
 
-  <div class="container-help">fdfdfd
+  <div class="container-help">
   <?php if (!empty($page['help'])): ?>
     <!--.l-help -->
     <section class="l-help row">
