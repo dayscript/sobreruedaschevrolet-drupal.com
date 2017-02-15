@@ -1,6 +1,10 @@
 .not-logged-in{
   .container-header{
+   display: none;
+  }
+  .container-help{
     display: none;
+    margin: 0;
   }
   .main-container{
     background: url(../images/bg-login.jpg) center 0px no-repeat;
@@ -23,5 +27,32 @@
   }
   #edit-submit {
     width: 100%;
+  }
+  #user-login{
+    text-align: center;
+    marker, .form-required {
+      color: #f00;
+      display: none;
+    }
+    font-family: $font-header;
+    color: white;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    a{
+      text-transform: none;
+      color: white;
+      font-size: 0.6em;
+      font-family: "Open Sans";
+      font-weight: normal;
+      font-style: italic;
+      margin-bottom: 14px;
+      display: block;
+    }
+    #edit-submit{
+      margin-bottom: 130px;
+    }
+  }
+  .main.columns {
+    text-align: -moz-center;
   }
 }
