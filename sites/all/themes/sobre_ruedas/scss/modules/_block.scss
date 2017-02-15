@@ -90,3 +90,21 @@ p {
     margin-bottom: 12px;
   }
 }
+
+//Bloque info curso
+
+.info-curso{
+  .block-title {
+    border-bottom: 6px solid $secondary-color;
+    padding-bottom: 12px;
+  }
+  span {
+    font-family: $font-header;
+    font-size: 1em;
+  }
+  .body{
+    font-family: "Open Sans";
+    font-size: 0.9em;
+    margin-bottom: 12px;
+  }
+}
