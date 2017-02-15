@@ -1,7 +1,17 @@
 .l-footer {
   font-size: 0.8em;
   color: #999;
+  text-align: center;
+  @media (min-width: 600px){
+    text-align: left;
+  }
   a{
-    margin-right: 12px;
+    margin-right: 11px;
+  }
+}
+.l-footer-columns{
+  text-align: center;
+  @media (min-width: 600px){
+    text-align: left;
   }
 }
