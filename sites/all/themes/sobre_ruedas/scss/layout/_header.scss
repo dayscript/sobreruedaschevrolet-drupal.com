@@ -13,10 +13,6 @@
   }
   .department{
     font-size: 0.9em;
-    display: none;
-    @media (min-width: 600px){
-      display: block;
-    }
   }
   .block-system-user-menu{
     ul{

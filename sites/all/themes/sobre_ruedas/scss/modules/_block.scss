@@ -41,12 +41,12 @@ p {
   }
 }
 //
-.section-noticias,.section-educacion,.node-type-page{
+.section-noticias,.section-educacion,.node-type-page,.section-catalogo-de-beneficios,.section-beneficios{
   .views-field-field-image{
     border-top: 6px solid $secondary-color;
     margin-bottom: 12px;
   }
-  .views-field-title{
+  .views-field-title,.field-name-title{
     font-weight: bold;
     margin-bottom: 6px;
   }
@@ -59,6 +59,65 @@ p {
   .image{
     border-top: 6px solid $secondary-color;
     margin-bottom: 20px;
+  }
+  h2.title{
+    font-size: 1.4em;
+  }
+  //Tabs catalogo beneficios
+  .tabs{
+    #edit-field-segment-tid-wrapper{
+      width: 100%;
+      border-bottom: 3px solid #59565d;
+      margin: 0px 4px 18px 0px;
+      label {
+        float: left;
+        font-size: 1.2em;
+        font-family: $font-italic;
+        color: #666;
+        padding: 21px;
+        font-weight: normal;
+        display: none;
+        @media (min-width: 600px){
+          display: block;
+        }
+      }
+    }
+    #edit-field-segment-tid-18,#edit-field-segment-tid-19,#edit-field-segment-tid-20,#edit-field-segment-tid-21{
+      float: left;
+      padding: 24px 40px;
+      font-family: $font-italic;
+      margin-right: 4px;
+      a{
+        color: white;
+        text-transform: uppercase;
+        &:hover{
+          color: #e3e3e3;
+        }
+        &.active{
+          color: #e7ae3b;
+        }
+      }
+    }
+    #edit-field-segment-tid-18{
+      background-color: #414042;
+    }
+    #edit-field-segment-tid-19{
+      background-color: #59565d;
+      &.active{
+        background-color: #414042;
+      }
+    }
+    #edit-field-segment-tid-20{
+      background-color: #243c81;
+    }
+    #edit-field-segment-tid-21{
+      background-color: #e7ae3b;
+      a{
+        &.active{
+          color: #414042;
+        }
+      }
+    }
   }
 }
 //paginador
@@ -106,5 +165,45 @@ p {
     font-family: "Open Sans";
     font-size: 0.9em;
     margin-bottom: 12px;
+  }
+}
+//Bloque resumen de cuenta
+.resumen{
+  margin-top: 20px;
+  border-top:6px solid $secondary-color;
+  padding: 0px;
+  td{
+    color: #666;
+    font-size: 0.9em;
+    strong{
+      text-transform: uppercase;
+      font-family: $font-italic;
+      font-weight: normal;
+      font-size: 0.9em;
+    }
+  }
+}
+
+//Descargables
+.section-repuestos-genuinos,.section-herraminetas-para--negocio{
+  .icon{
+    float: left;
+    padding: 0px 20px 0px 0px;
+  }
+  .documento{
+    padding: 10px 0px;
+    border-bottom: 1px solid #e3e3e3;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    .title{
+      font-family: $font-header;
+      text-transform: uppercase;
+    }
+    .descripcion{
+      font-family: "Open Sans";
+      font-size: 0.9em;
+      color: #666;
+      text-transform: none;
+    }
   }
 }
