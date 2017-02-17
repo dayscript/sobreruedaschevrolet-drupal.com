@@ -1,7 +1,20 @@
 .block-title {
   font-size: 1.4em;
 }
-
+.field-name-field-surprise-benefit-image{
+  border-top: 6px solid #414042;
+  margin-bottom: 18px;
+}
+.field-name-field-surprise-title{
+  p{
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: #414042;
+  }
+}
+.field-name-field-description-surprise {
+  margin-bottom: 12px;
+}
 .block{
   .views-field-field-image{
     border-top: 6px solid $secondary-color;
