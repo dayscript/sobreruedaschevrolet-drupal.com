@@ -21,7 +21,12 @@ p {
     margin-bottom: 24px;
   }
 }
-
+.block-repuestos{
+  .image{
+    border-top: 6px solid $secondary-color;
+    margin-bottom: 12px;
+  }
+}
 //Titulo pages
 .container-help{
   background-color: $primary-color;
