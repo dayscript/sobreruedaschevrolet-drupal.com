@@ -217,6 +217,9 @@ function sobre_ruedas_user_update(&$edit, $account, $category) {
   }
 }  
 
+/**
+ * Implements hook_preprocess_node().
+ */
 function sobre_ruedas_preprocess_node(&$vars) {
     if(isset($vars['preprocess_fields'])){
         foreach ($vars['preprocess_fields'] as $field) {
