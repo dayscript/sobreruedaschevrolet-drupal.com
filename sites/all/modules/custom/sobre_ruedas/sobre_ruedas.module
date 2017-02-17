@@ -22,19 +22,7 @@ function sobre_ruedas_help($path, $arg) {
 /**
 * Implements hook_menu().
 */
-function sobre_ruedas_menu() {
-    $items['url1'] = array(
-        'title' => 'Puntaje',
-        'page callback' => '_get_user_points',
-        'access callback' => TRUE,
-        'type' => MENU_CALLBACK,
-    );
-    $items['url2'] = array(
-        'title' => 'Creation of node',
-        'page callback' => '_create_node_by_assignment',
-        'access callback' => TRUE,
-        'type' => MENU_CALLBACK,
-    );
+function sobre_ruedas_menu() {    
     $items['sobre_ruedas/redimir/%/%'] = array(
         'title' => 'Creation of node',
         'page callback' => '_sobre_ruedas_redeem_benefit',
@@ -44,178 +32,6 @@ function sobre_ruedas_menu() {
     );
     return $items;
 }
-
-/**
- * Implements hook_feeds_preserve().
- * This hook allows to create the authorship of the content
- */
-function sobre_ruedas_feeds_presave(FeedsSource $source, $entity, $item) {
-  if ($entity->type == 'liquidation') {
-    global $user;
-     $author_uid = $entity->field_workshop['und']['0']['target_id'];
-     $entity->uid = $author_uid;
-  }
-}
-
-/**
- * Get all user points totaling the liquidation nodes.
- * @return
- * The total of points assignment to user.
- */
-function _get_user_points() {
-    Global $user;   
-    $query = new EntityFieldQuery();
-    $query->entityCondition('entity_type', 'node')
-    ->entityCondition('bundle', 'liquidation')
-    ->propertyCondition('uid', $user->uid)
-    ->propertyCondition('status', NODE_PUBLISHED);
-
-    $result = $query->execute();
-    if (isset($result['node'])) {
-
-        $news_items_nids = array_keys($result['node']);
-        $news_items = entity_load('node', $news_items_nids);
-        $points = 0;
-        foreach ($news_items as $key => $value) {
-            $arraypoints = $value->field_points['und'][0]['value'];
-            $points += $arraypoints;
-        }
-    } 
-    $points = (empty($points)) ? '': $points;  
-    
-    return $points;
-}
-
-/**
-* Implements hook_node_insert().
-*/
-function sobre_ruedas_node_insert($node) {
-    if($node->type == "liquidation") {
-        $user = user_load($node->uid);
-
-        if(empty($user->field_points)) {
-            $user->field_points = array(
-                LANGUAGE_NONE => array(
-                    0 => array(
-                      'value' => 0
-                    )
-                )               
-            );
-        }
-        $value = $node->field_points[LANGUAGE_NONE][0]['value'];
-        $user->field_points[LANGUAGE_NONE][0]['value'] += $value;  //adición del puntaje del nuevo nodo más el retorno de _get_user_points
-
-        user_save($user);
-    }
-}
-
-/**
-* Implements hook_node_update().
-*/
-function sobre_ruedas_node_update($node) {
-    if($node->type == "liquidation") {
-        $node_old = $node->original;
-        $user = user_load($node->uid);
-
-        if(empty($user->field_points)) {
-            $user->field_points = array(
-                LANGUAGE_NONE => array(
-                    0 => array(
-                        'value' => 0
-                    )
-                )
-            );
-        }
-        $query = new EntityFieldQuery();
-        $query->entityCondition('entity_type', 'node')
-            ->entityCondition('bundle', 'liquidation')
-            ->propertyCondition('uid', $node->uid)
-            ->propertyCondition('status', NODE_PUBLISHED);
-        $result = $query->execute();
-
-        if(empty($result)){
-            $user->field_points[LANGUAGE_NONE][0]['value'] = 0;
-        }
-
-        if (isset($result['node'])) {
-            $news_items_nids = array_keys($result['node']);
-            $news_items      = entity_load('node', $news_items_nids);
-            $points_old      = $node_old->field_points[LANGUAGE_NONE][0]['value'];
-            $points_current  = $node->field_points[LANGUAGE_NONE][0]['value'];
-            $points          = 0;
-
-            foreach ($news_items as $key => $value) {
-                $arraypoints = $value->field_points[LANGUAGE_NONE][0]['value'];
-                $points += $arraypoints;
-            }
-
-            $points = (empty($points)) ? 0: $points;  
-            $value = $points - $points_old;
-            $user->field_points[LANGUAGE_NONE][0]['value'] = $value + $points_current;  //Adición del nuevo puntaje sobre el del usuario.
-        }
-
-        user_save($user);
-    }
-}
-
-/**
- * Create a node by assignment to workshop when account is block
- * @param $account
- * A object containing all information about user.
- * @return
- * The total of points assignment to workshop.
- */
-function _create_node_by_assignment($account) {
-    $nodes_liquidation = node_load_multiple($nids = array(), $conditions = array('uid'=>$account->uid), $reset = FALSE);
-    $total = 0;
-
-    foreach ($nodes_liquidation as $key => $value) {
-        $total += $value->field_points['und'][0]['value'];
-    }
-
-    //Uid del taller asignado.
-    $workshop_uid = $account->field_workshop[LANGUAGE_NONE][0]['target_id'];  
-    $workshop_profile = user_load($workshop_uid);
-    //Puntos del mecanico desvinculado.
-    $points = $account->field_points[LANGUAGE_NONE][0]['value'];  
-    //Puntos ateriores del taller.
-    $points_workshop = (user_load($workshop_uid)->field_points[LANGUAGE_NONE][0]['value']);  
-    $points_workshop += $points;  //puntos actuales del taller
-    //Creación de los atributos del nodo.
-    $node = new StdClass();
-    $node->type = 'liquidation';
-    $node->language = LANGUAGE_NONE;
-    $node->status = 1;
-    $node->title = "Asignación de " .$total ." puntos del usuario: " .$account->name;
-    $node->field_workshop['und']['0']['target_id'] = $workshop_uid;
-    $node->field_month['und'][0]['value'] = '2016-02-01 00:00:00';
-    $node->field_points[LANGUAGE_NONE][0]['value'] = $total;
-    $node->uid = $workshop_uid;
-
-    $total += $workshop_profile->field_points[LANGUAGE_NONE][0]['value'];
-    user_save($workshop_profile);
-    node_save($node);
-
-    return $total;
-} 
-
-/**
- * Implements hook_user_presave().
- */
-function sobre_ruedas_user_presave(&$edit, $account, $category) {
- if($account->status === 0) {
-    $edit['field_points'][LANGUAGE_NONE][0]['value'] = 0;
-  } 
-}
-
-/**
- * Implements hook_user_update().
- */
-function sobre_ruedas_user_update(&$edit, $account, $category) {
- if($account->status === 0) {
-    _create_node_by_assignment($account);   
-  }
-}  
 
 /**
  * Implements hook_preprocess_node().
@@ -279,12 +95,6 @@ function sobre_ruedas_form_alter(&$form, &$form_state, $form_id) {
     //case 'views_exposed_form':
       //global $user;        
   }
-}
-
-function sobre_ruedas_views_pre_build(&$view){
-  global $user;
-  //if ($view->name == 'benefits') {
-  //}
 }
 
 /**
