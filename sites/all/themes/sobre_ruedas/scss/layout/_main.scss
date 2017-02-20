@@ -1,4 +1,7 @@
 .not-logged-in{
+  .block-repuestos{
+    display: none;
+  }
   .container-header{
    display: none;
   }
@@ -7,11 +10,15 @@
     margin: 0;
   }
   .main-container{
-    background: url(../images/bg-login.jpg) center 0px no-repeat;
+    background: url(../images/bg-login-small.jpg) left 0px no-repeat;
     min-height: 500px;
     border-bottom: solid 6px $secondary-color;
     padding: 0;
     margin-bottom: 40px;
+    @media (min-width: 600px){
+      background: url(../images/bg-login.jpg) center 0px no-repeat;
+      margin-bottom: 40px;
+    }
   }
   hr{
     display: none;
