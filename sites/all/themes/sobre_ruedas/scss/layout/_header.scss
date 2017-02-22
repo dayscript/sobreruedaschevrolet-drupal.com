@@ -3,7 +3,8 @@
   padding: 6px 0px;
   .user{
     font-family: $font-italic;
-    font-size: 1em;
+    font-size: 0.8em;
+    color: $primary-color;
     text-transform: uppercase;
     margin-top: 0px;
     @media (min-width: 600px) {
@@ -12,13 +13,13 @@
   }
   }
   .department{
-    font-size: 0.9em;
+    font-size: 0.8em;
   }
   .block-system-user-menu{
     ul{
       list-style: none;
       margin: 0;
-      font-size: 0.9em;
+      font-size: 0.8em;
       a{
         color: $secondary-color;
       }
@@ -26,7 +27,7 @@
   }
 }
 .logo-login{
-  margin-top: 120px;
+  margin-top: 5%;
 }
 
 //breadcrumb

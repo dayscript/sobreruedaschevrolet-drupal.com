@@ -1,4 +1,20 @@
 .not-logged-in{
+  .regresar{
+    a{
+      text-transform: none;
+      color: white;
+      font-size: 0.9em;
+      font-family: "Open Sans", Arial,;
+      font-weight: normal;
+      font-style: italic;
+    }
+  }
+  #user-pass {
+    max-width: 300px;
+  }
+  .legal-term, .politics, .global{
+    display: none;
+  }
   .block-repuestos{
     display: none;
   }
@@ -56,11 +72,16 @@
       display: block;
     }
     #edit-submit{
-      margin-bottom: 130px;
+      margin-bottom: 15%;
     }
   }
   .main.columns {
     text-align: -moz-center;
     text-align: -webkit-center;
+  }
+}
+.page-user-login{
+  .regresar{
+    display: none;
   }
 }

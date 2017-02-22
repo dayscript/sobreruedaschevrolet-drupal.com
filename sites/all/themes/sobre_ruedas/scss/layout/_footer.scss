@@ -1,10 +1,11 @@
 .l-footer {
-  font-size: 0.8em;
+  font-size: 0.6em;
   font-family: "Open Sans", Arial;
   color: #999;
   text-align: center;
   @media (min-width: 600px){
     text-align: left;
+    font-size: 0.8em;
   }
   a{
     margin-right: 11px;
