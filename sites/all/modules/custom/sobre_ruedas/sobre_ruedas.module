@@ -90,7 +90,7 @@ function sobre_ruedas_form_alter(&$form, &$form_state, $form_id) {
     case 'user_pass':
       $form['name']['#title'] = '';
       $form['name']['#attributes']['placeholder'] = t( 'Email');
-      $form['actions']['submit']['#value'] = t('Change password');
+      $form['actions']['submit']['#value'] = t('Send me my password');
       break;
     //case 'views_exposed_form':
       //global $user;        
