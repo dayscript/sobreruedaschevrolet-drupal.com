@@ -101,19 +101,22 @@ p {
         }
       }
     }
-    #edit-field-segment-tid-18,#edit-field-segment-tid-19,#edit-field-segment-tid-20,#edit-field-segment-tid-21{
-      float: left;
-      padding: 24px 40px;
-      font-family: $font-italic;
-      margin-right: 4px;
-      a{
-        color: white;
-        text-transform: uppercase;
-        &:hover{
-          color: #e3e3e3;
-        }
-        &.active{
-          color: #e7ae3b;
+    .form-item-field-segment-tid{
+      display:inline-block;
+      .form-type-bef{
+        float: right;
+        padding: 24px 40px;
+        font-family: $font-italic;
+        margin-right: 4px;
+        a{
+          color: white;
+          text-transform: uppercase;
+          &:hover{
+            color: #e3e3e3;
+          }
+          &.active{
+            color: #e7ae3b;
+          }
         }
       }
     }

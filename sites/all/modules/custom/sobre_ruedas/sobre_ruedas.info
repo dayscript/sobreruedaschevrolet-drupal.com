@@ -3,3 +3,8 @@ description = Módulo custom que permite añadir funcionalidades extras al siste
 version = "7.x.0.1"
 core = 7.x
 package = Sobre ruedas
+
+files[] = includes/sobre_ruedas_callbacks.inc
+files[] = views/sobre_ruedas_views_handler_field_redeem.inc
+files[] = views/sobre_ruedas_views_handler_field_title.inc
+files[] = views/sobre_ruedas_views_handler_field_description.inc
