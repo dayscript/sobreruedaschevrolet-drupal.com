@@ -1,0 +1,58 @@
+<?php
+/**
+ * @file
+ * Ctools plugin for context.
+ */
+
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function context_user_field_ctools_plugin_api($module, $api) {
+  if ($module == 'context' && $api == 'plugins') {
+    return array('version' => 3);
+  }
+}
+
+/**
+ * Implements hook_context_plugins().
+ */
+function context_user_field_context_plugins() {
+  $plugins = array();
+  $plugins['context_condition_user_field'] = array(
+    'handler' => array(
+      'path'   => drupal_get_path('module', 'context_user_field') . '/plugins',
+      'file'   => 'context_condition_user_field.inc',
+      'class'  => 'context_condition_user_field',
+      'parent' => 'context_condition',
+    ),
+  );
+
+  return $plugins;
+}
+
+/**
+ * Implements hook_context_registry().
+ */
+function context_user_field_context_registry() {
+  $registry['conditions'] = array(
+    'user_field' => array(
+      'title'       => t('User field'),
+      'description' => t('Set context based on the user field value'),
+      'plugin'      => 'context_condition_user_field',
+    ),
+  );
+
+  return $registry;
+}
+
+/**
+ * Implements hook_init().
+ */
+function context_user_field_init() {
+  if (user_is_logged_in()) {
+    if ($plugin = context_get_plugin('condition', 'user_field')) {
+      global $user;
+      $plugin->execute($user);
+    }
+  }
+}
