@@ -280,3 +280,44 @@ p {
     margin-top: 39px;
   }
 }
+
+//Pagina de cursos
+
+.page-node-play{
+  #sco-node-wrapper{
+    color: #666;
+    font-family: "Open Sans";
+
+    #sco-node-toc-title{
+      font-family: $font-italic;
+      background-color: white;
+      color: black;
+      font-size: 1.7em;
+      line-height: 26px;
+      font-weight: normal;
+      margin-top: 18px;
+      border-bottom: 6px solid $secondary-color;
+      padding: 10px 0px;
+    }
+  }
+  #sco-node-toc-wrapper{
+    padding-right: 25px;
+  }
+  #sco-node-toc {
+    margin-top: 18px;
+    ul{
+      list-style: none;
+      font-size: 1.2em;
+      li{
+        padding: 12px 0px;
+        border-bottom: 1px solid #f2f2f2;
+        a{
+          color: #666;
+          &:hover{
+            color: $secondary-color;
+          }
+        }
+      }
+    }
+  }
+}
