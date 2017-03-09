@@ -129,13 +129,8 @@ function sobre_ruedas_entity_view_mode_alter(&$view_mode, $context){
     global $user;
     $account = user_load($user->uid);
     $node = $context['entity'];
-
-    if(_sobre_ruedas_is_surprise_benefit($account, $node)){
-      $view_mode = 'surprise_benefit';
-    }
   }
 }
-
 /**
  * Implements hook_views_pre_render().
  */

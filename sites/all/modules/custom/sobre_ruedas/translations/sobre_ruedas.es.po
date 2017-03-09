@@ -26,7 +26,7 @@ msgstr ""
 
 #: sobre_ruedas.module:65 views/sobre_ruedas.views.inc:6 views/sobre_ruedas_views_handler_field_redeem.inc:40
 msgid "Redeem"
-msgstr ""
+msgstr "Redimir"
 
 #: sobre_ruedas.module:71 views/sobre_ruedas_views_handler_field_redeem.inc:45
 msgid "Redeemed"
@@ -34,15 +34,15 @@ msgstr "Redimido"
 
 #: sobre_ruedas.module:87
 msgid "Login to my account"
-msgstr ""
+msgstr "Ingresar a mi cuenta"
 
 #: sobre_ruedas.module:93
 msgid "Identification card"
-msgstr ""
+msgstr "Número de Identificación"
 
 #: sobre_ruedas.module:94
 msgid "Password"
-msgstr ""
+msgstr "Contraseña"
 
 #: sobre_ruedas.module:95
 msgid "Enter"
@@ -58,7 +58,7 @@ msgstr ""
 
 #: sobre_ruedas.module:101
 msgid "Send me my password"
-msgstr ""
+msgstr "Enviarme mi contraseña"
 
 #: sobre_ruedas.module:34
 msgid "Creation of node"
