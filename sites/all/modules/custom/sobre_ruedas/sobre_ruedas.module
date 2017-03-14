@@ -131,6 +131,7 @@ function sobre_ruedas_entity_view_mode_alter(&$view_mode, $context){
     $node = $context['entity'];
   }
 }
+
 /**
  * Implements hook_views_pre_render().
  */
@@ -154,3 +155,16 @@ function sobre_ruedas_views_pre_render(&$view) {
     }
   }
 }
+
+/**
+ * Implements hook_views_pre_render().
+ */
+// function sobre_ruedas_init() {
+//   $node = menu_get_object();
+//   if ($node && $node->type == 'sco-node') {
+//     global $user;
+//     $account = user_load($user->uid);
+
+    
+//   }
+// }
