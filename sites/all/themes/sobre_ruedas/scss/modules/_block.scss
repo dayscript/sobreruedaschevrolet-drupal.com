@@ -340,6 +340,7 @@ p {
 
 .page-node-take{
   .view-active-trivias{
+    border-top: 6px solid $secondary-color;
     .views-field-title{
       text-transform: uppercase;
       font-family: $font-header;
@@ -368,6 +369,10 @@ p {
 
   }
   #quiz-question-answering-form{
+    border-top: 6px solid $secondary-color;
+    input[type="radio"], select {
+      margin: 0 0 0 0;
+    }
     table{
       border: solid 1px #ffffff;
       width: 100%;
@@ -383,6 +388,11 @@ p {
         tr.even{
           border-bottom: 1px solid #fff;
           background-color: #fff;
+        }
+        td{
+          p{
+            margin-bottom:0px;
+          }
         }
       }
     }
