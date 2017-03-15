@@ -247,10 +247,10 @@
 
 $databases['default']['default'] = array(
     'driver' => 'mysql',
-    'database' => 'sobreruedas_drupal',
+    'database' => 'sobreruedas',
     'username' => 'root',
-    'password' => 'p0p01234',
-    'host' => '10.10.93.101',
+    'password' => 'kfc3*9mn',
+    'host' => 'localhost',
     'prefix' => '',
     'port' => '',
 );
