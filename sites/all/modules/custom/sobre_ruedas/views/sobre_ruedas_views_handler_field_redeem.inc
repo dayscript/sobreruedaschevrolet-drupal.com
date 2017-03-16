@@ -29,24 +29,31 @@ class sobre_ruedas_views_handler_field_redeem extends views_handler_field {
     $authorize = _sobre_ruedas_authorize_redemption($account, $node);
     
     if($authorize){
-        $query = new EntityFieldQuery();
-        $query->entityCondition('entity_type', 'node')
-            ->entityCondition('bundle', 'redemption')
-            ->propertyCondition('uid', $user->uid)
-            ->fieldCondition('field_benefits', 'target_id', $node->nid);
+      $query = new EntityFieldQuery();
+      $query->entityCondition('entity_type', 'node')
+          ->entityCondition('bundle', 'redemption')
+          ->propertyCondition('uid', $user->uid)
+          ->fieldCondition('field_benefits', 'target_id', $node->nid);
 
-        $result = $query->execute();
+      $result = $query->execute();
 
-        $text = t("Redeem");
-        $url = $base_url."/sobre_ruedas/redimir/".$node->nid.'/'.$user->uid;
-        $mark_up = '<a class="button" href="'.$url.'">'.$text.'</a>';
+      $text = t("Redeem");
+      $url = $base_url."/sobre_ruedas/redimir/".$node->nid.'/'.$user->uid;
+      $mark_up = '<a class="button" href="'.$url.'">'.$text.'</a>';
 
-        if (isset($result['node'])) {
-          $text = t("Redeemed");
-          $mark_up = '<a class="button disabled">'.$text.'</a>';
-        }
+      $sco = field_get_items('node',$node, 'field_sco_reference');
 
-        return $mark_up;
+      if(!empty($sco)){
+        $text = t("Go to Course");
+        $url = $base_url."/node/".$sco[0]['target_id'].'/play';            
+      }
+
+      if (isset($result['node']) && empty($sco)) {
+        $text = t("Redeemed");
+        $mark_up = '<a class="button disabled">'.$text.'</a>';
+      }
+
+      return $mark_up;
     }
 
     return '';

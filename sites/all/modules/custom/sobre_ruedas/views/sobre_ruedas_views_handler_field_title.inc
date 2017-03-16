@@ -31,7 +31,7 @@ class sobre_ruedas_views_handler_field_title extends views_handler_field {
       if($surprise_title && isset($surprise_title[0]['value'])){
         return '<div class="surprise-benefit"></div>'.$surprise_title[0]['value'];
       }else{
-        return t('Surprise Benefit');
+        return '<a>'.t('Surprise Benefit').'</a>';
       }
     }
 

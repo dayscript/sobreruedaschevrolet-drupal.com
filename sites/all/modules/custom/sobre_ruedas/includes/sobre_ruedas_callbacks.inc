@@ -104,3 +104,44 @@ function _sobre_ruedas_is_surprise_benefit($user, $node){
 
     return FALSE;
 }
+
+function _sobre_ruedas_go_to_last_quiz(){
+  global $user;
+
+  $sql = "SELECT node.nid AS nid, node.created AS node_created 
+          FROM {node} node 
+          INNER JOIN {quiz_node_properties} quiz_node_properties ON node.vid = quiz_node_properties.vid
+          WHERE (( (node.status = 1) 
+            AND node.type = :type 
+            AND (quiz_node_properties.quiz_open <= :date) 
+            AND (quiz_node_properties.quiz_close >= :date) ))
+          ORDER BY node_created DESC
+          LIMIT 1";
+
+  $args = array(
+    ':date' => time(),
+    ':type' => 'quiz',
+  );
+
+  foreach (db_query($sql, $args) as $result) {
+
+    $sql = 'SELECT result_id 
+            FROM {quiz_node_results} 
+            WHERE uid = :uid 
+              AND nid = :nid 
+              AND time_end IS NOT NULL
+            ORDER BY result_id 
+            LIMIT 1';
+            
+    $args = array(
+      ':uid' => $user->uid,
+      ':nid' => $result->nid,
+    );
+
+    foreach (db_query($sql, $args) as $quiz) {
+      drupal_goto('/node/'.$result->nid.'/quiz-results/'.$quiz->result_id.'/view');
+    }
+
+    drupal_goto('/node/'.$result->nid.'/take');
+  }
+}
