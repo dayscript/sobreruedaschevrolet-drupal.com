@@ -39,23 +39,21 @@ class sobre_ruedas_views_handler_field_redeem extends views_handler_field {
 
       $text = t("Redeem");
       $url = $base_url."/sobre_ruedas/redimir/".$node->nid.'/'.$user->uid;
+      $mark_up = '<a class="button" href="'.$url.'">'.$text.'</a>';
+
+      if (isset($result['node'])) {
+        $text = t("Redeemed");
+        $mark_up = '<a class="button disabled">'.$text.'</a>';
+      }      
 
       $sco = field_get_items('node',$node, 'field_sco_reference');
-      dpm($sco);
-      
-      if(!empty($sco)){
+
+      if(!empty($sco) && isset($result['node'])){
         // $text = t("Go to Course");
         $text = "Ir al Curso";
         $url = $base_url."/node/".$sco[0]['target_id'].'/play';            
+        $mark_up = '<a class="button" href="'.$url.'">'.$text.'</a>';
       }
-
-      $mark_up = '<a class="button" href="'.$url.'">'.$text.'</a>';
-
-      if (isset($result['node']) && empty($sco)) {
-        $text = t("Redeemed");
-        $mark_up = '<a class="button disabled">'.$text.'</a>';
-      }
-      
 
       return $mark_up;
     }
