@@ -339,22 +339,10 @@ p {
 //trivias
 
 .page-node-take{
-  .view-active-trivias{
-    border-top: 6px solid $secondary-color;
-    .views-field-title{
-      text-transform: uppercase;
-      font-family: $font-header;
-      font-weight: normal;
-      border-bottom: 1px solid #f2f2f2;
-      padding: 8px 0px 12px 0px;
-    }
-  }
   #quiz-progress{
     display: none;
   }
-  h2{
-    display: none;
-  }
+
   label{
     display: none;
   }
@@ -394,6 +382,25 @@ p {
             margin-bottom:0px;
           }
         }
+      }
+    }
+  }
+  .answering-form{
+    h2{
+      display: none;
+    }
+  }
+  .view-active-trivias{
+    border-top: 6px solid $secondary-color;
+    .views-row-odd, .views-row-even{
+      padding: 10px 0px 16px 0px;
+      border-bottom: 1px solid #f2f2f2;
+    }
+    .views-row{
+      a{
+        text-transform: uppercase;
+        font-family: $font-header;
+
       }
     }
   }
