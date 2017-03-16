@@ -171,6 +171,13 @@ function sobre_ruedas_form_alter(&$form, &$form_state, $form_id) {
           }
         }
       }
+
+      if(empty($_GET['field_segment_tid'])){
+        $field_segment_user = field_get_items('user', $account, 'field_segment');
+        if($field_segment_user){
+          $form_state['input']['field_segment_tid'] = $field_segment_user[0]['tid'];
+        }
+      }
   }
 }
 
