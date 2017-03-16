@@ -338,7 +338,7 @@ p {
 
 //trivias
 
-.page-node-take{
+.page-node-take, .page-node-quiz-results{
   #quiz-progress{
     display: none;
   }
@@ -403,5 +403,32 @@ p {
 
       }
     }
+  }
+}
+
+.page-node-quiz-results{
+  #quiz_score_possible{
+    display: none;
+  }
+  .fieldset-legend{
+    display: none;
+  }
+  fieldset{
+    border: none;
+  }
+  .medium-9.medium-push-3.main.columns {
+    border-top: 6px solid $secondary-color;
+  }
+  .tableheader-processed{
+    width: 50%;
+  }
+  #quiz-summary {
+    font-size: 1.4em;
+    font-family: $font-italic;
+    text-transform: uppercase;
+    color: black;
+  }
+  p{
+    margin-bottom: 0px;
   }
 }
