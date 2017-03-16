@@ -1,24 +1,12 @@
-.l-footer {
-  font-size: 0.7em;
-  font-family: $font-body;
-  color: #999;
-  text-align: center;
-  @media (min-width: 600px){
-    text-align: left;
-    font-size: 0.8em;
-  }
+.footer-legales{
+  font-size: 0.8em;
   a{
-    margin-right: 11px;
-  }
-  .datos{
-   .block-title{
-      font-size: 0.9em !important;
+    color: black;
+    &:hover{
+      text-decoration: underline;
     }
   }
 }
-.l-footer-columns{
-  text-align: center;
-  @media (min-width: 600px){
-    text-align: left;
-  }
+.datos{
+  margin-top: 10px;
 }
