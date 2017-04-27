@@ -1,0 +1,7 @@
+name = Sobre ruedas API Connection
+description = Módulo custom que gestiona la conexión con el api de visitadores
+version = "7.x.0.1"
+core = 7.x
+package = Sobre ruedas
+
+files[] = includes/sobre_ruedas_api_connection_functions.inc
