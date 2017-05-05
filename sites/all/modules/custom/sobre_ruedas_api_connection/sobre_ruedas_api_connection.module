@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * @file
+ * This is the file that provides a quick look to show the main Drupal hooks for presenting to sobre_ruedas
+ *
+ * @author Edwin Vega Moreno ('Developer Web Junior('Drupal')')
+ */
+
+module_load_include('inc', 'sobre_ruedas_api_connection', 'includes/sobre_ruedas_api_connection_functions');
+
+/**
+* Implements hook_menu().
+*/
+function sobre_ruedas_api_connection_menu() {
+  $items = array();  
+
+  $items['admin/config/sobre_ruedas/api'] = array(
+    'title' => t('Config API'),
+    'description' => t('Configurate api connection settings'),
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('access administration pages'),
+    'page arguments' => array('sobre_ruedas_api_connection_form'),
+  );
+
+  $items['admin/config/sobre_ruedas/consume'] = array(
+    'title' => t('Config API'),
+    'description' => t('Configurate api connection settings'),
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('access administration pages'),
+    'page arguments' => array('sobre_ruedas_api_connection_consume_form'),
+  );
+ 
+  $items['admin/config/sobre_ruedas/users/json'] = array(
+    'title' => t('Config API'),
+    'description' => t('Configurate api connection settings'), 
+    'delivery callback' => 'sobre_ruedas_get_users',
+    'access arguments' => array('access administration pages'),
+  );
+
+   $items['admin/config/sobre_ruedas/purchases/json'] = array(
+    'title' => t('Config API'),
+    'description' => t('Configurate api connection settings'),
+    'page callback' => 'sobre_ruedas_get_purchases',
+    #'delivery callback' => 'sobre_ruedas_get_purchases',
+    'access arguments' => array('access administration pages'),
+  );
+
+  return $items;
+}

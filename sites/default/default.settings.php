@@ -246,6 +246,15 @@
  */
 $databases = array();
 
+ $databases['default']['default'] = array(
+      'driver' => 'mysql',
+      'database' => 'sobreruedas',
+      'username' => 'root',
+      'password' => 'root',
+      'host' => 'localhost',
+      'prefix' => '',
+    );
+
 /**
  * Access control for update.php script.
  *
