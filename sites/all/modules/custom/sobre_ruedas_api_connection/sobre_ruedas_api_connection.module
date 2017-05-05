@@ -30,6 +30,21 @@ function sobre_ruedas_api_connection_menu() {
     'access arguments' => array('access administration pages'),
     'page arguments' => array('sobre_ruedas_api_connection_consume_form'),
   );
+ 
+  $items['admin/config/sobre_ruedas/users/json'] = array(
+    'title' => t('Config API'),
+    'description' => t('Configurate api connection settings'), 
+    'delivery callback' => 'sobre_ruedas_get_users',
+    'access arguments' => array('access administration pages'),
+  );
+
+   $items['admin/config/sobre_ruedas/purchases/json'] = array(
+    'title' => t('Config API'),
+    'description' => t('Configurate api connection settings'),
+    'page callback' => 'sobre_ruedas_get_purchases',
+    #'delivery callback' => 'sobre_ruedas_get_purchases',
+    'access arguments' => array('access administration pages'),
+  );
 
   return $items;
 }

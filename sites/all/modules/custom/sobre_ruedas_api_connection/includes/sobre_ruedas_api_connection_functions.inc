@@ -93,11 +93,68 @@ function sobre_ruedas_api_connection_consume_form_submit($form, &$form_state) {
   $client = new SoapClient('http://visitadorchevrolet.appsxw.co/api/api.ws?wsdl');
 
   $response = $client->RequestVisitadores($idKey, $keyuserid ,$keysecurity, $start_date, $end_date);
-
   $talleres = json_decode($response);
   $talleres = $talleres[0]->{'Detalle Talleres'};
 
   foreach ($talleres as $key => $taller) {
-    dpm($taller);
+   dpm($taller);
   }
+}
+
+
+function sobre_ruedas_get_users() { 
+
+  $idKey = '900111222'. date('Ymd') .'190146238120';
+  $keyuserid = variable_get('sobre_ruedas_api_connection_keyuserid');
+  $keysecurity = variable_get('sobre_ruedas_api_connection_keysecurity');
+
+  $start_date = '2017011';
+  $end_date = '20170428';
+
+  $client = new SoapClient('http://visitadorchevrolet.appsxw.co/api/api.ws?wsdl');
+
+  $response = $client->RequestVisitadores($idKey, $keyuserid ,$keysecurity, $start_date, $end_date);
+
+  $talleres = json_decode($response);
+  $talleres = $talleres[0]->{'Detalle Talleres'};
+  $return = array();
+  foreach ($talleres as $key => $value) {
+    $return[$key]['guid'] = $value->nit_cliente; 
+    $return[$key]['nit_cliente'] = $value->nit_cliente;
+    $return[$key]['fecha_creacion'] = $value->fecha_creacion;
+    $return[$key]['nombre_tercero'] = $value->nombre_tercero;
+
+    if( $value->Contactos->{'Nro Contactos'} >= 1 ){
+      $return[$key]['email'] = $value->Contactos->{'Contactos Detalle'}[0]->email;
+    }
+  }
+
+ # $talleres = array( array('nit_cliente'=>'1003400709','fecha_creacion'=>"2017-03-25 09:32:52.918353") );
+
+  return drupal_json_output($return);
+}
+
+function sobre_ruedas_get_purchases() {
+
+  $idKey = '900111222'. date('Ymd') .'190146238120';
+  $keyuserid = variable_get('sobre_ruedas_api_connection_keyuserid');
+  $keysecurity = variable_get('sobre_ruedas_api_connection_keysecurity');
+
+  $start_date = '2017011';
+  $end_date = '20170428';
+  $client_id = '17195260';
+
+  $client = new SoapClient('http://visitadorchevrolet.appsxw.co/api/api.ws?wsdl');
+
+  $users = '["1003400709","1012329331","1013583846","1014219781","1014254149","1014285099","1016001033","10160833128","101704401","1018432632","1022394717","10238656291","103056222","1030637483","1032358298","103238757","1032412933","106791575","1071646354","1100397526","11178045427","11252341","113379169","12101223","13353263","13883372","16450372","166620428","171708837","17193508","17195260","184618062","19078228","19120641","191823788","19210389","19233578","19233990","192364955","19257841","19276587","19282712","19287419","19290077","19297309","19331475","19340394","193663298","193739391","194582217","19465454","19490074","24182749","2890847","3184086","3192747","3222593","3229999","38386269","396866162","39710789","42426177","4281738","4292435","51906537","520253288","520791441","52110395","52190456","52336806","523671375","52397601","52453842","52551574","53080501","5595831","5619442","5853390","5978985","602937969","6385971","657461132","67575145","7219722","731374774","73339560","74333512","78763155","790443209","79050854","79051528","79056886","79058749","791046795","79105765","791293552","79153151","792413661","79246285","79252324","792533971","79256541","79265007","79271033","79271414","79273266","79277189","79278427","79287064","79287505","79291395","79318040","79331096","79332563","793508770","79353230","79353491","793709093","79378911","794138821","79414679","79428641","79430194","79445776","79474192","79480836","79484152","79496825","79500897","79500915","79504577","79516426","79530379","79556659","79559104","795604969","79562053","79583498","795963151","795990403","79611998","79627224","79627545","796536592","796557821","79706295","79713257","79717682","79735909","797367487","79741464","79750605","79753979","79794000","79803672","79816530","79841250","79852305","79860729","79867664","79870346","79879376","79899471","799067761","79938846","79955283","79973769","79995947","79999350","800144034","80017968","80018395","800187839","800193855","80025060","800659756","801181781","80123971","80174372","80178972","80179414","801961041","80239412","80251006","80260805","804074905","804091970","80415670","80466523","80470040","80761012","80762918","80878720","830063073","830126102","830136774","830371362","860007339","86001482","860507000","900018910","900021123","900045014","900049767","900100831","900209134","900261567","900267320","900350242","900352174","900387117","900500948","900517684","900521430","900621949","900702742","900808781","900868766","900884189","900955135","91013577","93294425","932982536","95355018","95363403"]';
+
+  foreach (json_decode($users) as $key => $value) {
+    $response[$value] = $client->RequestPurchases($idKey, $keyuserid ,$keysecurity, $value,  $start_date, $end_date);
+  }
+  
+ /* $response = '[{"ip1":"200.118.122.79","Nro Items":8,"Datos Compras":[{"sede":"REPUESTOS AMERICAS","numerofactura":"74574","referencias":"93745867","valor_unitario":"351546.00","descripcion":"KITEMBRAGUE","fecha":"2017-03-04","nit":"79050854"},{"sede":"REPUESTOS AMERICAS","numerofactura":"74574","referencias":"96238218","valor_unitario":"893.00","descripcion":"BUJE CONTROL DECAMBIOS","fecha":"2017-03-04","nit":"79050854"},{"sede":"REPUESTOS AMERICAS","numerofactura":"74648","referencias":"93746917","valor_unitario":"292124.00","descripcion":"KIT SISTDISTRIBUCION","fecha":"2017-03-07","nit":"79050854"},{"sede":"REPUESTOS AMERICAS","numerofactura":"74950","referencias":"55594651","valor_unitario":"36524.00","descripcion":"ELEMENTO FILTRO ACEITEY","fecha":"2017-03-18","nit":"79050854"},{"sede":"REPUESTOS AMERICAS","numerofactura":"74950","referencias":"95021102","valor_unitario":"76075.00","descripcion":"ELEMENTO PURIFICADORAIRE","fecha":"2017-03-18","nit":"79050854"},{"sede":"REPUESTOS AMERICAS","numerofactura":"74950","referencias":"95632506-1","valor_unitario":"29000.00","descripcion":"ACEITE SINTETICO 5W30X CUARTOS","fecha":"2017-03-18","nit":"79050854"},{"sede":"REPUESTOS AMERICAS","numerofactura":"75017","referencias":"12620540","valor_unitario":"45166.00","descripcion":"BUJIA 41-108 CAPTIVASPOR","fecha":"2017-03-22","nit":"79050854"},{"sede":"REPUESTOS AMERICAS","numerofactura":"75340","referencias":"96893815","valor_unitario":"132581.00","descripcion":"SENSOR PRESION AIREMULTIPLE ADMISION","fecha":"2017-04-04","nit":"79050854"}]}]';*/
+
+  dpm($response);
+  return 'asd'; #drupal_json_output($purchases);
+
 }
