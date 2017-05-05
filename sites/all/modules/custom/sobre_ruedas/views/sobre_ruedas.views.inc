@@ -31,4 +31,14 @@ function sobre_ruedas_views_data_alter(&$data) {
       'click sortable' => TRUE,
     ),
   );
+
+  $data['node']['sobre_ruedas_active_quiz_link'] = array(
+    'title' => t('Active Quiz Link'),
+    'help' => t('Get the correct URL for viewing trivias.'),
+    'field' => array(
+      'handler' => 'sobre_ruedas_views_handler_field_active_quiz_link',
+      'group' => 'Sobre Ruedas',
+      'click sortable' => TRUE,
+    ),
+  );
 }

@@ -19,6 +19,9 @@ function sobre_ruedas_help($path, $arg) {
    }
 }
 
+/**
+ * Implements hook_views_api().
+ */
 function sobre_ruedas_views_api() {
   return array(
     'api' => '3.0',
@@ -27,14 +30,65 @@ function sobre_ruedas_views_api() {
 }
 
 /**
+ * Implements hook_block_info().
+ */
+function sobre_ruedas_block_info(){
+  $blocks = array();
+  $blocks['sobre_ruedas_quiz_image'] = array(
+    'info' => t('Quiz Image'),
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function sobre_ruedas_block_view($delta = '') {
+  // This example is adapted from node.module.
+  $block = array();
+
+  switch ($delta) {
+    case 'sobre_ruedas_quiz_image':
+      $node = menu_get_object();
+
+      if($node && $node->type == 'quiz'){
+        $html = '';
+        $image = field_get_items('node',$node,'field_image');
+
+        if($image){
+          $html = theme('image_style', array('path' => $image[0]['uri'], 'style_name' => "interna_quiz"));
+        }
+
+        // $block['subject'] = t('Quiz Image');
+        $block['content'] = array(
+          '#markup' => $html,
+        );
+      }
+
+      break;
+  }
+
+  return $block;
+}
+
+/**
 * Implements hook_menu().
 */
 function sobre_ruedas_menu() {    
     $items['sobre_ruedas/redimir/%/%'] = array(
-        'title' => 'Creation of node',
+        'title' => 'Redeem benefit',
         'page callback' => '_sobre_ruedas_redeem_benefit',
         'access callback' => TRUE,
         'page arguments' => array(2,3),
+        'type' => MENU_CALLBACK,
+    );
+
+    $items['sobre_ruedas/quiz/get_last'] = array(
+        'title' => 'Creation of node',
+        'page callback' => '_sobre_ruedas_go_to_last_quiz',
+        'access callback' => TRUE,
+        'page arguments' => array(),
         'type' => MENU_CALLBACK,
     );
     return $items;
@@ -117,6 +171,13 @@ function sobre_ruedas_form_alter(&$form, &$form_state, $form_id) {
           }
         }
       }
+
+      if(empty($_GET['field_segment_tid'])){
+        $field_segment_user = field_get_items('user', $account, 'field_segment');
+        if($field_segment_user){
+          $form_state['input']['field_segment_tid'] = $field_segment_user[0]['tid'];
+        }
+      }
   }
 }
 
@@ -155,16 +216,3 @@ function sobre_ruedas_views_pre_render(&$view) {
     }
   }
 }
-
-/**
- * Implements hook_views_pre_render().
- */
-// function sobre_ruedas_init() {
-//   $node = menu_get_object();
-//   if ($node && $node->type == 'sco-node') {
-//     global $user;
-//     $account = user_load($user->uid);
-
-    
-//   }
-// }

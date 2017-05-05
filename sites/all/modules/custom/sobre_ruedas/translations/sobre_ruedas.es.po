@@ -50,7 +50,7 @@ msgstr ""
 
 #: sobre_ruedas.module:96
 msgid "I forgot my password"
-msgstr ""
+msgstr "Olvidé mi Contraseña"
 
 #: sobre_ruedas.module:100
 msgid "Email"
