@@ -8,7 +8,7 @@ function sobre_ruedas_api_connection_form(){
     '#title' => 'Key User Id',
     '#size' => 60,
     '#description' => 'Id Usuario asignado en el sistema de Visitadores Mecánicos',
-    '#default_value' => variable_get('sobre_ruedas_api_connection_keyuserid'), 
+    '#default_value' => variable_get('sobre_ruedas_api_connection_keyuserid'),
     '#required' => true,
   );
 
@@ -17,7 +17,7 @@ function sobre_ruedas_api_connection_form(){
     '#title' => 'Key Security',
     '#size' => 60,
     '#description' => 'Clave asignada en Sistema de Informacíon – Visitadores Mecánicos y ACdelco',
-    '#default_value' => variable_get('sobre_ruedas_api_connection_keysecurity'), 
+    '#default_value' => variable_get('sobre_ruedas_api_connection_keysecurity'),
     '#required' => true,
   );
 
@@ -29,26 +29,26 @@ function sobre_ruedas_api_connection_consume_form(){
   $keysecurity = variable_get('sobre_ruedas_api_connection_keysecurity');
 
   $form = array();
-  
+
   if(!$keyuserid && !$keysecurity){
     drupal_set_message(t('Check the configuration settings'));
   }else{
 
     $form['sobre_ruedas_api_connection_consume_startdate'] = array(
-      '#type' => 'date', 
-      '#title' => 'Desde', 
+      '#type' => 'date',
+      '#title' => 'Desde',
       '#default_value' => array(
         'month' => 1,
         'day' => 1,
         'year' => date('Y')
-      ), 
+      ),
       '#description' => 'Fecha inicial de la consulta',
       '#required' => false
     );
 
     $form['sobre_ruedas_api_connection_consume_enddate'] = array(
-      '#type' => 'date', 
-      '#title' => 'Hasta', 
+      '#type' => 'date',
+      '#title' => 'Hasta',
       '#description' => 'Fecha final de la consulta',
       '#required' => false
     );
@@ -102,14 +102,14 @@ function sobre_ruedas_api_connection_consume_form_submit($form, &$form_state) {
 }
 
 
-function sobre_ruedas_get_users() { 
+function sobre_ruedas_get_users() {
 
   $idKey = '900111222'. date('Ymd') .'190146238120';
   $keyuserid = variable_get('sobre_ruedas_api_connection_keyuserid');
   $keysecurity = variable_get('sobre_ruedas_api_connection_keysecurity');
 
   $start_date = '2017011';
-  $end_date = '20170428';
+  $end_date = '20170515';
 
   $client = new SoapClient('http://visitadorchevrolet.appsxw.co/api/api.ws?wsdl');
 
@@ -119,18 +119,44 @@ function sobre_ruedas_get_users() {
   $talleres = $talleres[0]->{'Detalle Talleres'};
   $return = array();
   foreach ($talleres as $key => $value) {
-    $return[$key]['guid'] = $value->nit_cliente; 
-    $return[$key]['nit_cliente'] = $value->nit_cliente;
-    $return[$key]['fecha_creacion'] = $value->fecha_creacion;
-    $return[$key]['nombre_tercero'] = $value->nombre_tercero;
+    $return[$value->nit_cliente]['guid'] = $value->nit_cliente;
+    $return[$value->nit_cliente]['nit_cliente'] = $value->nit_cliente;
+    $return[$value->nit_cliente]['fecha_creacion'] = $value->fecha_creacion;
+    $return[$value->nit_cliente]['nombre_tercero'] = ucwords(strtolower($value->nombre_tercero));
+    $return[$value->nit_cliente]['tp_taller'] = ucfirst(strtolower($value->tp_taller));
+    $return[$value->nit_cliente]['role'] = 'Taller';
+    $return[$value->nit_cliente]['apellidos'] = '';
+    $return[$value->nit_cliente]['pass'] = $value->nit_cliente;
+    $return[$value->nit_cliente]['taller_relacionado'] = '';
+
 
     if( $value->Contactos->{'Nro Contactos'} >= 1 ){
-      $return[$key]['email'] = $value->Contactos->{'Contactos Detalle'}[0]->email;
+      $return[$value->nit_cliente]['email'] = ($value->Contactos->{'Contactos Detalle'}[0]->email != '' && $value->Contactos->{'Contactos Detalle'}[0]->email != 'Na') ? $value->Contactos->{'Contactos Detalle'}[0]->email:$value->nit_cliente.'@sincorreo.com';
+      if(isset($_GET['mecanicos'])){
+        foreach( $value->Contactos->{'Contactos Detalle'} as $key => $contacto){
+          if(ucfirst(strtolower($contacto->tp_tercero_des)) == 'Mecanico' || ucfirst(strtolower($contacto->tp_tercero_des)) == 'Propietario' ){
+            $return[$contacto->documento]['guid'] = $contacto->documento;
+            $return[$contacto->documento]['nit_cliente'] = $contacto->documento;
+            $return[$contacto->documento]['fecha_creacion'] = $value->fecha_creacion;
+            $return[$contacto->documento]['nombre_tercero'] = $contacto->primer_nombre.' '.$contacto->segundo_nombre ;
+            $return[$contacto->documento]['apellidos'] = $contacto->apellidos ;
+            $return[$contacto->documento]['tp_taller'] = ucfirst(strtolower($value->tp_taller));
+            $return[$contacto->documento]['role'] = ucfirst(strtolower($contacto->tp_tercero_des));
+            $return[$contacto->documento]['pass'] = $contacto->documento;
+            $return[$contacto->documento]['email'] = ( $contacto->email != '' && $contacto->email != 'Na' )? $contacto->email:$contacto->documento.'@sincorreo.com';
+            $return[$contacto->documento]['taller_relacionado'] = $value->nit_cliente;
+          }
+        }
+      }
+    }else{
+      $return[$value->nit_cliente]['email'] = $value->nit_cliente.'@sincorreo.com';
     }
   }
-
- # $talleres = array( array('nit_cliente'=>'1003400709','fecha_creacion'=>"2017-03-25 09:32:52.918353") );
-
+  #Order
+  foreach ($return as $key => $value) {
+    $role[$key] = $value['role'];
+  }
+  array_multisort($role, SORT_DESC, $return);
   return drupal_json_output($return);
 }
 
@@ -151,7 +177,7 @@ function sobre_ruedas_get_purchases() {
   foreach (json_decode($users) as $key => $value) {
     $response[$value] = $client->RequestPurchases($idKey, $keyuserid ,$keysecurity, $value,  $start_date, $end_date);
   }
-  
+
  /* $response = '[{"ip1":"200.118.122.79","Nro Items":8,"Datos Compras":[{"sede":"REPUESTOS AMERICAS","numerofactura":"74574","referencias":"93745867","valor_unitario":"351546.00","descripcion":"KITEMBRAGUE","fecha":"2017-03-04","nit":"79050854"},{"sede":"REPUESTOS AMERICAS","numerofactura":"74574","referencias":"96238218","valor_unitario":"893.00","descripcion":"BUJE CONTROL DECAMBIOS","fecha":"2017-03-04","nit":"79050854"},{"sede":"REPUESTOS AMERICAS","numerofactura":"74648","referencias":"93746917","valor_unitario":"292124.00","descripcion":"KIT SISTDISTRIBUCION","fecha":"2017-03-07","nit":"79050854"},{"sede":"REPUESTOS AMERICAS","numerofactura":"74950","referencias":"55594651","valor_unitario":"36524.00","descripcion":"ELEMENTO FILTRO ACEITEY","fecha":"2017-03-18","nit":"79050854"},{"sede":"REPUESTOS AMERICAS","numerofactura":"74950","referencias":"95021102","valor_unitario":"76075.00","descripcion":"ELEMENTO PURIFICADORAIRE","fecha":"2017-03-18","nit":"79050854"},{"sede":"REPUESTOS AMERICAS","numerofactura":"74950","referencias":"95632506-1","valor_unitario":"29000.00","descripcion":"ACEITE SINTETICO 5W30X CUARTOS","fecha":"2017-03-18","nit":"79050854"},{"sede":"REPUESTOS AMERICAS","numerofactura":"75017","referencias":"12620540","valor_unitario":"45166.00","descripcion":"BUJIA 41-108 CAPTIVASPOR","fecha":"2017-03-22","nit":"79050854"},{"sede":"REPUESTOS AMERICAS","numerofactura":"75340","referencias":"96893815","valor_unitario":"132581.00","descripcion":"SENSOR PRESION AIREMULTIPLE ADMISION","fecha":"2017-04-04","nit":"79050854"}]}]';*/
 
   dpm($response);

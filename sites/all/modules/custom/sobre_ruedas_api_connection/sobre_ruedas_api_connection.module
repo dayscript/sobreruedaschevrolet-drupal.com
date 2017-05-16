@@ -13,7 +13,7 @@ module_load_include('inc', 'sobre_ruedas_api_connection', 'includes/sobre_ruedas
 * Implements hook_menu().
 */
 function sobre_ruedas_api_connection_menu() {
-  $items = array();  
+  $items = array();
 
   $items['admin/config/sobre_ruedas/api'] = array(
     'title' => t('Config API'),
@@ -30,12 +30,14 @@ function sobre_ruedas_api_connection_menu() {
     'access arguments' => array('access administration pages'),
     'page arguments' => array('sobre_ruedas_api_connection_consume_form'),
   );
- 
+
   $items['admin/config/sobre_ruedas/users/json'] = array(
     'title' => t('Config API'),
-    'description' => t('Configurate api connection settings'), 
-    'delivery callback' => 'sobre_ruedas_get_users',
-    'access arguments' => array('access administration pages'),
+    'description' => t('Configurate api connection settings'),
+    #'delivery callback' => 'sobre_ruedas_get_users',
+    'page callback' => 'sobre_ruedas_get_users',
+    #'access arguments' => array('access administration pages'),
+    'access callback' => array(TRUE),
   );
 
    $items['admin/config/sobre_ruedas/purchases/json'] = array(
