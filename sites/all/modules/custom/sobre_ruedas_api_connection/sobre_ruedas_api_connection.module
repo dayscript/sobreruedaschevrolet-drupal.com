@@ -43,9 +43,10 @@ function sobre_ruedas_api_connection_menu() {
    $items['admin/config/sobre_ruedas/purchases/json'] = array(
     'title' => t('Config API'),
     'description' => t('Configurate api connection settings'),
-    'page callback' => 'sobre_ruedas_get_purchases',
     #'delivery callback' => 'sobre_ruedas_get_purchases',
-    'access arguments' => array('access administration pages'),
+    'page callback' => 'sobre_ruedas_get_purchases',
+    #'access arguments' => array('access administration pages'),
+    'access callback' => array(TRUE),
   );
 
   return $items;

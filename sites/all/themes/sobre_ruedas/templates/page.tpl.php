@@ -77,7 +77,11 @@
           <?php print render($action_links); ?>
         </ul>
       <?php endif; ?>
-
+      <?php
+        if(drupal_is_front_page()){
+          unset($page['content']['system_main']);
+        }
+	    ?>
       <?php print render($page['content']); ?>
     </div>
     <!--/.l-main region -->

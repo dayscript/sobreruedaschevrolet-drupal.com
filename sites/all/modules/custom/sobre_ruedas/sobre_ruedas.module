@@ -30,12 +30,30 @@ function sobre_ruedas_views_api() {
 }
 
 /**
+ * Implements hook_theme().
+ */
+function sobre_ruedas_theme($existing, $type, $theme, $path){
+
+    return array(
+      'sobre_ruedas_info_segmento' => array(
+        'variables' => array(),
+        'template' => 'templates/block-info-segmento'
+      ),
+    );
+}
+
+
+/**
  * Implements hook_block_info().
  */
 function sobre_ruedas_block_info(){
   $blocks = array();
   $blocks['sobre_ruedas_quiz_image'] = array(
     'info' => t('Quiz Image'),
+  );
+
+   $blocks['sobre_ruedas_info_segmento'] = array(
+    'info' => t('Info Segmento'),
   );
 
   return $blocks;
@@ -64,9 +82,13 @@ function sobre_ruedas_block_view($delta = '') {
         $block['content'] = array(
           '#markup' => $html,
         );
-      }
+      } 
 
       break;
+    case 'sobre_ruedas_info_segmento':
+      $block['content'] = sobre_ruedas_info_segmento();
+      break; 
+
   }
 
   return $block;
@@ -215,4 +237,53 @@ function sobre_ruedas_views_pre_render(&$view) {
       $view->attachment_before = $title;
     }
   }
+}
+
+function sobre_ruedas_info_segmento(){
+
+  global $user;
+  $user = user_load($user->uid);
+  $user_type = $user->field_workshop_type['und'][0]['value'];
+  $user_taller = $user->field_workshop['und'][0]['target_id'];
+  $vocabulary = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('segment')->vid);
+  foreach($vocabulary as $key => $taxonomy){
+    $segments[] = taxonomy_term_load($taxonomy->tid);
+  }
+  $user_segmento = ( isset( $user->field_segment['und'][0]['value'] ) ) ? $user->field_segment['und'][0]['value']:'---';
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', 'liquidacion')
+      ->fieldCondition('field_workshop', 'target_id',$user_taller);
+  $nids = array_keys($query->execute()['node']);
+
+  $liquidations = node_load_multiple($nids , $conditions = array(), $reset = FALSE);
+  $value_total = 0;
+  foreach ($liquidations as $key => $liquidation) {
+      $value_total += $liquidation->field_points['und'][0]['value'];
+  } 
+  #Revisar cuando supere los 50 Millones
+  $user_segmento = calc_segment($segments,$value_total,$user_type);
+  $next_category = taxonomy_get_parents($user_segmento['tid']);
+  $diference_value = $next_category[key($next_category)]->field_valor_minimo['und'][0]['value'] - $value_total;
+  return  theme('sobre_ruedas_info_segmento', 
+                array(
+                      'user_segmento'=>$user_segmento['name'],
+                      'value_total'=>$value_total,
+                      'diference_value'=>$diference_value
+                      )
+                );
+}
+
+function calc_segment($segments,$value_total,$user_type){
+  foreach ($segments as $key => $segment) {
+    if( $value_total >= $segment->field_valor_minimo['und'][0]['value'] && $value_total <= $segment->field_valor_maximo['und'][0]['value'] ){
+      if($user_type == 'gasoline'){
+        return array('name'=>$segment->name,'tid'=>$segment->tid);
+      }
+      elseif($user_type == 'diesel'){
+        return array('name'=>$segment->field_name,'tid'=>$segment->tid);
+      }
+    }
+  }
+  return array('name'=>'---','tid'=> 21);
 }
