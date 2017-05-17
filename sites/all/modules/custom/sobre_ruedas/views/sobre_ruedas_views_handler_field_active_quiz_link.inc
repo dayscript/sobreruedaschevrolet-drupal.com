@@ -25,12 +25,12 @@ class sobre_ruedas_views_handler_field_active_quiz_link extends views_handler_fi
 
     $account = user_load($user->uid);
 
-    $sql = 'SELECT result_id 
-            FROM {quiz_node_results} 
-            WHERE uid = :uid 
-              AND nid = :nid 
+    $sql = 'SELECT result_id
+            FROM {quiz_node_results}
+            WHERE uid = :uid
+              AND nid = :nid
               AND time_end IS NOT NULL
-            ORDER BY result_id 
+            ORDER BY result_id
             LIMIT 1';
 
     $args = array(
@@ -50,4 +50,8 @@ class sobre_ruedas_views_handler_field_active_quiz_link extends views_handler_fi
   function query() {
     // Do nothing, leave query blank, we render the contents
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> e194e2797da14dd6599aa4ff472e4b0babbdff30

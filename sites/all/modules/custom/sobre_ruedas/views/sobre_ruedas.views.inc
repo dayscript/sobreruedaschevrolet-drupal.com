@@ -1,5 +1,4 @@
 <?php
-
 function sobre_ruedas_views_data_alter(&$data) {
   // debug($data['node']);
   $data['node']['sobre_ruedas_redeem_benefit'] = array(

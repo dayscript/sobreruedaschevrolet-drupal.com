@@ -24,10 +24,10 @@ class sobre_ruedas_views_handler_field_redeem extends views_handler_field {
     }else{
       $node = node_load($values->nid);
     }
-    
+
     $account = user_load($user->uid);
     $authorize = _sobre_ruedas_authorize_redemption($account, $node);
-    
+
     if($authorize){
       $query = new EntityFieldQuery();
       $query->entityCondition('entity_type', 'node')
@@ -44,14 +44,14 @@ class sobre_ruedas_views_handler_field_redeem extends views_handler_field {
       if (isset($result['node'])) {
         $text = t("Redeemed");
         $mark_up = '<a class="button disabled">'.$text.'</a>';
-      }      
+      }
 
       $sco = field_get_items('node',$node, 'field_sco_reference');
 
       if(!empty($sco) && isset($result['node'])){
         // $text = t("Go to Course");
         $text = "Ir al Curso";
-        $url = $base_url."/node/".$sco[0]['target_id'].'/play';            
+        $url = $base_url."/node/".$sco[0]['target_id'].'/play';
         $mark_up = '<a class="button" href="'.$url.'">'.$text.'</a>';
       }
 
