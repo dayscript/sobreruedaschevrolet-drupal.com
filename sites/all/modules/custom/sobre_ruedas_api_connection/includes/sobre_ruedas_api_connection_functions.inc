@@ -114,22 +114,22 @@ function sobre_ruedas_get_users() {
   $client = new SoapClient('http://visitadorchevrolet.appsxw.co/api/api.ws?wsdl');
 
   $response = $client->RequestVisitadores($idKey, $keyuserid ,$keysecurity, $start_date, $end_date);
-
   $talleres = json_decode($response);
   $talleres = $talleres[0]->{'Detalle Talleres'};
+  #dpm($talleres);
   $return = array();
   foreach ($talleres as $key => $value) {
     if(isset($_GET['talleres'])){
-      $return[$value->nit_cliente]['guid'] = '1'.$value->nit_cliente;
-      $return[$value->nit_cliente]['nit_cliente'] = '1'.$value->nit_cliente;
+      $return[$value->nit_cliente]['guid'] = $value->nit_cliente;
+      $return[$value->nit_cliente]['nit_cliente'] = $value->nit_cliente;
       $return[$value->nit_cliente]['fecha_creacion'] = $value->fecha_creacion;
-      $return[$value->nit_cliente]['nombre_tercero'] = ucwords(strtolower($value->nombre_tercero));
-      $return[$value->nit_cliente]['tp_taller'] = ucfirst(strtolower($value->tp_taller));
-      $return[$value->nit_cliente]['role'] = 'Taller';
-      $return[$value->nit_cliente]['apellidos'] = '';
-      $return[$value->nit_cliente]['pass'] = $value->nit_cliente;
-      $return[$value->nit_cliente]['taller_relacionado'] = '';
+      $return[$value->nit_cliente]['titulo'] = ucwords(strtolower($value->nombre_tercero));
+      $return[$value->nit_cliente]['tp_taller'] = ( strtolower( $value->tp_taller ) == "gasolina" )?'gasoline':'diesel';
       $return[$value->nit_cliente]['email'] = $value->nit_cliente.'@sincorreo.com';
+      $return[$value->nit_cliente]['direccion'] = $value->segunda_linea_direccion;
+      $return[$value->nit_cliente]['barrio'] = $value->barrio_zona_des;
+      $return[$value->nit_cliente]['ciudad'] = 'Bogotá';
+      $return[$value->nit_cliente]['tp_cliente'] = $value->tp_cliente;
     }
     if(isset($_GET['mecanicos'])){
       if( $value->Contactos->{'Nro Contactos'} >= 1 ){
@@ -140,11 +140,16 @@ function sobre_ruedas_get_users() {
             $return[$contacto->documento]['fecha_creacion'] = $value->fecha_creacion;
             $return[$contacto->documento]['nombre_tercero'] = $contacto->primer_nombre.' '.$contacto->segundo_nombre ;
             $return[$contacto->documento]['apellidos'] = $contacto->apellidos ;
-            $return[$contacto->documento]['tp_taller'] = ucfirst(strtolower($value->tp_taller));
-            $return[$contacto->documento]['role'] = ucfirst(strtolower($contacto->tp_tercero_des));
+            $return[$contacto->documento]['tp_taller'] = ( strtolower( $value->tp_taller ) == "gasolina" )?'gasoline':'diesel';
+            $return[$contacto->documento]['role'] = ucfirst( strtolower( $contacto->tp_tercero_des ) );
             $return[$contacto->documento]['pass'] = $contacto->documento;
             $return[$contacto->documento]['email'] = validate_email($contacto->email,$contacto->documento);
-            $return[$contacto->documento]['taller_relacionado'] = '1'.$value->nit_cliente;
+            $return[$contacto->documento]['taller_relacionado'] = $value->nit_cliente;
+            $return[$contacto->documento]['estado_civil'] = $value->estado_civil;
+            $return[$contacto->documento]['genero'] = $contacto->genero;
+            $return[$contacto->documento]['telefono'] = $contacto->telefono;
+            $return[$contacto->documento]['celular'] = $contacto->celular;
+            $return[$contacto->documento]['hdata'] = $contacto->hdata;
           }
         }
       }
@@ -155,6 +160,9 @@ function sobre_ruedas_get_users() {
     $role[$key] = $value['role'];
   }
   array_multisort($role, SORT_DESC, $return);
+  #dpm($return);
+  #return 'OK';
+
   return drupal_json_output($return);
 }
 
@@ -184,9 +192,9 @@ function sobre_ruedas_get_purchases() {
         foreach($response_data[0]->{'Datos Compras'} as $id => $purchase){
             $response[$purchase->referencias]['guid'] = $purchase->referencias;
             $response[$purchase->referencias]['valor_unitario'] = $purchase->valor_unitario ;
-            $response[$purchase->referencias]['descripcion'] = $purchase->descripcion ;
-            $response[$purchase->referencias]['nit'] = '1'.$purchase->nit;
-            $response[$purchase->referencias]['title'] = $purchase->nit.'-'.$purchase->referencias.'-'.$purchase->fecha;
+            $response[$purchase->referencias]['descripcion'] = $purchase->descripcion ; 
+            $response[$purchase->referencias]['nit'] = $purchase->nit;
+            $response[$purchase->referencias]['title'] = $purchase->referencias.'-'.$purchase->fecha.'-'.$purchase->nit;
         }
     }
   }
