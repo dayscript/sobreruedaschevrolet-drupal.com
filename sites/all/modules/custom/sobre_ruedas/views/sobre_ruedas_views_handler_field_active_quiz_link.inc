@@ -50,8 +50,4 @@ class sobre_ruedas_views_handler_field_active_quiz_link extends views_handler_fi
   function query() {
     // Do nothing, leave query blank, we render the contents
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> e194e2797da14dd6599aa4ff472e4b0babbdff30
