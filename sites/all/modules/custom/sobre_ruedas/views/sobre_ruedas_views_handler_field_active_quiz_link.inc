@@ -52,11 +52,11 @@ class sobre_ruedas_views_handler_field_active_quiz_link extends views_handler_fi
   }
 
   function count(){
-
+    # porque no sube esto
     $count = 0;
     $prueba = 0;
     return $count;
-    
+
   }
 }
 
