@@ -82,12 +82,12 @@ function sobre_ruedas_block_view($delta = '') {
         $block['content'] = array(
           '#markup' => $html,
         );
-      } 
+      }
 
       break;
     case 'sobre_ruedas_info_segmento':
       $block['content'] = sobre_ruedas_info_segmento();
-      break; 
+      break;
 
   }
 
@@ -97,7 +97,7 @@ function sobre_ruedas_block_view($delta = '') {
 /**
 * Implements hook_menu().
 */
-function sobre_ruedas_menu() {    
+function sobre_ruedas_menu() {
     $items['sobre_ruedas/redimir/%/%'] = array(
         'title' => 'Redeem benefit',
         'page callback' => '_sobre_ruedas_redeem_benefit',
@@ -128,7 +128,7 @@ function sobre_ruedas_preprocess_node(&$vars) {
                     global $base_url;
                     $account = user_load($user->uid);
                     $authorize = _sobre_ruedas_authorize_redemption($account, $vars["node"]);
-                    
+
                     if($authorize){
                         $query = new EntityFieldQuery();
                         $query->entityCondition('entity_type', 'node')
@@ -260,12 +260,16 @@ function sobre_ruedas_info_segmento(){
   $value_total = 0;
   foreach ($liquidations as $key => $liquidation) {
       $value_total += $liquidation->field_points['und'][0]['value'];
-  } 
+  }
   #Revisar cuando supere los 50 Millones
   $user_segmento = calc_segment($segments,$value_total,$user_type);
+
   $next_category = taxonomy_get_parents($user_segmento['tid']);
   $diference_value = $next_category[key($next_category)]->field_valor_minimo['und'][0]['value'] - $value_total;
-  return  theme('sobre_ruedas_info_segmento', 
+  if(count($next_category) == 0){
+    $diference_value = taxonomy_term_load(21)->field_valor_minimo['und'][0]['value'] - $value_total;
+  }
+  return  theme('sobre_ruedas_info_segmento',
                 array(
                       'user_segmento'=>$user_segmento['name'],
                       'value_total'=>$value_total,
@@ -285,5 +289,5 @@ function calc_segment($segments,$value_total,$user_type){
       }
     }
   }
-  return array('name'=>'---','tid'=> 21);
+  return array('name'=>'---','tid'=> NUll);
 }
