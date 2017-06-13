@@ -242,6 +242,7 @@ function sobre_ruedas_views_pre_render(&$view) {
 function sobre_ruedas_info_segmento(){
 
   global $user;
+
   $user = user_load($user->uid);
   $user_type = $user->field_workshop_type['und'][0]['value'];
   $user_taller = $user->field_workshop['und'][0]['target_id'];
@@ -265,10 +266,23 @@ function sobre_ruedas_info_segmento(){
   $user_segmento = calc_segment($segments,$value_total,$user_type);
 
   $next_category = taxonomy_get_parents($user_segmento['tid']);
-  $diference_value = $next_category[key($next_category)]->field_valor_minimo['und'][0]['value'] - $value_total;
+
+  if($user_type == 'gasoline'){
+    $diference_value = $next_category[key($next_category)]->field_valor_minimo['und'][0]['value'] - $value_total;
+  }
+  if($user_type == 'diesel'){
+    $diference_value = $next_category[key($next_category)]->field_valor_minimo_diesel['und'][0]['value'] - $value_total;
+  }
+
+
+
   if(count($next_category) == 0){
     $diference_value = taxonomy_term_load(21)->field_valor_minimo['und'][0]['value'] - $value_total;
   }
+
+  $user->field_segment['und'][0]['tid'] = $user_segmento['tid'];
+  user_save($user);
+
   return  theme('sobre_ruedas_info_segmento',
                 array(
                       'user_segmento'=>$user_segmento['name'],
@@ -280,14 +294,16 @@ function sobre_ruedas_info_segmento(){
 
 function calc_segment($segments,$value_total,$user_type){
   foreach ($segments as $key => $segment) {
-    if( $value_total >= $segment->field_valor_minimo['und'][0]['value'] && $value_total <= $segment->field_valor_maximo['und'][0]['value'] ){
       if($user_type == 'gasoline'){
-        return array('name'=>$segment->name,'tid'=>$segment->tid);
+        if( $value_total >= $segment->field_valor_minimo['und'][0]['value'] && $value_total <= $segment->field_valor_maximo['und'][0]['value'] ){
+            return array('name'=>$segment->name,'tid'=>$segment->tid);
+        }
       }
-      elseif($user_type == 'diesel'){
-        return array('name'=>$segment->field_name,'tid'=>$segment->tid);
+      if($user_type == 'diesel'){
+        if( $value_total >= $segment->field_valor_minimo_diesel['und'][0]['value'] && $value_total <= $segment->field_valor_maximo_diesel['und'][0]['value'] ){
+            return array('name'=>$segment->field_name['und'][0]['value'],'tid'=>$segment->tid);
+        }
       }
-    }
   }
   return array('name'=>'---','tid'=> NUll);
 }
