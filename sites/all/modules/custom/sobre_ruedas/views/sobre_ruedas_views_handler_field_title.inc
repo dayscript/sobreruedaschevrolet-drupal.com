@@ -32,7 +32,7 @@ class sobre_ruedas_views_handler_field_title extends views_handler_field {
       }else{
         return '<a>'.t('Surprise Benefit').'</a>';
       }
-    }
+    }   
 
     $alias = drupal_get_path_alias('node/'.$node->nid);
 
