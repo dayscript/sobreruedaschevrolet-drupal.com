@@ -4,8 +4,10 @@
  		<tr class="segmento">
  			<td><strong>Tu segmento:</strong></td>
  			<td style="text-align: right;">
- 				<strong><?php echo $user_segmento ?></strong>
-			</td>
+
+      	<strong title="<?php echo $title ?>"><?php echo $user_segmento ?></strong>
+
+      </td>
 		</tr>
 		<tr>
 			<td>Tus compras:</td>

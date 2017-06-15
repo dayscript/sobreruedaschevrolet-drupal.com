@@ -13,7 +13,6 @@ function _sobre_ruedas_redeem_benefit($nid, $uid){
         ->fieldCondition('field_benefits', 'target_id', $node->nid);
 
     $result = $query->execute();
-
     // if the benefit already exists, then skip the process
     if (isset($result['node'])) {
         drupal_set_message(t('The benefit is already redeemed.'));
@@ -42,10 +41,15 @@ function _sobre_ruedas_redeem_benefit($nid, $uid){
 
             // save the node in database
             $wrapper->save();
+            if(!isset($node->field_sco_reference['und'][0]['target_id'])){
+                $message = t('Soon you will be contacted to make your benefit');
+            }else{
+                $message = t('The benefit has been successfully redeemed.');
+            }
+            drupal_set_message($message);
 
-            drupal_set_message(t('The benefit has been successfully redeemed.'));
         }else{
-            drupal_set_message(t('Unauthorized.'));                
+            drupal_set_message(t('Unauthorized.'));
         }
     }
 
@@ -59,6 +63,11 @@ function _sobre_ruedas_authorize_redemption($user, $node){
     $segment_user = field_get_items('user', $user, 'field_segment');
     $segments_node = field_get_items('node', $node, 'field_segment');
 
+    // Show buttom redemption for Benefits with field no necesita segemento
+    if( $node->field_no_necesita_segmento['und'][0]['value']){
+      $authorize = TRUE;
+    }
+
     //check if node and user has a segment
     if($segment_user && $segments_node){
         //if the benefit's segment is equal to user's segment, then authorize to redeem
@@ -70,7 +79,7 @@ function _sobre_ruedas_authorize_redemption($user, $node){
         }
 
         // get the user's segment tree
-        $term = taxonomy_term_load($segment_user[0]['tid']); 
+        $term = taxonomy_term_load($segment_user[0]['tid']);
         $term_tree = taxonomy_get_tree($term->vid, $term->tid);
 
         //if the benefit's segment is below user's segment, then authorize to redeem
@@ -108,12 +117,12 @@ function _sobre_ruedas_is_surprise_benefit($user, $node){
 function _sobre_ruedas_go_to_last_quiz(){
   global $user;
 
-  $sql = "SELECT node.nid AS nid, node.created AS node_created 
-          FROM {node} node 
+  $sql = "SELECT node.nid AS nid, node.created AS node_created
+          FROM {node} node
           INNER JOIN {quiz_node_properties} quiz_node_properties ON node.vid = quiz_node_properties.vid
-          WHERE (( (node.status = 1) 
-            AND node.type = :type 
-            AND (quiz_node_properties.quiz_open <= :date) 
+          WHERE (( (node.status = 1)
+            AND node.type = :type
+            AND (quiz_node_properties.quiz_open <= :date)
             AND (quiz_node_properties.quiz_close >= :date) ))
           ORDER BY node_created DESC
           LIMIT 1";
@@ -125,14 +134,14 @@ function _sobre_ruedas_go_to_last_quiz(){
 
   foreach (db_query($sql, $args) as $result) {
 
-    $sql = 'SELECT result_id 
-            FROM {quiz_node_results} 
-            WHERE uid = :uid 
-              AND nid = :nid 
+    $sql = 'SELECT result_id
+            FROM {quiz_node_results}
+            WHERE uid = :uid
+              AND nid = :nid
               AND time_end IS NOT NULL
-            ORDER BY result_id 
+            ORDER BY result_id
             LIMIT 1';
-            
+
     $args = array(
       ':uid' => $user->uid,
       ':nid' => $result->nid,

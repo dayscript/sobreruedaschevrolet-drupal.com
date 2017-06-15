@@ -17,7 +17,6 @@ class sobre_ruedas_views_handler_field_title extends views_handler_field {
     module_load_include('inc', 'sobre_ruedas', 'includes/sobre_ruedas_callbacks');
 
     global $user;
-
     if(isset($values->_field_data['nid']['entity'])){
       $node = $values->_field_data['nid']['entity'];
     }else{
@@ -37,7 +36,8 @@ class sobre_ruedas_views_handler_field_title extends views_handler_field {
 
     $alias = drupal_get_path_alias('node/'.$node->nid);
 
-    return '<a href="'.$alias.'">'.$node->title.'</a>';
+    #return '<a href="'.$alias.'">'.$node->title.'</a>';
+    return '<a>'.$node->title.'</a>';
   }
   /**
    *
