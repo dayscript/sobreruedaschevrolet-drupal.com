@@ -109,7 +109,7 @@ function sobre_ruedas_get_users() {
   $keysecurity = variable_get('sobre_ruedas_api_connection_keysecurity');
 
   $start_date = '2017011';
-  $end_date = '20170515';
+  $end_date = str_replace('-','',date('Y-m-d'));
 
   $client = new SoapClient('http://visitadorchevrolet.appsxw.co/api/api.ws?wsdl');
 
