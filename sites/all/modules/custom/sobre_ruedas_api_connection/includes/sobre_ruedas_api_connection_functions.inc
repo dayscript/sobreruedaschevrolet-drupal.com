@@ -173,8 +173,9 @@ function sobre_ruedas_get_purchases() {
   $keysecurity = variable_get('sobre_ruedas_api_connection_keysecurity');
 
   $start_date = '2017011';
-  $end_date = '20170428';
+  $end_date = str_replace('-','',date('Y-m-d'));
   $client_id = '17195260';
+
 
   $client = new SoapClient('http://visitadorchevrolet.appsxw.co/api/api.ws?wsdl');
 
@@ -192,7 +193,7 @@ function sobre_ruedas_get_purchases() {
         foreach($response_data[0]->{'Datos Compras'} as $id => $purchase){
             $response[$purchase->referencias]['guid'] = $purchase->referencias;
             $response[$purchase->referencias]['valor_unitario'] = $purchase->valor_unitario ;
-            $response[$purchase->referencias]['descripcion'] = $purchase->descripcion ; 
+            $response[$purchase->referencias]['descripcion'] = $purchase->descripcion ;
             $response[$purchase->referencias]['nit'] = $purchase->nit;
             $response[$purchase->referencias]['title'] = $purchase->referencias.'-'.$purchase->fecha.'-'.$purchase->nit;
         }
@@ -200,7 +201,7 @@ function sobre_ruedas_get_purchases() {
   }
 
   return drupal_json_output($response);
-  #return 'asd';
+  /*return 'asd';*/
 
 }
 
