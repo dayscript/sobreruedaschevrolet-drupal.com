@@ -179,17 +179,18 @@ function sobre_ruedas_get_purchases() {
 
   $client = new SoapClient('http://visitadorchevrolet.appsxw.co/api/api.ws?wsdl');
 
-  $users = user_load_multiple($uids = array(), $conditions = array('status'=>'1'),$reset=false);
-  $users_nids = array();
-  foreach ($users as $key => $user) {
-    if(in_array('Propietario',$user->roles) || in_array('Mecanico',$user->roles)){
-          $users_nids[$user->uid] = $user->name;
-    }
-  }
+  #$users = user_load_multiple($uids = array(), $conditions = array('status'=>'1'),$reset=false);
 
-  foreach ($users_nids as $key => $identification) {
-    $response_data = json_decode($client->RequestPurchases($idKey, $keyuserid ,$keysecurity, $identification,  $start_date, $end_date));
-    if( !array_key_exists('Response', $response_data[0] ) ){
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+           ->entityCondition('bundle', 'taller')
+           ->propertyCondition('status', NODE_PUBLISHED)
+           ->range($_GET['start'],$_GET['finish']);
+  $users = $query->execute();
+
+  foreach ($users['node'] as $key => $user) {
+    $response_data = json_decode($client->RequestPurchases($idKey, $keyuserid ,$keysecurity, node_load($user->nid)->title ,  $start_date, $end_date));
+    if( isset( $response_data[0]->{'Datos Compras'} ) ){
         foreach($response_data[0]->{'Datos Compras'} as $id => $purchase){
             $response[$purchase->referencias]['guid'] = $purchase->referencias;
             $response[$purchase->referencias]['valor_unitario'] = $purchase->valor_unitario ;
@@ -199,9 +200,8 @@ function sobre_ruedas_get_purchases() {
         }
     }
   }
-
   return drupal_json_output($response);
-  /*return 'asd';*/
+  #return 'asd';
 
 }
 
