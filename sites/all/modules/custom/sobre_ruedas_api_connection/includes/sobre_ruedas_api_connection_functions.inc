@@ -108,7 +108,7 @@ function sobre_ruedas_get_users() {
   $keyuserid = variable_get('sobre_ruedas_api_connection_keyuserid');
   $keysecurity = variable_get('sobre_ruedas_api_connection_keysecurity');
 
-  $start_date = '2017011';
+  $start_date = '20170101';
   $end_date = str_replace('-','',date('Y-m-d'));
 
   $client = new SoapClient('http://visitadorchevrolet.appsxw.co/api/api.ws?wsdl');
@@ -116,7 +116,7 @@ function sobre_ruedas_get_users() {
   $response = $client->RequestVisitadores($idKey, $keyuserid ,$keysecurity, $start_date, $end_date);
   $talleres = json_decode($response);
   $talleres = $talleres[0]->{'Detalle Talleres'};
-  #dpm($talleres);
+  
   $return = array();
   foreach ($talleres as $key => $value) {
     if(isset($_GET['talleres'])){
@@ -160,10 +160,24 @@ function sobre_ruedas_get_users() {
     $role[$key] = $value['role'];
   }
   array_multisort($role, SORT_DESC, $return);
-  #dpm($return);
+  #dpm($return); 
   #return 'OK';
 
   return drupal_json_output($return);
+}
+function sobre_ruedas_get_usersDeveloper() {
+
+  $idKey = '900111222'. date('Ymd') .'190146238120';
+  $keyuserid = variable_get('sobre_ruedas_api_connection_keyuserid');
+  $keysecurity = variable_get('sobre_ruedas_api_connection_keysecurity');
+
+  $start_date = '20170101';
+  $end_date = str_replace('-','',date('Y-m-d'));
+
+  $client = new SoapClient('http://visitadorchevrolet.appsxw.co/api/api.ws?wsdl');
+
+  $response = $client->RequestVisitadores($idKey, $keyuserid ,$keysecurity, $start_date, $end_date);
+  return drupal_json_output(json_decode($response));
 }
 
 function sobre_ruedas_get_purchases() {
