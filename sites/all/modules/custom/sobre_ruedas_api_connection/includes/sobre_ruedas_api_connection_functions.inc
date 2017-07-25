@@ -1,8 +1,6 @@
 <?php
-
 function sobre_ruedas_api_connection_form(){
   $form = array();
-
   $form['sobre_ruedas_api_connection_keyuserid'] = array(
     '#type' => 'textfield',
     '#title' => 'Key User Id',
@@ -11,7 +9,6 @@ function sobre_ruedas_api_connection_form(){
     '#default_value' => variable_get('sobre_ruedas_api_connection_keyuserid'),
     '#required' => true,
   );
-
   $form['sobre_ruedas_api_connection_keysecurity'] = array(
     '#type' => 'textfield',
     '#title' => 'Key Security',
@@ -20,20 +17,15 @@ function sobre_ruedas_api_connection_form(){
     '#default_value' => variable_get('sobre_ruedas_api_connection_keysecurity'),
     '#required' => true,
   );
-
   return system_settings_form($form);
 }
-
 function sobre_ruedas_api_connection_consume_form(){
   $keyuserid = variable_get('sobre_ruedas_api_connection_keyuserid');
   $keysecurity = variable_get('sobre_ruedas_api_connection_keysecurity');
-
   $form = array();
-
   if(!$keyuserid && !$keysecurity){
     drupal_set_message(t('Check the configuration settings'));
   }else{
-
     $form['sobre_ruedas_api_connection_consume_startdate'] = array(
       '#type' => 'date',
       '#title' => 'Desde',
@@ -45,14 +37,12 @@ function sobre_ruedas_api_connection_consume_form(){
       '#description' => 'Fecha inicial de la consulta',
       '#required' => false
     );
-
     $form['sobre_ruedas_api_connection_consume_enddate'] = array(
       '#type' => 'date',
       '#title' => 'Hasta',
       '#description' => 'Fecha final de la consulta',
       '#required' => false
     );
-
     $form['submit_button'] = array(
       '#type' => 'submit',
       // '#ajax' => array(
@@ -63,60 +53,43 @@ function sobre_ruedas_api_connection_consume_form(){
       // ),
       '#value' => t('update'),
     );
-
     $form['sobre_ruedas_api_connection_consume_list'] = array(
       '#markup' => '<div id="sr-table"></div>',
     );
   }
-
   return $form;
 }
-
 function sobre_ruedas_api_connection_consume_form_validate($form, &$form_state) {
-
 }
-
 function sobre_ruedas_api_connection_consume_form_submit($form, &$form_state) {
   $idKey = '900111222'. date('Ymd') .'190146238120';
   $keyuserid = variable_get('sobre_ruedas_api_connection_keyuserid');
   $keysecurity = variable_get('sobre_ruedas_api_connection_keysecurity');
-
   $start = $form_state['values']['sobre_ruedas_api_connection_consume_startdate'];
   $start['month'] = $start['month'] < 10 ? '0'.$start['month'] : $start['month'];
-
   $end = $form_state['values']['sobre_ruedas_api_connection_consume_enddate'];
   $end['month'] = $end['month'] < 10 ? '0'.$end['month'] : $end['month'];
-
   $start_date = $start['year'].$start['month'].$start['day'];
-
   $end_date = $end['year'].$end['month'].$end['day'];
   $client = new SoapClient('http://visitadorchevrolet.appsxw.co/api/api.ws?wsdl');
-
   $response = $client->RequestVisitadores($idKey, $keyuserid ,$keysecurity, $start_date, $end_date);
   $talleres = json_decode($response);
   $talleres = $talleres[0]->{'Detalle Talleres'};
-
   foreach ($talleres as $key => $taller) {
    dpm($taller);
   }
 }
-
-
 function sobre_ruedas_get_users() {
-
   $idKey = '900111222'. date('Ymd') .'190146238120';
   $keyuserid = variable_get('sobre_ruedas_api_connection_keyuserid');
   $keysecurity = variable_get('sobre_ruedas_api_connection_keysecurity');
-
-  $start_date = '2017011';
-  $end_date = '20170515';
-
+  $start_date = '20170101';
+  $end_date = str_replace('-','',date('Y-m-d'));
   $client = new SoapClient('http://visitadorchevrolet.appsxw.co/api/api.ws?wsdl');
-
   $response = $client->RequestVisitadores($idKey, $keyuserid ,$keysecurity, $start_date, $end_date);
   $talleres = json_decode($response);
   $talleres = $talleres[0]->{'Detalle Talleres'};
-  #dpm($talleres);
+
   $return = array();
   foreach ($talleres as $key => $value) {
     if(isset($_GET['talleres'])){
@@ -162,58 +135,55 @@ function sobre_ruedas_get_users() {
   array_multisort($role, SORT_DESC, $return);
   #dpm($return);
   #return 'OK';
-
   return drupal_json_output($return);
 }
-
-function sobre_ruedas_get_purchases() {
-
+function sobre_ruedas_get_usersDeveloper() {
   $idKey = '900111222'. date('Ymd') .'190146238120';
   $keyuserid = variable_get('sobre_ruedas_api_connection_keyuserid');
   $keysecurity = variable_get('sobre_ruedas_api_connection_keysecurity');
-
-  $start_date = '2017011';
-  $end_date = '20170428';
-  $client_id = '17195260';
-
+  $start_date = '20170101';
+  $end_date = str_replace('-','',date('Y-m-d'));
   $client = new SoapClient('http://visitadorchevrolet.appsxw.co/api/api.ws?wsdl');
-
-  $users = user_load_multiple($uids = array(), $conditions = array('status'=>'1'),$reset=false);
-  $users_nids = array();
-  foreach ($users as $key => $user) {
-    if(in_array('Propietario',$user->roles) || in_array('Mecanico',$user->roles)){
-          $users_nids[$user->uid] = $user->name;
-    }
-  }
-
-  foreach ($users_nids as $key => $identification) {
-    $response_data = json_decode($client->RequestPurchases($idKey, $keyuserid ,$keysecurity, $identification,  $start_date, $end_date));
-    if( !array_key_exists('Response', $response_data[0] ) ){
+  $response = $client->RequestVisitadores($idKey, $keyuserid ,$keysecurity, $start_date, $end_date);
+  return drupal_json_output(json_decode($response));
+}
+function sobre_ruedas_get_purchases() {
+  $idKey = '900111222'. date('Ymd') .'190146238120';
+  $keyuserid = variable_get('sobre_ruedas_api_connection_keyuserid');
+  $keysecurity = variable_get('sobre_ruedas_api_connection_keysecurity');
+  $start_date = '2017011';
+  $end_date = str_replace('-','',date('Y-m-d'));
+  $client_id = '17195260';
+  $client = new SoapClient('http://visitadorchevrolet.appsxw.co/api/api.ws?wsdl');
+  #$users = user_load_multiple($uids = array(), $conditions = array('status'=>'1'),$reset=false);
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+           ->entityCondition('bundle', 'taller')
+           ->propertyCondition('status', NODE_PUBLISHED)
+           ->range($_GET['start'],$_GET['finish']);
+  $users = $query->execute();
+  foreach ($users['node'] as $key => $user) {
+    $response_data = json_decode($client->RequestPurchases($idKey, $keyuserid ,$keysecurity, node_load($user->nid)->title ,  $start_date, $end_date));
+    if( isset( $response_data[0]->{'Datos Compras'} ) ){
         foreach($response_data[0]->{'Datos Compras'} as $id => $purchase){
             $response[$purchase->referencias]['guid'] = $purchase->referencias;
             $response[$purchase->referencias]['valor_unitario'] = $purchase->valor_unitario ;
-            $response[$purchase->referencias]['descripcion'] = $purchase->descripcion ; 
+            $response[$purchase->referencias]['descripcion'] = $purchase->descripcion ;
             $response[$purchase->referencias]['nit'] = $purchase->nit;
             $response[$purchase->referencias]['title'] = $purchase->referencias.'-'.$purchase->fecha.'-'.$purchase->nit;
         }
     }
   }
-
   return drupal_json_output($response);
   #return 'asd';
-
 }
-
 function validate_email( $email, $nit ){
-
   if( filter_var($email, FILTER_VALIDATE_EMAIL) !== false){
       return str_replace(' ', '', $email);
   }
-
   if( $email =="" || $email=="Na" || $email =="NA"  ){
       return $nit.'@sincorreo.com';
   }
-
   $domains = array('hotmail.com','gmail.com','outlook.com','mail.com','yahoo.es','yahoo.com','yahoo.co');
   $email = 'Carloshuuuoutlook.com';
   foreach ($domains as $key => $domain) {
