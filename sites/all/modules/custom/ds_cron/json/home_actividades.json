@@ -1,0 +1,24 @@
+{"actividad1":[
+ {"titulo":"CONVERSACIÓN","fecha":"LUN, JUN","dia":"28","descripcion":"En la obra del maestro Gómez Campuzano (1891- 1981) se destaca la visión nacionalista que...","subtitulo":"entrada gratuita","imagen":"assets/images/actividad.jpg","estilo":"cat cat1"}
+,
+{"titulo":"CONVERSACIÓN","fecha":"LUN, JUN","dia":"28","descripcion":"En la obra del maestro Gómez Campuzano (1891- 1981) se destaca la visión nacionalista que...","subtitulo":"entrada gratuita","imagen":"assets/images/actividad.jpg","estilo":"cat cat1"}
+,
+{"titulo":"CONVERSACIÓN","fecha":"LUN, JUN","dia":"28","descripcion":"En la obra del maestro Gómez Campuzano (1891- 1981) se destaca la visión nacionalista que...","subtitulo":"entrada gratuita","imagen":"assets/images/actividad.jpg","estilo":"cat cat1"}
+,
+{"titulo":"CONVERSACIÓN","fecha":"LUN, JUN","dia":"28","descripcion":"En la obra del maestro Gómez Campuzano (1891- 1981) se destaca la visión nacionalista que...","subtitulo":"entrada gratuita","imagen":"assets/images/actividad.jpg","estilo":"cat cat1"}
+,
+{"titulo":"CONVERSACIÓN","fecha":"LUN, JUN","dia":"28","descripcion":"En la obra del maestro Gómez Campuzano (1891- 1981) se destaca la visión nacionalista que...","subtitulo":"Agotadas","imagen":"assets/images/actividad.jpg","estilo":"cat cat4"}
+,
+{"titulo":"CONVERSACIÓN","fecha":"LUN, JUN","dia":"28","descripcion":"En la obra del maestro Gómez Campuzano (1891- 1981) se destaca la visión nacionalista que...","subtitulo":"Agotadas","imagen":"assets/images/actividad.jpg","estilo":"cat cat4"}
+ ]
+ ,"actividad2":[{"titulo":"CONVERSACIÓN","fecha":"LUN, JUN","descripcion":"En la obra del maestro Gómez Campuzano (1891- 1981) se destaca la visión nacionalista que...","subtitulo":"entrada gratuita","estilo":"cat cat1"}
+ ,
+ {"titulo":"CONVERSACIÓN","fecha":"LUN, JUN","descripcion":"En la obra del maestro Gómez Campuzano (1891- 1981) se destaca la visión nacionalista que...","subtitulo":"entrada gratuita","estilo":"cat cat1"}
+ ,
+ {"titulo":"CONVERSACIÓN","fecha":"LUN, JUN","descripcion":"En la obra del maestro Gómez Campuzano (1891- 1981) se destaca la visión nacionalista que...","subtitulo":"entrada gratuita","estilo":"cat cat1"} 
+]
+,"lugares":[{"cod":"1","nombre":"Biblioteca Luis Ángel Arango"},{"cod":"2","nombre":"Casa de la moneda"},{"cod":"3","nombre":"Casa Gómez Campuzano"}]
+,"tipo_evento":[{"cod":"1","nombre":"Conferencia"},{"cod":"2","nombre":"Concierto"},{"cod":"3","nombre":"Conversación"}]
+,"publico":[{"cod":"1","nombre":"Niños"},{"cod":"2","nombre":"Jóvenes"},{"cod":"3","nombre":"Adultos"},{"cod":"4","nombre":"Adultos mayores"}]
+,"tarifa":[{"cod":"1","nombre":"Gratis"},{"cod":"2","nombre":"Con costo"},{"cod":"3","nombre":"Con inscripción"}]
+}   

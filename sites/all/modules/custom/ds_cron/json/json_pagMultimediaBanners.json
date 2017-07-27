@@ -1,0 +1,45 @@
+{
+  "nodes": [
+    {
+      "title": "El carpintero (Cancionero escolar)",
+      "subtitle": "El Cuarteto Tana se conformó en 2010 con el objetivo de promover el repertorio contemporáneo e incentivar la relación entre compositores e intérpretes. ",
+      "path": "#",
+      "type": "video",
+      "image": {
+        "src": "assets/images/multimedia_slide.jpg",
+        "alt": "alter"
+      }
+    },
+    {
+      "title": "El carpintero (Cancionero escolar)",
+      "subtitle": "El Cuarteto Tana se conformó en 2010 con el objetivo de promover el repertorio contemporáneo e incentivar la relación entre compositores e intérpretes. ",
+      "path": "#",
+      "type": "video",
+      "image": {
+        "src": "assets/images/multimedia_slide.jpg",
+        "alt": "alter"
+      }
+    },
+    {
+      "title": "El carpintero (Cancionero escolar)",
+      "subtitle": "El Cuarteto Tana se conformó en 2010 con el objetivo de promover el repertorio contemporáneo e incentivar la relación entre compositores e intérpretes. ",
+      "path": "#",
+      "type": "video",
+      "image": {
+        "src": "assets/images/multimedia_slide.jpg",
+        "alt": "alter"
+      }
+    },
+    {
+      "title": "El carpintero (Cancionero escolar)",
+      "subtitle": "El Cuarteto Tana se conformó en 2010 con el objetivo de promover el repertorio contemporáneo e incentivar la relación entre compositores e intérpretes. ",
+      "path": "#",
+      "type": "video",
+      "image": {
+        "src": "assets/images/multimedia_slide.jpg",
+        "alt": "alter"
+      }
+    }
+  ],
+  "view": []
+}

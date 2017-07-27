@@ -1,0 +1,27 @@
+{
+  "detail": {
+    "hours": [
+      {
+        "days": "Lunes a sábado",
+        "hours": "8:00 a.m. - 8:00 p.m."
+      },
+      {
+        "days": "Domingos",
+        "hours": "8:00 a.m. - 4:00 p.m."
+      }
+    ],
+    "phones": [
+      "(+571)343 1224"
+    ],
+    "contacts": [
+      "asagomezcampuzano@banrep.gov.co"
+    ],
+    "addresses": [
+      {
+        "description": "Sala de Conciertos",
+        "address": "Calle 11 No. 4-14, Bogotá, Colombia"
+      }
+    ]
+  },
+  "view": {}
+}

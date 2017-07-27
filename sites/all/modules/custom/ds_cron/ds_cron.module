@@ -1,0 +1,281 @@
+<?php
+
+/*
+* Implements hook_menu
+*/
+
+
+require_once 'includes/password.inc';
+function ds_cron_menu() {
+  $items = array();
+
+  $items['admin/config/ds_cron/workshops'] = array(
+    'title' => t('ds config cron'),
+    'description' => t('In this page can you see the cron configuration '),
+    'page callback' => 'drupal_get_form',
+    'access arguments' => array('access administration pages'),
+    'page arguments' => array('sobre_ruedas_api_connection_form'),
+  );
+
+
+  $items['admin/config/ds_cron/workshops/test'] = array(
+    'title' => t('Workshops test api'),
+    'description' => t('In this page can you see the results'),
+    'page callback' => 'ds_workshops_test',
+    'access arguments' => array('access administration pages'),
+  );
+
+  $items['ds_cron/purchases/test'] = array(
+    'title' => t('Workshops test api'),
+    'description' => t('In this page can you see the results'),
+    'page callback' => 'ds_purchases_test',
+    //'access arguments' => array('access administration pages'),
+    'access callback' => TRUE,
+  );
+
+  return $items;
+}
+
+function ds_purchases_test(){
+
+  $date_start = ( isset($_GET['date_start']) ) ? $_GET['date_start']:'20170601';
+  $date_end = ( isset($_GET['date_end']) ) ? $_GET['date_end']:'20170630';
+
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+           ->entityCondition('bundle', 'taller')
+           ->propertyCondition('status', NODE_PUBLISHED);
+  $workshops = $query->execute();
+  foreach ( array_keys($workshops['node']) as $key => $workshop) {
+    $purchases = get_purchases($workshop,$date_start,$date_end);
+    if ( !$purchases ){
+      write_log($date_start,$date_end,node_load($workshop)->title);
+    }else{
+      foreach ($purchases[0]->{'Datos Compras'} as $key => $liquidation) {
+        create_liquidation($liquidation);
+      }
+
+    }
+    return 'OK';
+  }
+  return 'OK';
+}
+
+
+function get_purchases($workshop ,$date_start = NULL, $date_end = NULL){
+
+  $idKey = '900111222'. date('Ymd') .'190146238120';
+  $keyuserid = variable_get('sobre_ruedas_api_connection_keyuserid');
+  $keysecurity = variable_get('sobre_ruedas_api_connection_keysecurity');
+  $client = new SoapClient('http://visitadorchevrolet.appsxw.co/api/api.ws?wsdl');
+  $response_data = $client->RequestPurchases($idKey, $keyuserid ,$keysecurity, '74333512'/*node_load($workshop)->title*/ ,  $date_start, $date_end);
+  if( strlen( $response_data ) !== 0 ){
+    return json_decode($response_data);
+  }else{
+    return false;
+  }
+}
+
+function ds_workshops_test(){
+  $actual_date = new DateTime();
+  $result = get_visitadores( $date_start= NULL , $date_end = $actual_date->format('Y-m-d') );
+  if( isset($result[0]->Response)  && $result[0]->Response == 'No Tiene Informacion de visitadores en el Periodo' ){
+      drupal_set_message(t($result[0]->Response), 'status', FALSE);
+        /*Aqui se debe genrar en log de visitadores*/
+      return '';
+  }
+  if(isset($result[0]->{'Detalle Talleres'})){
+    $workshops = $result[0]->{'Detalle Talleres'};
+    foreach ($workshops as $key => $workshop) {
+        create_workshop($workshop);
+    }
+  }
+  return '';
+}
+
+function get_visitadores($date_start = NULL, $date_end = NULL){
+  if( $date_start == NULL && $date_end == NULL ){
+    drupal_set_message(t('Error in function get_visitarores params NULL'), 'warning', FALSE);
+    return 'error';
+  }
+  elseif( $date_start == NULL && $date_end != NULL ){
+    $date_start = new DateTime('first day of january');
+    $date_start = $date_start->format('Y-m-d');
+  }else{
+    drupal_set_message(t('Error inesperado en get_visitarores '), 'error', FALSE);
+  }
+
+  $idKey = '900111222'. date('Ymd') .'190146238120';
+  $keyuserid = variable_get('sobre_ruedas_api_connection_keyuserid');
+  $keysecurity = variable_get('sobre_ruedas_api_connection_keysecurity');
+  $client = new SoapClient('http://visitadorchevrolet.appsxw.co/api/api.ws?wsdl');
+
+  return json_decode($client->RequestVisitadores($idKey, $keyuserid ,$keysecurity, str_replace('-','',$date_start), str_replace('-','',$date_end)));
+}
+
+
+function create_liquidation($liquidation){
+    $params = array('!s' => $liquidation->referencias, '!b' => $liquidation->{'numero factura'}, '!z' => $liquidation->nit );
+    $name =  format_string('Compra !s - !b - !z', $params);
+    $node = node_liquidation_exist($name);
+    if($node === false){
+      $node = entity_create( 'node',array( 'type'=>'liquidacion' ) );
+      $node->uid = 1;
+    }
+
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', 'taller')
+      ->propertyCondition('status', NODE_PUBLISHED)
+      ->propertyCondition('title', $liquidation->nit , '=');
+    $result = $query->execute();
+    $UpdateNode = entity_metadata_wrapper('node',$node);
+    $UpdateNode->title->set($name);
+    $UpdateNode->field_workshop->set(key($result['node']));
+    $UpdateNode->field_points->set( substr($liquidation->valor_unitario, 0 , -3) );
+    $UpdateNode->body->set(array('format'=>'full_html','value'=>$liquidation->descripcion));
+    $UpdateNode->save();
+}
+
+function create_workshop($workshop){
+    #dpm($workshop);
+    $concatcs = $workshop->Contactos;
+    unset($workshop->Contactos);
+    $nid = node_exist( $workshop->nit_cliente);
+    if( $nid === false ){
+        $newEntity = entity_create( 'node',array( 'type'=>'taller' ) );
+        $newEntity->uid = 1;
+      }else{
+        $newEntity = $nid;
+        }
+    $newNode = entity_metadata_wrapper( 'node',$newEntity );
+    $newNode->title->set($workshop->nit_cliente);
+    $newNode->field_name->set($workshop->nombre_tercero);
+    switch ($workshop->tp_taller) {
+      case 'GASOLINA':
+        $newNode->field_workshop_type->set(array('gasoline'));
+        break;
+      case 'DIESEL':
+        $newNode->field_workshop_type->set(array('diesel'));
+        break;
+    }
+    $newNode->field_direccion->set($workshop->segunda_linea_direccion);
+    $newNode->field_barrio->set($workshop->barrio_zona_des);
+    $newNode->field_ciudad->set(28);
+    $newNode->field_tipo_de_cliente->set($workshop->tp_cliente);
+    $newNode->field_points->set('0');
+    $newNode->save();
+    foreach($concatcs->{'Contactos Detalle'} as $key => $contact){
+        if( strlen($contact->documento) === 0 ){
+            dpm('Sin datos :'.$workshop->nit_cliente);
+            continue;
+        }
+        create_contact($contact,$workshop->nit_cliente);
+    }
+
+    $data = array('workshop'=>$workshop, 'contacts' => $concatcs);
+}
+function create_contact($contact,$workshop){
+  $user = user_exist($contact->documento);
+
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'taller')
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->propertyCondition('title', $workshop , '=');
+  $result = $query->execute();
+  if( !$user ){
+      $newUser = entity_create( 'user',array() );
+      $newUser->name = $contact->documento;
+      $mail = ds_validate_email($contact->email,$contact->documento);
+      $newUser->init = $mail;
+      $newUser->mail = $mail;
+      $newUser->pass = user_hash_password($contact->documento);
+      $newUser->status = 1;
+      entity_save('user',$newUser);
+
+    }
+    $user = user_load_by_name($contact->documento);
+    $uploadUser = entity_metadata_wrapper('user', $user);
+    $uploadUser->field_name->set($contact->primer_nombre.' '.$contact->segundo_nombre);
+    $uploadUser->field_lastname->set( $contact->apellidos );
+    $uploadUser->field_workshop->set( key($result['node']) );
+    switch ($workshop->field_workshop_type) {
+      case 'GASOLINA':
+        $uploadUser->field_workshop_type = array('gasoline');
+        break;
+      case 'DIESEL':
+        $newNode->field_workshop_type = array('diesel');
+        break;
+    }
+    $uploadUser->field_points->set(0);
+    $uploadUser->field_segment->set(array());
+    #$uploadUser->field_estado_civil->set(array());
+    #$uploadUser->field_genero->set($contact->genero);
+    $uploadUser->field_habeas_data->set($contacts->hdata);
+    $uploadUser->field_celular->set($contact->celular);
+    $uploadUser->field_telefono->set($contact->telefono);
+    switch ($contact->tp_tercero_des) {
+      case 'PROPIETARIO':
+        $uploadUser->roles->set(array(1,7));
+        break;
+      default:
+        $uploadUser->roles->set(array(4,7));
+        break;
+    }
+    $uploadUser->save();
+    return '';
+}
+
+/*
+ * Return nid
+*/
+function node_exist($title){
+  $nodes = node_load_multiple(NULL, array("title" => $title, "type"=>'taller'));
+  $node = current($nodes);
+  if( isset($node->nid) ){
+    return $node->nid;
+    }
+  return false;
+}
+
+function node_liquidation_exist($title){
+  $nodes = node_load_multiple(NULL, array("title" => $title, "type"=>'liquidacion'));
+  $node = current($nodes);
+  if( isset($node->nid) ){
+    return $node->nid;
+    }
+  return false;
+}
+
+function user_exist($name){
+  $user = user_load_by_name($name);
+  if($user) return $user->uid;
+  return false;
+}
+
+function ds_validate_email( $email, $nit ){
+  if( filter_var($email, FILTER_VALIDATE_EMAIL) !== false){
+      return str_replace(' ', '', $email);
+  }
+  if( $email =="" || $email=="Na" || $email =="NA"  ){
+      return $nit.'@sincorreo.com';
+  }
+  $domains = array('hotmail.com','gmail.com','outlook.com','mail.com','yahoo.es','yahoo.com','yahoo.co');
+  $email = 'Carloshuuuoutlook.com';
+  foreach ($domains as $key => $domain) {
+    if( strpos($email, $domain) !== false  ){
+        $pos = strpos($email, $domain);
+        return  str_replace(' ','',substr_replace($email ,'@',$pos,0));
+      }
+  }
+}
+
+
+function write_log($date_start,$date_end,$workshop){
+  dpm( $date_start.'-'.$date_end.'-'.$workshop );
+  $arch = fopen("/var/www/html/sobreruedaschevrolet.com/sites/all/modules/custom/ds_cron/log.log", "a+");
+  fwrite($arch, $date_start.'-'.$date_end.'-'.$workshop."\n");
+  fclose($arch);
+
+}

@@ -1,0 +1,41 @@
+{
+  "nodes": [
+    {
+      "title": "Clubes de lectura de la BLAA",
+      "path": "#"
+    },
+    {
+      "title": "Referencia y consulta",
+      "path": "#"
+    },
+    {
+      "title": "Visitas guiadas",
+      "path": "#"
+    },
+    {
+      "title": "Préstamo de salas",
+      "path": "#"
+    },
+    {
+      "title": "Préstamo externo",
+      "path": "#"
+    },
+    {
+      "title": "Formación de públicos",
+      "path": "#"
+    },
+    {
+      "title": "Convocatorias",
+      "path": "#"
+    },
+    {
+      "title": "Materiales de apoyo",
+      "path": "#"
+    },
+    {
+      "title": "Atención a la prensa",
+      "path": "#"
+    }
+  ],
+  "view": []
+}

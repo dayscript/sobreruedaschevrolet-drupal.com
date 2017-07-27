@@ -1,0 +1,37 @@
+{
+  "titulo":"culturales","contenido":
+  [
+    {"titulo":"Referencia y consulta","imagen":"assets/images/servicio10.jpg","alt":"servicio"
+ ,"texto":"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod <br>tempor incididunt ut labore et dolore magna aliqua."
+ ,"vinculos":[
+     {"url":"#","titulo_url":"Pregúntele al bibliotecario","icono":"demo-icon icon-right"}
+ 	,{"url":"#","titulo_url":"Transcripción de material a formatos accesibles","icono":"demo-icon icon-right"}
+ 	,{"url":"#","titulo_url":"Referencia especializada","icono":"demo-icon icon-right"}
+ 	,{"url":"#","titulo_url":"Digitalización para investigadores","icono":"demo-icon icon-right"}
+ 	,{"url":"#","titulo_url":"Apoyo a tareas","icono":"demo-icon icon-right"}
+ 	,{"url":"#","titulo_url":"Referencia musical","icono":"demo-icon icon-right"}
+ 	,{"url":"#","titulo_url":"Transcripción de material a formatos accesibles","icono":"demo-icon icon-right"}
+ 	,{"url":"#","titulo_url":"Referencia especializada","icono":"demo-icon icon-right"}
+ 	,{"url":"#","titulo_url":"Digitalización para investigadores","icono":"demo-icon icon-right"}
+ 	,{"url":"#","titulo_url":"Apoyo a tareas","icono":"demo-icon icon-right"}
+ 	,{"url":"#","titulo_url":"Referencia musical","icono":"demo-icon icon-right"}
+ ]
+},
+    {"titulo":"Referencia y consulta","imagen":"assets/images/servicio10.jpg","alt":"servicio"
+ ,"texto":"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod <br>tempor incididunt ut labore et dolore magna aliqua."
+ ,"vinculos":[
+ 	{"url":"#","titulo_url":"Pregúntele al bibliotecario","icono":"demo-icon icon-right"}
+ 	,{"url":"#","titulo_url":"Transcripción de material a formatos accesibles","icono":"demo-icon icon-right"}
+ 	,{"url":"#","titulo_url":"Referencia especializada","icono":"demo-icon icon-right"}
+ 	,{"url":"#","titulo_url":"Digitalización para investigadores","icono":"demo-icon icon-right"}
+ 	,{"url":"#","titulo_url":"Apoyo a tareas","icono":"demo-icon icon-right"}
+ 	,{"url":"#","titulo_url":"Referencia musical","icono":"demo-icon icon-right"}
+ 	,{"url":"#","titulo_url":"Transcripción de material a formatos accesibles","icono":"demo-icon icon-right"}
+ 	,{"url":"#","titulo_url":"Referencia especializada","icono":"demo-icon icon-right"}
+ 	,{"url":"#","titulo_url":"Digitalización para investigadores","icono":"demo-icon icon-right"}
+ 	,{"url":"#","titulo_url":"Apoyo a tareas","icono":"demo-icon icon-right"}
+ 	,{"url":"#","titulo_url":"Referencia musical","icono":"demo-icon icon-right"}
+ ]
+}
+  ]
+}

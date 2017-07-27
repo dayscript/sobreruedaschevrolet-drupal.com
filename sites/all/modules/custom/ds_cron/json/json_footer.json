@@ -1,0 +1,15 @@
+{
+"vinculos":[
+{"titulo":"BANCO DE LA REPÚBLICA","url":"#"},
+{"titulo":"ACERCA DE BANREPCULTURAL","url":"#"},
+{"titulo":"ACCESIBILIDAD","url":"#"},
+{"titulo":"NOTICIAS","url":"#"},
+{"titulo":"SALA DE PRENSA","url":"#"},
+{"titulo":"AYUDA","url":"#"},
+{"titulo":"DESCARGA DE APPS","url":"#"}
+]
+,"derechos_autor":{"contenido":"Los contenidos están protegidos por los derechos de autor; para más detalles ver:","titulo_url":"derechos de autor.","url":"#"}
+,"atencion_ciudadano":{"contenido":"Si requiere realizar solicitudes de información, peticiones, quejas, reclamos, sugerencias, felicitaciones y denuncias podrá realizarlas por medio de los canales oficiales establecidos en el Sistema de Atención al Ciudadano – SAC del Banco, los cuales se presentan en la página web:","titulo_url":"Atencion al ciudadano","url":""}
+,"informacion":{"direccion":"Calle 11 # 4 - 14, La Candelaria","telefono":"571 343 1224","fax":"Fax 571 381 2908","titulo_url":"Horarios y oficinas","url":"#"}
+,"links":[{"titulo_url":"Buzón de notificaciones judiciales","url":"#"},{"titulo_url":"Políticas de protección de datos","url":"#"},{"titulo_url":"Políticas de seguridad","url":"#"}]
+}

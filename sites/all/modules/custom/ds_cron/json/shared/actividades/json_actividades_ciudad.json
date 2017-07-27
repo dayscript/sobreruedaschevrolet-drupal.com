@@ -1,0 +1,18 @@
+[ 
+{
+    "ciudad": "",
+    "valor": "0"
+},
+    {
+    "ciudad": "Bogota",
+    "valor": "1"
+},
+    {
+    "ciudad": "Barranquilla",
+    "valor": "2"
+},
+    {
+    "ciudad": "Buenaventura",
+    "valor": "3"
+    }
+ ]

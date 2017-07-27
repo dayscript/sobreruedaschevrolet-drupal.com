@@ -1,0 +1,20 @@
+[
+    {
+        "titulo1": "105 obras del Museo Botero  1",
+        "titulo2": "en alta resolución 1",
+        "subtitulo": "1 Google Art Project incluyó nuevos países y galerías en su colección, ahora el Museo Botero y el Museo del Oro hacen parte de este proyecto.",
+        "texto_url": "Conoce el proyecto",
+        "alt": "",
+        "url": "#",
+        "imagen": "assets/images/slider.jpg"
+    },
+    {
+        "titulo1": "105 obras del Museo Botero  2",
+        "titulo2": "en alta resolución 2",        
+        "subtitulo": "2 Google Art Project incluyó nuevos países y galerías en su colección, ahora el Museo Botero y el Museo del Oro hacen parte de este proyecto.",
+        "texto_url": "Conoce el proyecto",
+        "alt": "",
+        "url": "#",
+        "imagen": "assets/images/slider.jpg"
+    }
+]

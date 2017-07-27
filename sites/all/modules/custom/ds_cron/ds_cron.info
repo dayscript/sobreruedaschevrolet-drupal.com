@@ -1,0 +1,5 @@
+name = Dayscript Cron
+description = Este modulo controla la ejecucion de tareas automaticas
+version = "7.x.0.1"
+core = 7.x
+package =  Dayscript

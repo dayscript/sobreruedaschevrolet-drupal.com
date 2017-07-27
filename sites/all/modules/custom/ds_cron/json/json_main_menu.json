@@ -1,0 +1,1064 @@
+[
+  {
+    "titulo": "Centros culturales",
+    "url": "#",
+    "hijos": [
+      {
+        "ancho": 2,
+        "estilo": "menu vertical",
+        "hijos": [
+          {
+            "titulo": "Armenia",
+            "url": "#"
+          },
+          {
+            "titulo": "Barranquilla",
+            "url": "#"
+          },
+          {
+            "titulo": "Bogotá",
+            "url": "#"
+          },
+          {
+            "titulo": "Bucaramanga",
+            "url": "#"
+          },
+          {
+            "titulo": "Buenaventura",
+            "url": "#"
+          },
+          {
+            "titulo": "Cali",
+            "url": "#"
+          },
+          {
+            "titulo": "Cartagena",
+            "url": "#"
+          },
+          {
+            "titulo": "Cúcuta",
+            "url": "#"
+          }
+        ]
+      },
+      {
+        "ancho": 2,
+        "estilo": "menu vertical",
+        "hijos": [
+          {
+            "titulo": "Florencia",
+            "url": "#"
+          },
+          {
+            "titulo": "Girardot",
+            "url": "#"
+          },
+          {
+            "titulo": "Honda",
+            "url": "#"
+          },
+          {
+            "titulo": "Ibagué",
+            "url": "#"
+          },
+          {
+            "titulo": "Ipiales",
+            "url": "#"
+          },
+          {
+            "titulo": "Leticia",
+            "url": "#"
+          },
+          {
+            "titulo": "Manizales",
+            "url": "#"
+          },
+          {
+            "titulo": "Medellín",
+            "url": "#"
+          }
+        ]
+      },
+      {
+        "ancho": 2,
+        "estilo": "menu vertical",
+        "hijos": [
+          {
+            "titulo": "Montería",
+            "url": "#"
+          },
+          {
+            "titulo": "Neiva",
+            "url": "#"
+          },
+          {
+            "titulo": "Pasto",
+            "url": "#"
+          },
+          {
+            "titulo": "Pereira",
+            "url": "#"
+          },
+          {
+            "titulo": "Popayán",
+            "url": "#"
+          },
+          {
+            "titulo": "Quibdó",
+            "url": "#"
+          },
+          {
+            "titulo": "Riohacha",
+            "url": "#"
+          },
+          {
+            "titulo": "San Andrés",
+            "url": "#"
+          }
+        ]
+      },
+      {
+        "ancho": 2,
+        "estilo": "menu vertical",
+        "hijos": [
+          {
+            "titulo": "Santa Marta",
+            "url": "#"
+          },
+          {
+            "titulo": "Sincelejo",
+            "url": "#"
+          },
+          {
+            "titulo": "Tunja",
+            "url": "#"
+          },
+          {
+            "titulo": "Valledupar",
+            "url": "#"
+          },
+          {
+            "titulo": "Villavicencio",
+            "url": "#"
+          }
+        ]
+      },
+      {
+        "ancho": 4,
+        "estilo": "destacados",
+        "hijos": [
+          {
+            "titulo": "Casa Gómez Campusano",
+            "subtitulo": "Bogotá",
+            "imagen": "https://placehold.it/312x98",
+            "alt": "Destacado",
+            "url": "#"
+          },
+          {
+            "titulo": "Centro Cultural Leopoldo López Álvarez",
+            "subtitulo": "Pasto",
+            "imagen": "https://placehold.it/312x98",
+            "alt": "Destacado",
+            "url": "#"
+          },
+          {
+            "titulo": "Centro Cultural en San Andrés, Providencia y Santa Catalina",
+            "subtitulo": "San Andres",
+            "imagen": "https://placehold.it/312x98",
+            "alt": "Destacado",
+            "url": "#"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "titulo": "Museos",
+    "url": "#",
+    "hijos": [
+      {
+        "ancho": 4,
+        "estilo": "menu vertical",
+        "hijos": [
+          {
+            "titulo": "Museo del Oro Quimbaya",
+            "subtitulo": "Armenia",
+            "url": "#"
+          },
+          {
+            "titulo": "Museo del Oro Calima",
+            "subtitulo": "Cali",
+            "url": "#"
+          },
+          {
+            "titulo": "Museo Etnográfico",
+            "subtitulo": "leticia",
+            "url": "#"
+          },
+          {
+            "titulo": "Museo del Oro Nariño",
+            "subtitulo": "pasto",
+            "url": "#"
+          },
+          {
+            "titulo": "Museo del Oro Tairona",
+            "subtitulo": "sincelejo",
+            "url": "#"
+          }
+        ]
+      },
+      {
+        "ancho": 4,
+        "estilo": "destacados",
+        "estiloAdicional": "left-collapse",
+        "hijos": [
+          {
+            "titulo": "Museo del Oro",
+            "subtitulo": "Bogotá",
+            "imagen": "https://placehold.it/312x208",
+            "alt": "Destacado",
+            "url": "#"
+          },
+          {
+            "titulo": "Museo de Arte Miguel Urrutia (MAMU)",
+            "subtitulo": "Bogotá",
+            "imagen": "https://placehold.it/312x98",
+            "alt": "Destacado",
+            "url": "#"
+          }
+        ]
+      },
+      {
+        "ancho": 4,
+        "estilo": "destacados",
+        "estiloAdicional": "left-collapse",
+        "hijos": [
+          {
+            "titulo": "Casa de la moneda",
+            "subtitulo": "Bogotá",
+            "imagen": "https://placehold.it/312x98",
+            "alt": "Destacado",
+            "url": "#"
+          },
+          {
+            "titulo": "Museo Botero",
+            "subtitulo": "Bogotá",
+            "imagen": "https://placehold.it/312x98",
+            "alt": "Destacado",
+            "url": "#"
+          },
+          {
+            "titulo": "Casa Republicana",
+            "subtitulo": "Bogotá",
+            "imagen": "https://placehold.it/312x98",
+            "alt": "Destacado",
+            "url": "#"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "titulo": "Bibliotecas",
+    "url": "#",
+    "hijos": [
+      {
+        "ancho": 2,
+        "estilo": "menu vertical",
+        "hijos": [
+          {
+            "titulo": "Armenia",
+            "url": "#",
+            "icono": "dot"
+          },
+          {
+            "titulo": "Barranquilla",
+            "url": "#",
+            "icono": "up-dir"
+          },
+          {
+            "titulo": "Bogotá",
+            "url": "#"
+          },
+          {
+            "titulo": "Bucaramanga",
+            "url": "#",
+            "icono": "up-dir"
+          },
+          {
+            "titulo": "Buenaventura",
+            "url": "#"
+          },
+          {
+            "titulo": "Cali",
+            "url": "#",
+            "icono": "dot"
+          },
+          {
+            "titulo": "Cartagena",
+            "url": "#"
+          },
+          {
+            "titulo": "Cúcuta",
+            "url": "#",
+            "icono": "dot"
+          }
+        ]
+      },
+      {
+        "ancho": 2,
+        "estilo": "menu vertical",
+        "hijos": [
+          {
+            "titulo": "Florencia",
+            "url": "#"
+          },
+          {
+            "titulo": "Girardot",
+            "url": "#"
+          },
+          {
+            "titulo": "Honda",
+            "url": "#"
+          },
+          {
+            "titulo": "Ibagué",
+            "url": "#"
+          },
+          {
+            "titulo": "Ipiales",
+            "url": "#"
+          },
+          {
+            "titulo": "Leticia",
+            "url": "#"
+          },
+          {
+            "titulo": "Manizales",
+            "url": "#"
+          },
+          {
+            "titulo": "Medellín",
+            "url": "#",
+            "icono": "dot"
+          }
+        ]
+      },
+      {
+        "ancho": 2,
+        "estilo": "menu vertical",
+        "hijos": [
+          {
+            "titulo": "Montería",
+            "url": "#",
+            "icono": "dot"
+          },
+          {
+            "titulo": "Neiva",
+            "url": "#"
+          },
+          {
+            "titulo": "Pasto",
+            "url": "#"
+          },
+          {
+            "titulo": "Pereira",
+            "url": "#"
+          },
+          {
+            "titulo": "Popayán",
+            "url": "#"
+          },
+          {
+            "titulo": "Quibdó",
+            "url": "#"
+          },
+          {
+            "titulo": "Riohacha",
+            "url": "#"
+          },
+          {
+            "titulo": "San Andrés",
+            "url": "#"
+          }
+        ]
+      },
+      {
+        "ancho": 2,
+        "estilo": "menu vertical",
+        "hijos": [
+          {
+            "titulo": "Santa Marta",
+            "url": "#"
+          },
+          {
+            "titulo": "Sincelejo",
+            "url": "#"
+          },
+          {
+            "titulo": "Tunja",
+            "url": "#"
+          },
+          {
+            "titulo": "Valledupar",
+            "url": "#"
+          },
+          {
+            "titulo": "Villavicencio",
+            "url": "#",
+            "icono": "up-dir"
+          }
+        ],
+        "tipo": {
+          "titulo": "tipos de centro",
+          "hijos": [
+            {
+              "titulo": "Documentación regional",
+              "url": "#",
+              "clase": "documentacion"
+            },
+            {
+              "titulo": "Referencia remota",
+              "url": "#",
+              "clase": "referencia"
+            }
+          ]
+        }
+      },
+      {
+        "ancho": 4,
+        "estilo": "destacados",
+        "hijos": [
+          {
+            "titulo": "Biblioteca Luis Angel Arango",
+            "subtitulo": "Bogotá",
+            "imagen": "https://placehold.it/312x152",
+            "alt": "Destacado",
+            "url": "#"
+          },
+          {
+            "titulo": "Biblioteca del Banco de la República",
+            "subtitulo": "Neiva",
+            "imagen": "https://placehold.it/312x152",
+            "alt": "Destacado",
+            "url": "#"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "titulo": "Actividad musical",
+    "url": "#",
+    "hijos": [
+      {
+        "ancho": 2,
+        "estilo": "menu vertical",
+        "hijos": [
+          {
+            "titulo": "Armenia",
+            "url": "#",
+            "icono": "dot"
+          },
+          {
+            "titulo": "Barranquilla",
+            "url": "#",
+            "icono": "up-dir"
+          },
+          {
+            "titulo": "Bogotá",
+            "url": "#"
+          },
+          {
+            "titulo": "Bucaramanga",
+            "url": "#",
+            "icono": "up-dir"
+          },
+          {
+            "titulo": "Buenaventura",
+            "url": "#"
+          },
+          {
+            "titulo": "Cali",
+            "url": "#",
+            "icono": "dot"
+          },
+          {
+            "titulo": "Cartagena",
+            "url": "#"
+          },
+          {
+            "titulo": "Cúcuta",
+            "url": "#",
+            "icono": "dot"
+          }
+        ]
+      },
+      {
+        "ancho": 2,
+        "estilo": "menu vertical",
+        "hijos": [
+          {
+            "titulo": "Florencia",
+            "url": "#"
+          },
+          {
+            "titulo": "Girardot",
+            "url": "#"
+          },
+          {
+            "titulo": "Honda",
+            "url": "#"
+          },
+          {
+            "titulo": "Ibagué",
+            "url": "#"
+          },
+          {
+            "titulo": "Ipiales",
+            "url": "#"
+          },
+          {
+            "titulo": "Leticia",
+            "url": "#"
+          },
+          {
+            "titulo": "Manizales",
+            "url": "#"
+          },
+          {
+            "titulo": "Medellín",
+            "url": "#",
+            "icono": "dot"
+          }
+        ]
+      },
+      {
+        "ancho": 2,
+        "estilo": "menu vertical",
+        "hijos": [
+          {
+            "titulo": "Montería",
+            "url": "#",
+            "icono": "dot"
+          },
+          {
+            "titulo": "Neiva",
+            "url": "#"
+          },
+          {
+            "titulo": "Pasto",
+            "url": "#"
+          },
+          {
+            "titulo": "Pereira",
+            "url": "#"
+          },
+          {
+            "titulo": "Popayán",
+            "url": "#"
+          },
+          {
+            "titulo": "Quibdó",
+            "url": "#"
+          },
+          {
+            "titulo": "Riohacha",
+            "url": "#"
+          },
+          {
+            "titulo": "San Andrés",
+            "url": "#"
+          }
+        ]
+      },
+      {
+        "ancho": 2,
+        "estilo": "menu vertical",
+        "hijos": [
+          {
+            "titulo": "Santa Marta",
+            "url": "#"
+          },
+          {
+            "titulo": "Sincelejo",
+            "url": "#"
+          },
+          {
+            "titulo": "Tunja",
+            "url": "#"
+          },
+          {
+            "titulo": "Valledupar",
+            "url": "#"
+          },
+          {
+            "titulo": "Villavicencio",
+            "url": "#",
+            "icono": "up-dir"
+          }
+        ],
+        "tipo": {
+          "titulo": "tipos de centro",
+          "hijos": [
+            {
+              "titulo": "Documentación regional",
+              "url": "#",
+              "clase": "documentacion"
+            },
+            {
+              "titulo": "Referencia remota",
+              "url": "#",
+              "clase": "referencia"
+            }
+          ]
+        }
+      },
+      {
+        "ancho": 4,
+        "estilo": "destacados",
+        "hijos": [
+          {
+            "titulo": "Sala de conciertos",
+            "imagen": "https://placehold.it/312x317",
+            "alt": "Destacado",
+            "url": "#"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "titulo": "Colecciones",
+    "url": "#",
+    "hijos": [
+      {
+        "ancho": 3,
+        "estilo": "destacados",
+        "estiloAdicional": "min-padding",
+        "hijos": [
+          {
+            "titulo": "Red de Bibliotecas (Catálogo)",
+            "imagen": "https://placehold.it/232x152",
+            "alt": "Destacado",
+            "url": "#"
+          },
+          {
+            "titulo": "Biblioteca Virtual",
+            "imagen": "https://placehold.it/232x152",
+            "alt": "Destacado",
+            "url": "#"
+          }
+        ]
+      },
+      {
+        "ancho": 3,
+        "estilo": "destacados",
+        "estiloAdicional": "min-padding",
+        "hijos": [
+          {
+            "titulo": "Arqueológica",
+            "imagen": "https://placehold.it/232x152",
+            "alt": "Destacado",
+            "url": "#"
+          },
+          {
+            "titulo": "Musical",
+            "imagen": "https://placehold.it/232x152",
+            "alt": "Destacado",
+            "url": "#"
+          }
+        ]
+      },
+      {
+        "ancho": 3,
+        "estilo": "destacados",
+        "estiloAdicional": "min-padding",
+        "hijos": [
+          {
+            "titulo": "Arte",
+            "imagen": "https://placehold.it/232x152",
+            "alt": "Destacado",
+            "url": "#"
+          },
+          {
+            "titulo": "Económica y financiera",
+            "imagen": "https://placehold.it/232x152",
+            "alt": "Destacado",
+            "url": "#"
+          }
+        ]
+      },
+      {
+        "ancho": 3,
+        "estilo": "destacados",
+        "estiloAdicional": "min-padding",
+        "hijos": [
+          {
+            "titulo": "Estampillas (Filatélica)",
+            "imagen": "https://placehold.it/232x152",
+            "alt": "Destacado",
+            "url": "#"
+          },
+          {
+            "titulo": "Billetes y monedas (Numismática)",
+            "imagen": "https://placehold.it/232x152",
+            "alt": "Destacado",
+            "url": "#"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "titulo": "Proyectos",
+    "url": "#",
+    "hijos": [
+      {
+        "ancho": 4,
+        "estilo": "destacados",
+        "hijos": [
+          {
+            "titulo": "Custodia de la iglesia de San Ignacio de Bogotá \"La Lechuga\"",
+            "imagen": "https://placehold.it/312x317",
+            "alt": "Destacado",
+            "url": "#"
+          }
+        ]
+      },
+      {
+        "ancho": 4,
+        "estilo": "destacados",
+        "estiloAdicional": "left-collapse",
+        "hijos": [
+          {
+            "titulo": "Exposición Agua: un patrimonio que circula de mano en mano",
+            "imagen": "https://placehold.it/313x152",
+            "alt": "Destacado",
+            "url": "#"
+          },
+          {
+            "titulo": "La paz se toma la palabra",
+            "imagen": "https://placehold.it/313x152",
+            "alt": "Destacado",
+            "url": "#"
+          }
+        ]
+      },
+      {
+        "ancho": 4,
+        "estilo": "destacados",
+        "estiloAdicional": "left-collapse",
+        "hijos": [
+          {
+            "titulo": "Muerte Barroca: Retrats de Monjas Coronadas",
+            "imagen": "https://placehold.it/313x152",
+            "alt": "Destacado",
+            "url": "#"
+          },
+          {
+            "titulo": "Año Colombia-Francia 2017",
+            "imagen": "https://placehold.it/313x152",
+            "alt": "Destacado",
+            "url": "#"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "titulo": "Servicios",
+    "url": "#",
+    "estilo": "servicios",
+    "hijos": [
+      {
+        "ancho": 3,
+        "estilo": "menu vertical",
+        "estiloAdicional": "medium-offset-2 punteado",
+        "subtituloColumna": {
+          "titulo": "Por públicos",
+          "icono": "publicos"
+        },
+        "hijos": [
+          {
+            "titulo": "Todos los servicios",
+            "url": "#"
+          },
+          {
+            "titulo": "Niños",
+            "url": "#"
+          },
+          {
+            "titulo": "Maestros",
+            "url": "#"
+          },
+          {
+            "titulo": "Condición de discapacidad",
+            "url": "#"
+          },
+          {
+            "titulo": "Investigadores",
+            "url": "#"
+          },
+          {
+            "titulo": "Adultos mayores",
+            "url": "#"
+          },
+          {
+            "titulo": "VER TODOS",
+            "url": "#"
+          }
+        ]
+      },
+      {
+        "ancho": 3,
+        "estilo": "menu vertical",
+        "estiloAdicional": "punteado",
+        "subtituloColumna": {
+          "titulo": "Generales",
+          "icono": "generalidades"
+        },
+        "hijos": [
+          {
+            "titulo": "Venta de publicaciones",
+            "url": "#"
+          },
+          {
+            "titulo": "Wifi",
+            "url": "#"
+          },
+          {
+            "titulo": "Parqueaderos",
+            "url": "#"
+          },
+          {
+            "titulo": "Tienda",
+            "url": "#"
+          },
+          {
+            "titulo": "Cafetería",
+            "url": "#"
+          },
+          {
+            "titulo": "Baños accesibles",
+            "url": "#"
+          },
+          {
+            "titulo": "VER TODOS",
+            "url": "#"
+          }
+        ]
+      },
+      {
+        "ancho": 3,
+        "estilo": "menu vertical",
+        "estiloAdicional": "end",
+        "subtituloColumna": {
+          "titulo": "Culturales",
+          "icono": "brush"
+        },
+        "hijos": [
+          {
+            "titulo": "Formación de nuestros públicos",
+            "url": "#"
+          },
+          {
+            "titulo": "Exposiciones",
+            "url": "#"
+          },
+          {
+            "titulo": "Conciertos",
+            "url": "#"
+          },
+          {
+            "titulo": "Herramientas de aprendizaje",
+            "url": "#"
+          },
+          {
+            "titulo": "Auto aprendizaje",
+            "url": "#"
+          },
+          {
+            "titulo": "Convicatorias",
+            "url": "#"
+          },
+          {
+            "titulo": "VER TODOS",
+            "url": "#"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "titulo": "Actividades",
+    "url": "#",
+    "hijos": [
+      {
+        "ancho": 2,
+        "estilo": "menu vertical",
+        "estiloAdicional": "medium-offset-2",
+        "hijos": [
+          {
+            "titulo": "Armenia",
+            "url": "#",
+            "icono": "dot"
+          },
+          {
+            "titulo": "Barranquilla",
+            "url": "#",
+            "icono": "up-dir"
+          },
+          {
+            "titulo": "Bogotá",
+            "url": "#"
+          },
+          {
+            "titulo": "Bucaramanga",
+            "url": "#",
+            "icono": "up-dir"
+          },
+          {
+            "titulo": "Buenaventura",
+            "url": "#"
+          },
+          {
+            "titulo": "Cali",
+            "url": "#",
+            "icono": "dot"
+          },
+          {
+            "titulo": "Cartagena",
+            "url": "#"
+          },
+          {
+            "titulo": "Cúcuta",
+            "url": "#",
+            "icono": "dot"
+          }
+        ]
+      },
+      {
+        "ancho": 2,
+        "estilo": "menu vertical",
+        "hijos": [
+          {
+            "titulo": "Florencia",
+            "url": "#"
+          },
+          {
+            "titulo": "Girardot",
+            "url": "#"
+          },
+          {
+            "titulo": "Honda",
+            "url": "#"
+          },
+          {
+            "titulo": "Ibagué",
+            "url": "#"
+          },
+          {
+            "titulo": "Ipiales",
+            "url": "#"
+          },
+          {
+            "titulo": "Leticia",
+            "url": "#"
+          },
+          {
+            "titulo": "Manizales",
+            "url": "#"
+          },
+          {
+            "titulo": "Medellín",
+            "url": "#",
+            "icono": "dot"
+          }
+        ]
+      },
+      {
+        "ancho": 2,
+        "estilo": "menu vertical",
+        "hijos": [
+          {
+            "titulo": "Montería",
+            "url": "#",
+            "icono": "dot"
+          },
+          {
+            "titulo": "Neiva",
+            "url": "#"
+          },
+          {
+            "titulo": "Pasto",
+            "url": "#"
+          },
+          {
+            "titulo": "Pereira",
+            "url": "#"
+          },
+          {
+            "titulo": "Popayán",
+            "url": "#"
+          },
+          {
+            "titulo": "Quibdó",
+            "url": "#"
+          },
+          {
+            "titulo": "Riohacha",
+            "url": "#"
+          },
+          {
+            "titulo": "San Andrés",
+            "url": "#"
+          }
+        ]
+      },
+      {
+        "ancho": 2,
+        "estilo": "menu vertical",
+        "estiloAdicional": "end",
+        "hijos": [
+          {
+            "titulo": "Santa Marta",
+            "url": "#"
+          },
+          {
+            "titulo": "Sincelejo",
+            "url": "#"
+          },
+          {
+            "titulo": "Tunja",
+            "url": "#"
+          },
+          {
+            "titulo": "Valledupar",
+            "url": "#"
+          },
+          {
+            "titulo": "Villavicencio",
+            "url": "#",
+            "icono": "up-dir"
+          }
+        ],
+        "tipo": {
+          "titulo": "tipos de centro",
+          "hijos": [
+            {
+              "titulo": "Documentación regional",
+              "url": "#",
+              "clase": "documentacion"
+            },
+            {
+              "titulo": "Referencia remota",
+              "url": "#",
+              "clase": "referencia"
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

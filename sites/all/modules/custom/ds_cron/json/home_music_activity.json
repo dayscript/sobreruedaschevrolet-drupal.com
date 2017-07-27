@@ -1,0 +1,35 @@
+{
+  "nodes" : [
+    {
+      "title": "Boletín Museo del Oro #55",
+      "teaser": "El Museo del Oro emprendió en los últimos años una transformación de sus exposici...",
+      "path": "#",
+      "date": "25 Oct 2016",
+      "image": {
+        "src": "assets/images/boletas1.jpg",
+        "alt": "alter"
+      }
+    },
+    {
+      "title": "Boletín Museo del Oro #54",
+      "teaser": "¿Cómo hacer hablar a los objetos de cultura material del pasado? La...",
+      "path": "#",
+      "date": "25 Oct 2016",
+      "image": {
+        "src": "assets/images/boletas2.jpg",
+        "alt": "alter"
+      }
+    },
+    {
+      "title": "Boletín Museo del Oro #53",
+      "teaser": "¿Cómo hacer hablar a los objetos de cultura material del pasado? La...",
+      "path": "#",
+      "date": "25 Oct 2016",
+      "image": {
+        "src": "assets/images/boletas2.jpg",
+        "alt": "alter"
+      }
+    }
+  ],
+  "view": {}
+}
