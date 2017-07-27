@@ -56,7 +56,6 @@ function ds_purchases_test(){
       }
 
     }
-    return 'OK';
   }
   return 'OK';
 }
