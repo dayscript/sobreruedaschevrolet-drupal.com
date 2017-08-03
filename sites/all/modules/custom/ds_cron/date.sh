@@ -1,6 +1,6 @@
 today=$(date +"%Y%m%d");
 
-date='20170315';
+date='20170101';
 post_date=`date '+%Y%m%d' -d "$date+1 days"`;
 
 echo $date;

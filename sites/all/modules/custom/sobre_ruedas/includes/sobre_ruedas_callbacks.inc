@@ -116,7 +116,6 @@ function _sobre_ruedas_is_surprise_benefit($user, $node){
 
 function _sobre_ruedas_go_to_last_quiz(){
   global $user;
-
   $sql = "SELECT node.nid AS nid, node.created AS node_created
           FROM {node} node
           INNER JOIN {quiz_node_properties} quiz_node_properties ON node.vid = quiz_node_properties.vid
@@ -131,9 +130,7 @@ function _sobre_ruedas_go_to_last_quiz(){
     ':date' => time(),
     ':type' => 'quiz',
   );
-
   foreach (db_query($sql, $args) as $result) {
-
     $sql = 'SELECT result_id
             FROM {quiz_node_results}
             WHERE uid = :uid
