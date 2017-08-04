@@ -300,17 +300,18 @@ function sobre_ruedas_info_segmento(){
 }
 
 function calc_segment($segments,$value_total,$user_type){
-  foreach ($segments as $key => $segment) {
-      if($user_type == 'gasoline'){
-        if( $value_total >= $segment->field_valor_minimo['und'][0]['value'] && $value_total <= $segment->field_valor_maximo['und'][0]['value'] ){
-            return array('name'=>$segment->name,'tid'=>$segment->tid);
+    foreach ($segments as $key => $segment) {
+        if($user_type == 'gasoline'){
+
+          if( $value_total >= $segment->field_valor_minimo['und'][0]['value'] && $value_total <= $segment->field_valor_maximo['und'][0]['value'] ){
+              return array('name'=>$segment->name,'tid'=>$segment->tid);
+          }
         }
-      }
-      if($user_type == 'diesel'){
-        if( $value_total >= $segment->field_valor_minimo_diesel['und'][0]['value'] && $value_total <= $segment->field_valor_maximo_diesel['und'][0]['value'] ){
-            return array('name'=>$segment->field_name['und'][0]['value'],'tid'=>$segment->tid);
+        if($user_type == 'diesel'){
+          if( $value_total >= $segment->field_valor_minimo_diesel['und'][0]['value'] && $value_total <= $segment->field_valor_maximo_diesel['und'][0]['value'] ){
+              return array('name'=>$segment->field_name['und'][0]['value'],'tid'=>$segment->tid);
+          }
         }
-      }
-  }
+}
   return array('name'=>'---','tid'=> NUll);
 }

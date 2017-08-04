@@ -33,8 +33,75 @@ function ds_cron_menu() {
     'access callback' => TRUE,
   );
 
+  $items['ds_cron/segments/calc'] = array(
+    'title' => t('Workshops test api'),
+    'description' => t('In this page can you see the results'),
+    'page callback' => 'ds_segments_calc',
+    //'access arguments' => array('access administration pages'),
+    'access callback' => TRUE,
+  );
+
   return $items;
 }
+function ds_segments_calc(){
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'user')
+        ->propertyCondition('uid', 6975, '=');
+  $users = $query->execute();
+
+  foreach ( array_keys($users['user']) as $key => $userid ) {
+      if( $userid != 0 ){
+        user_calc_segment( user_load( $userid ) );
+      }
+  }
+
+ return 'OK';
+}
+
+
+function user_calc_segment( $user ){
+  $user_type = $user->field_workshop_type['und'][0]['value'];
+  $user_taller = $user->field_workshop['und'][0]['target_id'];
+
+  $vocabulary = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('segment')->vid);
+  foreach($vocabulary as $key => $taxonomy){
+    $segments[] = taxonomy_term_load($taxonomy->tid);
+  }
+
+  $user_segmento = ( isset( $user->field_segment['und'][0]['value'] ) ) ? $user->field_segment['und'][0]['value']:'---';
+
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'liquidacion')
+        ->fieldCondition('field_workshop', 'target_id',$user_taller);
+  $nids = array_keys($query->execute()['node']);
+  $liquidations = node_load_multiple($nids , $conditions = array(), $reset = FALSE);
+  $value_total = 0;
+  foreach ($liquidations as $key => $liquidation) {
+      $value_total += $liquidation->field_points['und'][0]['value'];
+  }
+
+  #Revisar cuando supere los 50 Millones
+  $user_segmento = calc_segment_user($segments,$value_total,$user_type);
+  $next_category = taxonomy_get_parents($user_segmento['tid']);
+
+  if($user_type == 'gasoline'){
+    $diference_value = $next_category[key($next_category)]->field_valor_minimo['und'][0]['value'] - $value_total;
+  }
+  if($user_type == 'diesel'){
+    $diference_value = $next_category[key($next_category)]->field_valor_minimo_diesel['und'][0]['value'] - $value_total;
+  }
+
+  if(count($next_category) == 0){
+    $diference_value = taxonomy_term_load(21)->field_valor_minimo['und'][0]['value'] - $value_total;
+  }
+
+  $user->field_segment['und'][0]['tid'] = $user_segmento['tid'];
+  user_save($user);
+
+  return true;
+}
+
 
 function ds_purchases_test(){
 
@@ -43,9 +110,10 @@ function ds_purchases_test(){
 
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'node')
-           ->entityCondition('bundle', 'taller')
-           ->propertyCondition('status', NODE_PUBLISHED);
+        ->entityCondition('bundle', 'taller')
+        ->propertyCondition('status', NODE_PUBLISHED);
   $workshops = $query->execute();
+
   foreach ( array_keys($workshops['node']) as $key => $workshop) {
     $purchases = get_purchases($workshop,$date_start,$date_end);
     if ( !$purchases ){
@@ -78,6 +146,7 @@ function get_purchases($workshop ,$date_start = NULL, $date_end = NULL){
 function ds_workshops_test(){
   $actual_date = new DateTime();
   $result = get_visitadores( $date_start= NULL , $date_end = $actual_date->format('Y-m-d') );
+
   if( isset($result[0]->Response)  && $result[0]->Response == 'No Tiene Informacion de visitadores en el Periodo' ){
       drupal_set_message(t($result[0]->Response), 'status', FALSE);
         /*Aqui se debe genrar en log de visitadores*/
@@ -108,14 +177,15 @@ function get_visitadores($date_start = NULL, $date_end = NULL){
   $keyuserid = variable_get('sobre_ruedas_api_connection_keyuserid');
   $keysecurity = variable_get('sobre_ruedas_api_connection_keysecurity');
   $client = new SoapClient('http://visitadorchevrolet.appsxw.co/api/api.ws?wsdl');
-
+  #$date_start = '2017-06-13' ;
+  #$date_end = '2017-06-14';
   return json_decode($client->RequestVisitadores($idKey, $keyuserid ,$keysecurity, str_replace('-','',$date_start), str_replace('-','',$date_end)));
 }
 
 
 function create_liquidation($liquidation){
-    $params = array('!s' => $liquidation->referencias, '!b' => $liquidation->{'numero factura'}, '!z' => $liquidation->nit );
-    $name =  format_string('Compra !s - !b - !z', $params);
+    $params = array( '!f' => $liquidation->fecha, '!b' => $liquidation->{'numero factura'}, '!s' => $liquidation->referencias, '!z' => $liquidation->nit );
+    $name =  format_string('!f-!b-!s-!z', $params);
     $node = node_liquidation_exist($name);
     if($node === false){
       $node = entity_create( 'node',array( 'type'=>'liquidacion' ) );
@@ -137,7 +207,6 @@ function create_liquidation($liquidation){
 }
 
 function create_workshop($workshop){
-    #dpm($workshop);
     $concatcs = $workshop->Contactos;
     unset($workshop->Contactos);
     $nid = node_exist( $workshop->nit_cliente);
@@ -183,6 +252,8 @@ function create_contact($contact,$workshop){
     ->propertyCondition('status', NODE_PUBLISHED)
     ->propertyCondition('title', $workshop , '=');
   $result = $query->execute();
+  $workshop = node_load(key($result['node']));
+
   if( !$user ){
       $newUser = entity_create( 'user',array() );
       $newUser->name = $contact->documento;
@@ -199,12 +270,12 @@ function create_contact($contact,$workshop){
     $uploadUser->field_name->set($contact->primer_nombre.' '.$contact->segundo_nombre);
     $uploadUser->field_lastname->set( $contact->apellidos );
     $uploadUser->field_workshop->set( key($result['node']) );
-    switch ($workshop->field_workshop_type) {
-      case 'GASOLINA':
-        $uploadUser->field_workshop_type = array('gasoline');
+    switch ( $workshop->field_workshop_type['und'][0]['value'] ) {
+      case 'gasoline':
+        $uploadUser->field_workshop_type->set(array('gasoline'));
         break;
-      case 'DIESEL':
-        $newNode->field_workshop_type = array('diesel');
+      case 'diesel':
+        $uploadUser->field_workshop_type->set(array('diesel'));
         break;
     }
     $uploadUser->field_points->set(0);
@@ -272,9 +343,25 @@ function ds_validate_email( $email, $nit ){
 
 
 function write_log($date_start,$date_end,$workshop){
-  dpm( $date_start.'-'.$date_end.'-'.$workshop );
   $arch = fopen("/var/www/html/sobreruedaschevrolet.com/sites/all/modules/custom/ds_cron/log.log", "a+");
   fwrite($arch, $date_start.'-'.$date_end.'-'.$workshop."\n");
   fclose($arch);
 
+}
+
+function calc_segment_user($segments,$value_total,$user_type){
+    foreach ($segments as $key => $segment) {
+
+        if($user_type == 'gasoline'){
+          if( $value_total >= $segment->field_valor_minimo['und'][0]['value'] && $value_total <= $segment->field_valor_maximo['und'][0]['value'] ){
+              return array('name'=>$segment->name,'tid'=>$segment->tid);
+          }
+        }
+        if($user_type == 'diesel'){
+          if( $value_total >= $segment->field_valor_minimo_diesel['und'][0]['value'] && $value_total <= $segment->field_valor_maximo_diesel['und'][0]['value'] ){
+              return array('name'=>$segment->field_name['und'][0]['value'],'tid'=>$segment->tid);
+          }
+        }
+}
+  return array('name'=>'---','tid'=> NUll);
 }
