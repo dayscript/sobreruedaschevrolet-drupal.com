@@ -45,9 +45,10 @@ function ds_cron_menu() {
 }
 function ds_segments_calc(){
   $query = new EntityFieldQuery();
-  $query->entityCondition('entity_type', 'user')
-        ->propertyCondition('uid', 6975, '=');
+  $query->entityCondition('entity_type', 'user');
+
   $users = $query->execute();
+
 
   foreach ( array_keys($users['user']) as $key => $userid ) {
       if( $userid != 0 ){
@@ -282,7 +283,7 @@ function create_contact($contact,$workshop){
     $uploadUser->field_segment->set(array());
     #$uploadUser->field_estado_civil->set(array());
     #$uploadUser->field_genero->set($contact->genero);
-    $uploadUser->field_habeas_data->set($contacts->hdata);
+    $uploadUser->field_habeas_data->set($contact->hdata);
     $uploadUser->field_celular->set($contact->celular);
     $uploadUser->field_telefono->set($contact->telefono);
     switch ($contact->tp_tercero_des) {
@@ -358,7 +359,9 @@ function calc_segment_user($segments,$value_total,$user_type){
           }
         }
         if($user_type == 'diesel'){
+
           if( $value_total >= $segment->field_valor_minimo_diesel['und'][0]['value'] && $value_total <= $segment->field_valor_maximo_diesel['und'][0]['value'] ){
+
               return array('name'=>$segment->field_name['und'][0]['value'],'tid'=>$segment->tid);
           }
         }
