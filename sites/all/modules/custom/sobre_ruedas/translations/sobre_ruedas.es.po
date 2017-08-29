@@ -74,7 +74,7 @@ msgstr ""
 
 #: includes/sobre_ruedas_callbacks.inc:19
 msgid "The benefit is already redeemed."
-msgstr "Este benficio ya fue redimido."
+msgstr "Este beneficio ya fue redimido."
 
 #: includes/sobre_ruedas_callbacks.inc:46
 msgid "The benefit has been successfully redeemed."
@@ -111,4 +111,3 @@ msgstr "Redime este beneficio para conocerlo."
 #: views/sobre_ruedas_views_handler_field_title.inc:34
 msgid "Surprise Benefit"
 msgstr "Beneficio sorpresa"
-
