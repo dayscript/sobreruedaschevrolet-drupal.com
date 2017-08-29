@@ -10,16 +10,22 @@ function ds_cron_menu() {
   $items = array();
 
   $items['admin/config/ds_cron/workshops'] = array(
-    'title' => t('ds config cron'),
+    'title' => t('Ds config cron API'),
     'description' => t('In this page can you see the cron configuration '),
     'page callback' => 'drupal_get_form',
     'access arguments' => array('access administration pages'),
     'page arguments' => array('sobre_ruedas_api_connection_form'),
   );
 
+  $items['admin/config/ds_cron/workshops/list'] = array(
+    'title' => t('List to workshops'),
+    'description' => t('In this page can you see the results'),
+    'page callback' => 'ds_workshops_list',
+    'access arguments' => array('access administration pages'),
+  );
 
-  $items['admin/config/ds_cron/workshops/test'] = array(
-    'title' => t('Workshops test api'),
+  $items['admin/config/ds_cron/workshops/process'] = array(
+    'title' => t('Process workshops'),
     'description' => t('In this page can you see the results'),
     'page callback' => 'ds_workshops_test',
     'access arguments' => array('access administration pages'),
@@ -29,7 +35,6 @@ function ds_cron_menu() {
     'title' => t('Workshops test api'),
     'description' => t('In this page can you see the results'),
     'page callback' => 'ds_purchases_test',
-    //'access arguments' => array('access administration pages'),
     'access callback' => TRUE,
   );
 
@@ -37,7 +42,6 @@ function ds_cron_menu() {
     'title' => t('Workshops test api'),
     'description' => t('In this page can you see the results'),
     'page callback' => 'ds_segments_calc',
-    //'access arguments' => array('access administration pages'),
     'access callback' => TRUE,
   );
 
@@ -46,9 +50,7 @@ function ds_cron_menu() {
 function ds_segments_calc(){
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'user');
-
   $users = $query->execute();
-
 
   foreach ( array_keys($users['user']) as $key => $userid ) {
       if( $userid != 0 ){
@@ -63,14 +65,11 @@ function ds_segments_calc(){
 function user_calc_segment( $user ){
   $user_type = $user->field_workshop_type['und'][0]['value'];
   $user_taller = $user->field_workshop['und'][0]['target_id'];
-
   $vocabulary = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('segment')->vid);
   foreach($vocabulary as $key => $taxonomy){
     $segments[] = taxonomy_term_load($taxonomy->tid);
   }
-
   $user_segmento = ( isset( $user->field_segment['und'][0]['value'] ) ) ? $user->field_segment['und'][0]['value']:'---';
-
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'node')
         ->entityCondition('bundle', 'liquidacion')
@@ -143,6 +142,26 @@ function get_purchases($workshop ,$date_start = NULL, $date_end = NULL){
     return false;
   }
 }
+
+function ds_cron_theme( $existing, $type, $theme, $path ){
+
+  $themes = array();
+  $themes['ds_cron_workshops_list'] = array(
+      'template' => 'templates/ds_cron_workshops_list',
+      'variables' => array('node' => NULL),
+  );
+
+  return $themes;
+}
+
+
+function ds_workshops_list(){
+  $actual_date = new DateTime();
+  $result = get_visitadores( $date_start= NULL , $date_end = $actual_date->format('Y-m-d') );
+
+  return theme('ds_cron_workshops_list',array('node'=>$result));
+}
+
 
 function ds_workshops_test(){
   $actual_date = new DateTime();
@@ -280,7 +299,7 @@ function create_contact($contact,$workshop){
         break;
     }
     $uploadUser->field_points->set(0);
-    $uploadUser->field_segment->set(array());
+    #$uploadUser->field_segment->set(array());
     #$uploadUser->field_estado_civil->set(array());
     #$uploadUser->field_genero->set($contact->genero);
     $uploadUser->field_habeas_data->set($contact->hdata);
@@ -288,10 +307,13 @@ function create_contact($contact,$workshop){
     $uploadUser->field_telefono->set($contact->telefono);
     switch ($contact->tp_tercero_des) {
       case 'PROPIETARIO':
-        $uploadUser->roles->set(array(1,7));
+        $uploadUser->roles->set(array(2,7));
+        break;
+      case 'AUX. ADMINISTRATIVO':
+        $uploadUser->roles->set(array(2,8));
         break;
       default:
-        $uploadUser->roles->set(array(4,7));
+        $uploadUser->roles->set(array(2,4));
         break;
     }
     $uploadUser->save();
