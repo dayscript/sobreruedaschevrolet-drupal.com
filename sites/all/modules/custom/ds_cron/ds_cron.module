@@ -158,7 +158,6 @@ function ds_cron_theme( $existing, $type, $theme, $path ){
 function ds_workshops_list(){
   $actual_date = new DateTime();
   $result = get_visitadores( $date_start= NULL , $date_end = $actual_date->format('Y-m-d') );
-
   return theme('ds_cron_workshops_list',array('node'=>$result));
 }
 
