@@ -52,7 +52,7 @@ function ds_segments_calc(){
   $query->entityCondition('entity_type', 'user');
   $users = $query->execute();
   foreach ( array_keys($users['user']) as $key => $userid ) {
-      if( $userid != 0 and $user->field_workshop_type['und'][0]['name'] == '4234081'){
+      if( $userid != 0){
         user_calc_segment( user_load( $userid ) );
       }
   }
