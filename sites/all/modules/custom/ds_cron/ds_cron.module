@@ -62,7 +62,7 @@ function ds_segments_calc(){
 
 
 function user_calc_segment( $user ){
-  var_dump($user);
+  var_dump(json_encode($user));
   break;
   if ($user) {
     $user_type = $user->field_workshop_type['und'][0]['value'];
