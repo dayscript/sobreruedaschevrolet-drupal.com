@@ -51,9 +51,8 @@ function ds_segments_calc(){
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'user');
   $users = $query->execute();
-
   foreach ( array_keys($users['user']) as $key => $userid ) {
-      if( $userid != 0 ){
+      if( $userid != 0 and $user->field_workshop_type['und'][0]['name'] == '4234081'){
         user_calc_segment( user_load( $userid ) );
       }
   }
@@ -63,41 +62,47 @@ function ds_segments_calc(){
 
 
 function user_calc_segment( $user ){
-  $user_type = $user->field_workshop_type['und'][0]['value'];
-  $user_taller = $user->field_workshop['und'][0]['target_id'];
-  $vocabulary = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('segment')->vid);
-  foreach($vocabulary as $key => $taxonomy){
-    $segments[] = taxonomy_term_load($taxonomy->tid);
-  }
-  $user_segmento = ( isset( $user->field_segment['und'][0]['value'] ) ) ? $user->field_segment['und'][0]['value']:'---';
-  $query = new EntityFieldQuery();
-  $query->entityCondition('entity_type', 'node')
-        ->entityCondition('bundle', 'liquidacion')
-        ->fieldCondition('field_workshop', 'target_id',$user_taller);
-  $nids = array_keys($query->execute()['node']);
-  $liquidations = node_load_multiple($nids , $conditions = array(), $reset = FALSE);
-  $value_total = 0;
-  foreach ($liquidations as $key => $liquidation) {
-      $value_total += $liquidation->field_points['und'][0]['value'];
-  }
+  var_dump($user);
+  break;
+  if ($user) {
+    $user_type = $user->field_workshop_type['und'][0]['value'];
+    $user_taller = $user->field_workshop['und'][0]['target_id'];
+    $vocabulary = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('segment')->vid);
+    foreach($vocabulary as $key => $taxonomy){
+      $segments[] = taxonomy_term_load($taxonomy->tid);
+    }
+    $user_segmento = ( isset( $user->field_segment['und'][0]['value'] ) ) ? $user->field_segment['und'][0]['value']:'---';
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'node')
+          ->entityCondition('bundle', 'liquidacion')
+          ->fieldCondition('field_workshop', 'target_id',$user_taller);
+    $nids = array_keys($query->execute()['node']);
+    $liquidations = node_load_multiple($nids , $conditions = array(), $reset = FALSE);
+    $value_total = 0;
+    foreach ($liquidations as $key => $liquidation) {
+        $value_total += $liquidation->field_points['und'][0]['value'];
+    }
 
-  #Revisar cuando supere los 50 Millones
-  $user_segmento = calc_segment_user($segments,$value_total,$user_type);
-  $next_category = taxonomy_get_parents($user_segmento['tid']);
+    #Revisar cuando supere los 50 Millones
+    $user_segmento = calc_segment_user($segments,$value_total,$user_type);
+    $next_category = taxonomy_get_parents($user_segmento['tid']);
 
-  if($user_type == 'gasoline'){
-    $diference_value = $next_category[key($next_category)]->field_valor_minimo['und'][0]['value'] - $value_total;
-  }
-  if($user_type == 'diesel'){
-    $diference_value = $next_category[key($next_category)]->field_valor_minimo_diesel['und'][0]['value'] - $value_total;
-  }
+    if($user_type == 'gasoline'){
+      $diference_value = $next_category[key($next_category)]->field_valor_minimo['und'][0]['value'] - $value_total;
+    }
+    if($user_type == 'diesel'){
+      $diference_value = $next_category[key($next_category)]->field_valor_minimo_diesel['und'][0]['value'] - $value_total;
+    }
 
-  if(count($next_category) == 0){
-    $diference_value = taxonomy_term_load(21)->field_valor_minimo['und'][0]['value'] - $value_total;
-  }
+    if(count($next_category) == 0){
+      $diference_value = taxonomy_term_load(21)->field_valor_minimo['und'][0]['value'] - $value_total;
+    }
 
-  $user->field_segment['und'][0]['tid'] = $user_segmento['tid'];
-  user_save($user);
+    $user->field_segment['und'][0]['tid'] = $user_segmento['tid'];
+    var_dump(json_encode($user));
+    echo "</br>";
+  }
+  //user_save($user);
 
   return true;
 }
@@ -125,6 +130,7 @@ function ds_purchases_test(){
 
     }
   }
+  //ds_segments_calc();
   return 'OK';
 }
 
