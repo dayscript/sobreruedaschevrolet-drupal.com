@@ -62,9 +62,9 @@ function ds_segments_calc(){
 
 
 function user_calc_segment( $user ){
-  var_dump(json_encode($user));
+  var_dump(json_encode($user['name']));
   break;
-  if ($user) {
+  if ($user['name'] == '4234081') {
     $user_type = $user->field_workshop_type['und'][0]['value'];
     $user_taller = $user->field_workshop['und'][0]['target_id'];
     $vocabulary = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('segment')->vid);
