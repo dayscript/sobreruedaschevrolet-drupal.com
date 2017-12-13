@@ -10,6 +10,7 @@ dpm($node);
                  border: solid 1px;
                  padding: 4px;">
       <div>nit_cliente:               <span><?php echo $workshop->nit_cliente?></span></div>
+      <div>nombre_tercero:            <span><?php echo $workshop->nombre_tercero?> </span></div>
       <div>fecha_creacion:            <span><?php echo $workshop->fecha_creacion?></span></div>
       <div>tp_cliente:                <span><?php echo $workshop->tp_cliente?></span></div>
       <div>tp_taller:                 <span><?php echo $workshop->tp_taller?></span></div>
