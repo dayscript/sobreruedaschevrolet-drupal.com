@@ -52,22 +52,29 @@ function ds_segments_calc(){
   $query->entityCondition('entity_type', 'user');
   $users = $query->execute();
   foreach ( array_keys($users['user']) as $key => $userid ) {
-      if( $userid != 0){
-        user_calc_segment( user_load( $userid ) );
+      if( $userid != 0)
+      {
+        $usertempo = user_load($userid);
+        if ($usertempo->name ==  "4234081") {
+          user_calc_segment($usertempo);
+        }
       }
   }
 
  return 'OK';
 }
-
+  
 
 function user_calc_segment( $user ){
-  var_dump(json_encode($user['name']));
-  break;
-  if ($user['name'] == '4234081') {
     $user_type = $user->field_workshop_type['und'][0]['value'];
     $user_taller = $user->field_workshop['und'][0]['target_id'];
-    $vocabulary = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('segment')->vid);
+    if($user_type == 'gasoline'){
+      $vocabulary = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('segment')->vid);
+    }
+    if($user_type == 'diesel'){
+      $vocabulary = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('segmentdiesel')->vid);
+    }
+    
     foreach($vocabulary as $key => $taxonomy){
       $segments[] = taxonomy_term_load($taxonomy->tid);
     }
@@ -99,10 +106,9 @@ function user_calc_segment( $user ){
     }
 
     $user->field_segment['und'][0]['tid'] = $user_segmento['tid'];
+    $user->field_segment['und'][0]['value'] = $user_segmento['name'];
     var_dump(json_encode($user));
-    echo "</br>";
-  }
-  //user_save($user);
+    //user_save($user);
 
   return true;
 }
