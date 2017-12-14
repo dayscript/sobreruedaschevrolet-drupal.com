@@ -135,7 +135,7 @@ function ds_purchases_test(){
 
     }
   }
-  //ds_segments_calc();
+  ds_segments_calc();
   return 'OK';
 }
 
