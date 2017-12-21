@@ -176,6 +176,9 @@ function ds_workshops_list(){
 function ds_workshops_test(){
   $actual_date = new DateTime();
   $result = get_visitadores( $date_start= NULL , $date_end = $actual_date->format('Y-m-d') );
+  $contRegister = 0;
+  $contRegisterNew = 0;
+  $contRegisterExist = 0;
   if( isset($result[0]->Response)  && $result[0]->Response == 'No Tiene Informacion de visitadores en el Periodo' ){
       drupal_set_message(t($result[0]->Response), 'status', FALSE);
         /*Aqui se debe genrar en log de visitadores*/
@@ -184,10 +187,21 @@ function ds_workshops_test(){
   if(isset($result[0]->{'Detalle Talleres'})){
     $workshops = $result[0]->{'Detalle Talleres'};
     foreach ($workshops as $key => $workshop) {
-        create_workshop($workshop);
+        $dato = create_workshop($workshop);
+        $contRegister = $contRegister+1;
+        if( $dato->nid === false )
+        {
+          $contRegisterNew = $contRegisterNew +1;
+        }
+        else
+        {
+          $contRegisterExist = $contRegisterExist +1;
+        }
     }
   }
-  return '';
+  $return = array('estatus'=>'ok','contRegister' => $contRegister, 'contRegisterNew' => $contRegisterNew,'contRegisterExist' => $contRegisterExist);
+  var_dump($return);
+  return $return;
 }
 
 function get_visitadores($date_start = NULL, $date_end = NULL){
@@ -235,42 +249,46 @@ function create_liquidation($liquidation){
     $UpdateNode->save();
 }
 
-function create_workshop($workshop){
+function create_workshop($workshop)
+{
     $concatcs = $workshop->Contactos;
     unset($workshop->Contactos);
     $nid = node_exist( $workshop->nit_cliente);
-    if( $nid === false ){
+    if( $nid === false )
+    {
         $newEntity = entity_create( 'node',array( 'type'=>'taller' ) );
         $newEntity->uid = 1;
-      }else{
+    }else
+    {
         $newEntity = $nid;
-        }
-    $newNode = entity_metadata_wrapper( 'node',$newEntity );
-    $newNode->title->set($workshop->nit_cliente);
-    $newNode->field_name->set($workshop->nombre_tercero);
-    switch ($workshop->tp_taller) {
-      case 'GASOLINA':
-        $newNode->field_workshop_type->set(array('gasoline'));
-        break;
-      case 'DIESEL':
-        $newNode->field_workshop_type->set(array('diesel'));
-        break;
     }
-    $newNode->field_direccion->set($workshop->segunda_linea_direccion);
-    $newNode->field_barrio->set($workshop->barrio_zona_des);
-    $newNode->field_ciudad->set(28);
-    $newNode->field_tipo_de_cliente->set($workshop->tp_cliente);
-    $newNode->field_points->set('0');
-    $newNode->save();
-    foreach($concatcs->{'Contactos Detalle'} as $key => $contact){
-        if( strlen($contact->documento) === 0 ){
-            dpm('Sin datos :'.$workshop->nit_cliente);
-            continue;
-        }
-        create_contact($contact,$workshop->nit_cliente);
-    }
-
-    $data = array('workshop'=>$workshop, 'contacts' => $concatcs);
+    
+      $newNode = entity_metadata_wrapper( 'node',$newEntity );
+      $newNode->title->set($workshop->nit_cliente);
+      $newNode->field_name->set($workshop->nombre_tercero);
+      switch ($workshop->tp_taller) {
+        case 'GASOLINA':
+          $newNode->field_workshop_type->set(array('gasoline'));
+          break;
+        case 'DIESEL':
+          $newNode->field_workshop_type->set(array('diesel'));
+          break;
+      }
+      $newNode->field_direccion->set($workshop->segunda_linea_direccion);
+      $newNode->field_barrio->set($workshop->barrio_zona_des);
+      $newNode->field_ciudad->set(28);
+      $newNode->field_tipo_de_cliente->set($workshop->tp_cliente);
+      $newNode->field_points->set('0');
+      $newNode->save();
+      foreach($concatcs->{'Contactos Detalle'} as $key => $contact){
+          if( strlen($contact->documento) === 0 ){
+              dpm('Sin datos :'.$workshop->nit_cliente);
+              continue;
+          }
+          create_contact($contact,$workshop->nit_cliente);
+      }
+      $data = array('workshop'=>$workshop, 'contacts' => $concatcs,'nid'=>$nid);
+      return $data;
 }
 function create_contact($contact,$workshop){
   $user = user_exist($contact->documento);
