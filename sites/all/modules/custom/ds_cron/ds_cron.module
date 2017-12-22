@@ -108,8 +108,39 @@ function user_calc_segment( $user ){
     $user->field_segment['und'][0]['tid'] = $user_segmento['tid'];
     $user->field_segment['und'][0]['value'] = $user_segmento['name'];
     user_save($user);
-
   return true;
+}
+
+function user_get_segment( $user )
+{
+  
+  //$user = user_load(user_exist('79769616'));
+  $user_type = $user->field_workshop_type['und'][0]['value'];
+  $user_taller = $user->field_workshop['und'][0]['target_id'];
+  if($user_type == 'gasoline'){
+    $vocabulary = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('segment')->vid);
+  }
+  if($user_type == 'diesel'){
+    $vocabulary = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('segmentdiesel')->vid);
+  }
+  
+  foreach($vocabulary as $key => $taxonomy){
+    $segments[] = taxonomy_term_load($taxonomy->tid);
+  }
+  $user_segmento = ( isset( $user->field_segment['und'][0]['value'] ) ) ? $user->field_segment['und'][0]['value']:'---';
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'liquidacion')
+        ->fieldCondition('field_workshop', 'target_id',$user_taller);
+  $nids = array_keys($query->execute()['node']);
+  $liquidations = node_load_multiple($nids , $conditions = array(), $reset = FALSE);
+  $value_total = 0;
+  foreach ($liquidations as $key => $liquidation) {
+      $value_total += $liquidation->field_points['und'][0]['value'];
+  }
+  $user_segmento = calc_segment_user($segments,$value_total,$user_type);
+  return array_merge($user_segmento,array('total' => $value_total));
+  
 }
 
 
@@ -200,7 +231,7 @@ function ds_workshops_test(){
     }
   }
   $return = array('estatus'=>'ok','contRegister' => $contRegister, 'contRegisterNew' => $contRegisterNew,'contRegisterExist' => $contRegisterExist);
-  var_dump($return);
+  dpm($return);
   return $return;
 }
 
