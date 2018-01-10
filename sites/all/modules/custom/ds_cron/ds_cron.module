@@ -445,6 +445,11 @@ function calc_segment_user($segments,$value_total,$user_type){
               return array('name'=>$segment->field_name['und'][0]['value'],'tid'=>$segment->tid);
           }
         }
-}
-  return array('name'=>'---','tid'=> NUll);
+    }
+    if($user_type == 'gasoline'){
+      return array('name'=>'Sin segmento','tid'=> 36);
+    }
+    if($user_type == 'diesel'){
+      return array('name'=>'Sin segmento','tid'=> 37);
+    }
 }
