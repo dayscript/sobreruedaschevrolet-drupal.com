@@ -158,7 +158,7 @@ function ds_purchases_test(){
         ->entityCondition('bundle', 'taller')
         ->propertyCondition('status', NODE_PUBLISHED);
   $workshops = $query->execute();
-  var_dump(json_encode($$workshops));
+  var_dump(json_encode($workshops));
 
   foreach ( array_keys($workshops['node']) as $key => $workshop) {
     //var_dump(json_encode($key));
