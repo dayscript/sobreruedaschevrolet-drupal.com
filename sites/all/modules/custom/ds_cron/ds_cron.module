@@ -211,7 +211,6 @@ function ds_workshops_list(){
 function ds_workshops_test(){
   $actual_date = new DateTime();
   $result = get_visitadores( $date_start= NULL , $date_end = $actual_date->format('Y-m-d') );
-  var_dump($result);
   $contRegister = 0;
   $contRegisterNew = 0;
   $contRegisterExist = 0;
@@ -223,7 +222,8 @@ function ds_workshops_test(){
   if(isset($result[0]->{'Detalle Talleres'})){
     $workshops = $result[0]->{'Detalle Talleres'};
     foreach ($workshops as $key => $workshop) {
-        //dpm($workshop);
+        var_dump($workshop);
+        echo "<br>";
         /*
         $dato = create_workshop($workshop);
         $contRegister = $contRegister+1;
