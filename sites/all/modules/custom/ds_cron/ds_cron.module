@@ -222,6 +222,7 @@ function ds_workshops_test(){
   if(isset($result[0]->{'Detalle Talleres'})){
     $workshops = $result[0]->{'Detalle Talleres'};
     foreach ($workshops as $key => $workshop) {
+        dpm($workshop);
         /*
         $dato = create_workshop($workshop);
         $contRegister = $contRegister+1;
