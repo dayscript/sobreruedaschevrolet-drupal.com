@@ -210,7 +210,6 @@ function ds_workshops_list(){
 
 function ds_workshops_test(){
   $actual_date = new DateTime();
-  var_dump($actual_date);
   $result = get_visitadores( $date_start= NULL , $date_end = $actual_date->format('Y-m-d') );
   var_dump($result);
   $contRegister = 0;
@@ -248,6 +247,7 @@ function ds_workshops_test(){
 }
 
 function get_visitadores($date_start = NULL, $date_end = NULL){
+  var_dump(taxonomy_vocabulary_machine_name_load('FechaInicio')->vid);
   if( $date_start == NULL && $date_end == NULL ){
     drupal_set_message(t('Error in function get_visitarores params NULL'), 'warning', FALSE);
     return 'error';
