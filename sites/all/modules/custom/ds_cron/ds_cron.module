@@ -332,6 +332,7 @@ function create_workshop($workshop)
       $newNode->save();
       foreach($concatcs->{'Contactos Detalle'} as $key => $contact){
           if( strlen($contact->documento) === 0 ){
+              write_log($date_start,$date_end,'Sin datos :'.$workshop->nit_cliente);
               dpm('Sin datos :'.$workshop->nit_cliente);
               continue;
           }
