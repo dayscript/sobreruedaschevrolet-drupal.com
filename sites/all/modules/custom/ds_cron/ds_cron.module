@@ -222,20 +222,22 @@ function ds_workshops_test(){
   if(isset($result[0]->{'Detalle Talleres'})){
     $workshops = $result[0]->{'Detalle Talleres'};
     foreach ($workshops as $key => $workshop) {
-        var_dump(json_encode($workshop->nit_cliente));
-        echo "<br>";
-        /*
-        $dato = create_workshop($workshop);
-        $contRegister = $contRegister+1;
-        if( $dato->nid === false )
+        if ((int) $workshop->nit_cliente == 1010193647) 
         {
-          $contRegisterNew = $contRegisterNew +1;
+          var_dump($workshop->nit_cliente);
+          /*
+          $dato = create_workshop($workshop);
+          $contRegister = $contRegister+1;
+          if( $dato->nid === false )
+          {
+            $contRegisterNew = $contRegisterNew +1;
+          }
+          else
+          {
+            $contRegisterExist = $contRegisterExist +1;
+          }
+          */
         }
-        else
-        {
-          $contRegisterExist = $contRegisterExist +1;
-        }
-        */
     }
   }
   /*
