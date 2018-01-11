@@ -252,7 +252,7 @@ function get_visitadores($date_start = NULL, $date_end = NULL)
   foreach($vocabulary as $key => $taxonomy){
     $segments[] = taxonomy_term_load($taxonomy->tid);
   }
-  var_dump(json_encode($segments[0]->field_fecha['und'][0]['value']));
+  var_dump($segments[0]->field_fecha['und'][0]['value']);
   if( $date_start == NULL && $date_end == NULL ){
     drupal_set_message(t('Error in function get_visitarores params NULL'), 'warning', FALSE);
     return 'error';
