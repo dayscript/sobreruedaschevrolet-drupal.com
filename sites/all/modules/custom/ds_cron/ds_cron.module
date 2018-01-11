@@ -248,18 +248,24 @@ function ds_workshops_test(){
 
 function get_visitadores($date_start = NULL, $date_end = NULL)
 {
-  $vocabulary = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('FechaInicio')->vid);
-  foreach($vocabulary as $key => $taxonomy){
-    $segments[] = taxonomy_term_load($taxonomy->tid);
-  }
-  var_dump($segments[0]->field_fecha['und'][0]['value']);
   if( $date_start == NULL && $date_end == NULL ){
     drupal_set_message(t('Error in function get_visitarores params NULL'), 'warning', FALSE);
     return 'error';
   }
   elseif( $date_start == NULL && $date_end != NULL ){
-    $date_start = new DateTime('first day of january');
-    $date_start = $date_start->format('Y-m-d');
+    $vocabulary = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('FechaInicio')->vid);
+    foreach($vocabulary as $key => $taxonomy){
+      $FechaInicio[] = taxonomy_term_load($taxonomy->tid);
+    }
+    if ($FechaInicio[0]->field_fecha['und'][0]['value'] == '1900-01-01 00:00:00') {
+      $date_start = new DateTime('first day of january');
+      $date_start = $date_start->format('Y-m-d'); 
+    }else
+    {
+      $date_start = new DateTime($FechaInicio[0]->field_fecha['und'][0]['value']);
+      $date_start = $date_start->format('Y-m-d'); 
+    }
+    var_dump($date_start);
   }else{
     drupal_set_message(t('Error inesperado en get_visitarores '), 'error', FALSE);
   }
