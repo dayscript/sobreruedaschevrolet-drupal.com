@@ -161,7 +161,8 @@ function ds_purchases_test(){
 
   foreach ( array_keys($workshops['node']) as $key => $workshop) {
     $purchases = get_purchases($workshop,$date_start,$date_end);
-    var_dump($purchases);
+    //var_dump($purchases);
+    //1032412933
     /*
     if ( !$purchases ){
       write_log($date_start,$date_end,node_load($workshop)->title);
@@ -183,6 +184,7 @@ function get_purchases($workshop ,$date_start = NULL, $date_end = NULL){
   $keyuserid = variable_get('sobre_ruedas_api_connection_keyuserid');
   $keysecurity = variable_get('sobre_ruedas_api_connection_keysecurity');
   $client = new SoapClient('http://visitadorchevrolet.appsxw.co/api/api.ws?wsdl');
+  var_dump(node_load($workshop)->title);
   $response_data = $client->RequestPurchases($idKey, $keyuserid ,$keysecurity, node_load($workshop)->title,  $date_start, $date_end);
   if( strlen( $response_data ) !== 0 ){
     return json_decode($response_data);
