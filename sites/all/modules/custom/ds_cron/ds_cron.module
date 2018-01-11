@@ -26,14 +26,14 @@ function ds_cron_menu() {
 
   $items['admin/config/ds_cron/workshops/process'] = array(
     'title' => t('Process workshops'),
-    'description' => t('In this page can you see the results'),
+    'description' => t('Creacion de usuarios y talleres'),
     'page callback' => 'ds_workshops_test',
     'access arguments' => array('access administration pages'),
   );
 
   $items['ds_cron/purchases/test'] = array(
     'title' => t('Workshops test api'),
-    'description' => t('In this page can you see the results'),
+    'description' => t('Crear liquidacion de talleres'),
     'page callback' => 'ds_purchases_test',
     'access callback' => TRUE,
   );
@@ -56,12 +56,12 @@ function ds_segments_calc(){
       if( $userid != 0)
       {
         $usertempo = user_load($userid);
-        var_dump($usertempo);
-        if ($usertempo->name ==  "830013443") {
-          var_dump($usertempo->name);
-          var_dump($usertempo);
-          //user_calc_segment($usertempo);
-        }
+        //var_dump($usertempo);
+        //if ($usertempo->name ==  "830013443") {
+          //var_dump($usertempo->name);
+          //var_dump($usertempo);
+          user_calc_segment($usertempo);
+        //}
       }
   }
 
