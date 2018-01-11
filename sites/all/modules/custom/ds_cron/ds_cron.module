@@ -243,6 +243,7 @@ function ds_workshops_test(){
   dpm($return);
   return $return;
   */
+  return "OK";
 }
 
 function get_visitadores($date_start = NULL, $date_end = NULL){
