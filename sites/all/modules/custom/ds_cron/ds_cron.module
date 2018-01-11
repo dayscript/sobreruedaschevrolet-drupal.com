@@ -222,6 +222,7 @@ function ds_workshops_test(){
   if(isset($result[0]->{'Detalle Talleres'})){
     $workshops = $result[0]->{'Detalle Talleres'};
     foreach ($workshops as $key => $workshop) {
+        /*
         $dato = create_workshop($workshop);
         $contRegister = $contRegister+1;
         if( $dato->nid === false )
@@ -232,11 +233,14 @@ function ds_workshops_test(){
         {
           $contRegisterExist = $contRegisterExist +1;
         }
+        */
     }
   }
+  /*
   $return = array('estatus'=>'ok','contRegister' => $contRegister, 'contRegisterNew' => $contRegisterNew,'contRegisterExist' => $contRegisterExist);
   dpm($return);
   return $return;
+  */
 }
 
 function get_visitadores($date_start = NULL, $date_end = NULL){
