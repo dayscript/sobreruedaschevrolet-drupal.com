@@ -51,6 +51,7 @@ function ds_segments_calc(){
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'user');
   $users = $query->execute();
+  var_dump($users);
   foreach ( array_keys($users['user']) as $key => $userid ) {
       if( $userid != 0)
       {
