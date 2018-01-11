@@ -56,6 +56,7 @@ function ds_segments_calc(){
       {
         $usertempo = user_load($userid);
         if ($usertempo->name ==  "830013443") {
+          var_dump($usertempo->name);
           var_dump($usertempo);
           //user_calc_segment($usertempo);
         }
