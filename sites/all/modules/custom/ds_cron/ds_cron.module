@@ -211,7 +211,7 @@ function ds_workshops_list(){
 function ds_workshops_test(){
   $actual_date = new DateTime();
   $result = get_visitadores( $date_start= NULL , $date_end = $actual_date->format('Y-m-d') );
-  //var_dump($result);
+  var_dump($result);
   $contRegister = 0;
   $contRegisterNew = 0;
   $contRegisterExist = 0;
@@ -272,10 +272,6 @@ function get_visitadores($date_start = NULL, $date_end = NULL)
   $keyuserid = variable_get('sobre_ruedas_api_connection_keyuserid');
   $keysecurity = variable_get('sobre_ruedas_api_connection_keysecurity');
   $client = new SoapClient('http://visitadorchevrolet.appsxw.co/api/api.ws?wsdl');
-  #$date_start = '2017-06-13' ;
-  #$date_end = '2017-06-14';
-  var_dump($date_start);
-  var_dump($date_end);
   $response_data = $client->RequestVisitadores($idKey, $keyuserid ,$keysecurity, str_replace('-','',$date_start), str_replace('-','',$date_end));
   return json_decode($response_data);
 }
