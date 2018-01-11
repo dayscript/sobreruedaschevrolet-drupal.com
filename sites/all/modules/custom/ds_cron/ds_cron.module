@@ -246,8 +246,13 @@ function ds_workshops_test(){
   return "OK";
 }
 
-function get_visitadores($date_start = NULL, $date_end = NULL){
-  var_dump(taxonomy_vocabulary_machine_name_load('FechaInicio')->vid);
+function get_visitadores($date_start = NULL, $date_end = NULL)
+{
+  $vocabulary = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('FechaInicio')->vid);
+  foreach($vocabulary as $key => $taxonomy){
+    $segments[] = taxonomy_term_load($taxonomy->tid);
+  }
+  var_dump($segments);
   if( $date_start == NULL && $date_end == NULL ){
     drupal_set_message(t('Error in function get_visitarores params NULL'), 'warning', FALSE);
     return 'error';
