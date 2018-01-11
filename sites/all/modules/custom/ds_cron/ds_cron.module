@@ -26,21 +26,21 @@ function ds_cron_menu() {
 
   $items['admin/config/ds_cron/workshops/process'] = array(
     'title' => t('Process workshops'),
-    'description' => t('Creacion de usuarios y talleres'),
+    'description' => t('Paso 1:Creacion de usuarios y talleres'),
     'page callback' => 'ds_workshops_test',
     'access arguments' => array('access administration pages'),
   );
 
   $items['ds_cron/purchases/test'] = array(
     'title' => t('Workshops test api'),
-    'description' => t('Crear liquidacion de talleres'),
+    'description' => t('Paso 2:Crear liquidacion de talleres'),
     'page callback' => 'ds_purchases_test',
     'access callback' => TRUE,
   );
 
   $items['ds_cron/segments/calc'] = array(
     'title' => t('Workshops test api'),
-    'description' => t('In this page can you see the results'),
+    'description' => t('Paso 3: Calcular segmento'),
     'page callback' => 'ds_segments_calc',
     'access callback' => TRUE,
   );
@@ -161,6 +161,8 @@ function ds_purchases_test(){
 
   foreach ( array_keys($workshops['node']) as $key => $workshop) {
     $purchases = get_purchases($workshop,$date_start,$date_end);
+    var_dump($purchases);
+    /*
     if ( !$purchases ){
       write_log($date_start,$date_end,node_load($workshop)->title);
     }else{
@@ -169,8 +171,8 @@ function ds_purchases_test(){
       }
 
     }
+    */
   }
-  ds_segments_calc();
   return 'OK';
 }
 
