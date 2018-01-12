@@ -54,7 +54,7 @@ function ds_segments_calc()
         ->entityCondition('bundle', 'taller')
         ->propertyCondition('status', NODE_PUBLISHED);
   $workshops = $query->execute();
-  var_dump($workshops);
+  var_dump(json_encode($workshops));
   foreach ( array_keys($workshops['node']) as $key => $workshop) {
 
   }
