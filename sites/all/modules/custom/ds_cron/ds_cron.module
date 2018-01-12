@@ -149,8 +149,9 @@ function user_get_segment( $user )
 
 
 function ds_purchases_test(){
-
-  $date_start = ( isset($_GET['date_start']) ) ? $_GET['date_start']:'20170601';
+  $actual_date = new DateTime();
+  var_dump($actual_date->format('Ymd'));
+  $date_start = ( isset($_GET['date_start']) ) ? $_GET['date_start']:'20170101';
   $date_end = ( isset($_GET['date_end']) ) ? $_GET['date_end']:'20170630';
 
   $query = new EntityFieldQuery();
