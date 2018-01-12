@@ -160,7 +160,7 @@ function ds_purchases_test(){
   $workshops = $query->execute();
   foreach ( array_keys($workshops['node']) as $key => $workshop) {
     $purchases = get_purchases($workshop,$date_start,$date_end);
-    var_dump($purchases);
+    var_dump(json_encode($purchases));
     //var_dump($purchases);
     //1032412933
     /*
