@@ -55,9 +55,10 @@ function ds_segments_calc()
         ->propertyCondition('status', NODE_PUBLISHED);
   $workshops = $query->execute();
   foreach ( array_keys($workshops['node']) as $key => $workshop) {
-    if (node_load($workshop)->title == "1032412933") {
-      var_dump(json_encode(node_load($workshop)));
-      user_calc_segment(node_load($workshop));
+    $taller = node_load($workshop);
+    if ($taller->title == "1032412933") {
+      var_dump(json_encode($taller));
+      user_calc_segment($taller);
     }
   }
   /*
