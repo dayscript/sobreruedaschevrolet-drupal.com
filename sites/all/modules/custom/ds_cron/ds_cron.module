@@ -61,7 +61,7 @@ function ds_workshops_test(){
   if(isset($result[0]->{'Detalle Talleres'})){
     $workshops = $result[0]->{'Detalle Talleres'};
     foreach ($workshops as $key => $workshop) {
-        if ((int) $workshop->nit_cliente == 1016001033) {
+        //if ((int) $workshop->nit_cliente == 1016001033) {
           $dato = create_workshop($workshop);
           $contRegister = $contRegister+1;
           if( $dato->nid === false )
@@ -72,7 +72,7 @@ function ds_workshops_test(){
           {
             $contRegisterExist = $contRegisterExist +1;
           }
-        }
+        //}
     }
   }
 
@@ -103,7 +103,7 @@ function ds_purchases_test(){
         ->propertyCondition('status', NODE_PUBLISHED);
   $workshops = $query->execute();
   foreach ( array_keys($workshops['node']) as $key => $workshop) {
-    if (node_load($workshop)->title == "1016001033") {
+    //if (node_load($workshop)->title == "1016001033") {
       $purchases = get_purchases($workshop,$date_start,$date_end);
       if ( !$purchases ){
         write_log($date_start,$date_end,node_load($workshop)->title);
@@ -113,7 +113,7 @@ function ds_purchases_test(){
         }
 
       }
-    }
+    //}
   }
   return 'OK';
 }
@@ -285,7 +285,6 @@ function create_liquidation($liquidation){
       $node = entity_create( 'node',array( 'type'=>'liquidacion' ) );
       $node->uid = 1;
     }
-
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'node')
       ->entityCondition('bundle', 'taller')
