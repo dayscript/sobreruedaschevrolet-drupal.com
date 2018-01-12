@@ -47,6 +47,76 @@ function ds_cron_menu() {
 
   return $items;
 }
+function ds_workshops_test(){
+  $actual_date = new DateTime();
+  $result = get_visitadores( $date_start= NULL , $date_end = $actual_date->format('Y-m-d') );
+  $contRegister = 0;
+  $contRegisterNew = 0;
+  $contRegisterExist = 0;
+  if( isset($result[0]->Response)  && $result[0]->Response == 'No Tiene Informacion de visitadores en el Periodo' ){
+      drupal_set_message(t($result[0]->Response), 'status', FALSE);
+        /*Aqui se debe genrar en log de visitadores*/
+      return '';
+  }
+  if(isset($result[0]->{'Detalle Talleres'})){
+    $workshops = $result[0]->{'Detalle Talleres'};
+    foreach ($workshops as $key => $workshop) {
+        //if ((int) $workshop->nit_cliente == 1032412933) {
+          $dato = create_workshop($workshop);
+          $contRegister = $contRegister+1;
+          if( $dato->nid === false )
+          {
+            $contRegisterNew = $contRegisterNew +1;
+          }
+          else
+          {
+            $contRegisterExist = $contRegisterExist +1;
+          }
+        //}
+    }
+  }
+
+  $return = array('estatus'=>'ok','contRegister' => $contRegister, 'contRegisterNew' => $contRegisterNew,'contRegisterExist' => $contRegisterExist);
+  dpm($return);
+  return $return;
+}
+function ds_purchases_test(){
+  $actual_date = new DateTime();
+  $vocabulary = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('FechaInicio')->vid);
+  foreach($vocabulary as $key => $taxonomy){
+    $FechaInicio[] = taxonomy_term_load($taxonomy->tid);
+  }
+  if ($FechaInicio[0]->field_fecha['und'][0]['value'] == '1900-01-01 00:00:00') {
+    $date_start = new DateTime('first day of january');
+    $date_start = $date_start->format('Ymd'); 
+  }else
+  {
+    $date_start = new DateTime($FechaInicio[0]->field_fecha['und'][0]['value']);
+    $date_start = $date_start->format('Ymd'); 
+  }
+  $date_start = ( isset($_GET['date_start']) ) ? $_GET['date_start']:$date_start;
+  $date_end = ( isset($_GET['date_end']) ) ? $_GET['date_end']:$actual_date->format('Ymd');
+
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'taller')
+        ->propertyCondition('status', NODE_PUBLISHED);
+  $workshops = $query->execute();
+  foreach ( array_keys($workshops['node']) as $key => $workshop) {
+    //if (node_load($workshop)->title == "1032412933") {
+      $purchases = get_purchases($workshop,$date_start,$date_end);
+      if ( !$purchases ){
+        write_log($date_start,$date_end,node_load($workshop)->title);
+      }else{
+        foreach ($purchases[0]->{'Datos Compras'} as $key => $liquidation) {
+          create_liquidation($liquidation);
+        }
+
+      }
+    //}
+  }
+  return 'OK';
+}
 function ds_segments_calc()
 {
   /*
@@ -70,12 +140,9 @@ function ds_segments_calc()
       if( $userid != 0)
       {
         $usertempo = user_load($userid);
-        //var_dump($usertempo);
-        if ($usertempo->name ==  "1032412933") {
-          //var_dump($usertempo->name);
-          //var_dump($usertempo);
+        //if ($usertempo->name ==  "1032412933") {
           user_calc_segment($usertempo);
-        }
+        //}
       }
   }
  return 'OK';
@@ -161,46 +228,6 @@ function user_get_segment( $user )
   
 }
 
-
-function ds_purchases_test(){
-  $actual_date = new DateTime();
-  $vocabulary = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('FechaInicio')->vid);
-  foreach($vocabulary as $key => $taxonomy){
-    $FechaInicio[] = taxonomy_term_load($taxonomy->tid);
-  }
-  if ($FechaInicio[0]->field_fecha['und'][0]['value'] == '1900-01-01 00:00:00') {
-    $date_start = new DateTime('first day of january');
-    $date_start = $date_start->format('Ymd'); 
-  }else
-  {
-    $date_start = new DateTime($FechaInicio[0]->field_fecha['und'][0]['value']);
-    $date_start = $date_start->format('Ymd'); 
-  }
-  $date_start = ( isset($_GET['date_start']) ) ? $_GET['date_start']:$date_start;
-  $date_end = ( isset($_GET['date_end']) ) ? $_GET['date_end']:$actual_date->format('Ymd');
-
-  $query = new EntityFieldQuery();
-  $query->entityCondition('entity_type', 'node')
-        ->entityCondition('bundle', 'taller')
-        ->propertyCondition('status', NODE_PUBLISHED);
-  $workshops = $query->execute();
-  foreach ( array_keys($workshops['node']) as $key => $workshop) {
-    if (node_load($workshop)->title == "1032412933") {
-      $purchases = get_purchases($workshop,$date_start,$date_end);
-      if ( !$purchases ){
-        write_log($date_start,$date_end,node_load($workshop)->title);
-      }else{
-        foreach ($purchases[0]->{'Datos Compras'} as $key => $liquidation) {
-          create_liquidation($liquidation);
-        }
-
-      }
-    }
-  }
-  return 'OK';
-}
-
-
 function get_purchases($workshop ,$date_start = NULL, $date_end = NULL){
 
   $idKey = '900111222'. date('Ymd') .'190146238120';
@@ -231,42 +258,6 @@ function ds_workshops_list(){
   $actual_date = new DateTime();
   $result = get_visitadores( $date_start= NULL , $date_end = $actual_date->format('Y-m-d') );
   return theme('ds_cron_workshops_list',array('node'=>$result));
-}
-
-
-function ds_workshops_test(){
-  $actual_date = new DateTime();
-  $result = get_visitadores( $date_start= NULL , $date_end = $actual_date->format('Y-m-d') );
-  $contRegister = 0;
-  $contRegisterNew = 0;
-  $contRegisterExist = 0;
-  if( isset($result[0]->Response)  && $result[0]->Response == 'No Tiene Informacion de visitadores en el Periodo' ){
-      drupal_set_message(t($result[0]->Response), 'status', FALSE);
-        /*Aqui se debe genrar en log de visitadores*/
-      return '';
-  }
-  if(isset($result[0]->{'Detalle Talleres'})){
-    $workshops = $result[0]->{'Detalle Talleres'};
-    foreach ($workshops as $key => $workshop) {
-        if ((int) $workshop->nit_cliente == 1032412933) 
-        {
-          $dato = create_workshop($workshop);
-          $contRegister = $contRegister+1;
-          if( $dato->nid === false )
-          {
-            $contRegisterNew = $contRegisterNew +1;
-          }
-          else
-          {
-            $contRegisterExist = $contRegisterExist +1;
-          }
-        }
-    }
-  }
-
-  $return = array('estatus'=>'ok','contRegister' => $contRegister, 'contRegisterNew' => $contRegisterNew,'contRegisterExist' => $contRegisterExist);
-  dpm($return);
-  return $return;
 }
 
 function get_visitadores($date_start = NULL, $date_end = NULL)
