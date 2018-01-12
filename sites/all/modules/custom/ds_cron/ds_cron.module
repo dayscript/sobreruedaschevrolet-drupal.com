@@ -56,8 +56,7 @@ function ds_segments_calc()
   $workshops = $query->execute();
   foreach ( array_keys($workshops['node']) as $key => $workshop) {
     if (node_load($workshop)->title == "1032412933") {
-      var_dump(node_load($workshop)->title);
-      var_dump(node_load($workshop));
+      var_dump(json_encode(node_load($workshop)));
     }
   }
   /*
