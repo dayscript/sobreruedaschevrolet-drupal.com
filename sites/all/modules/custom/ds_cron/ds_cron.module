@@ -165,8 +165,7 @@ function ds_purchases_test(){
         write_log($date_start,$date_end,node_load($workshop)->title);
       }else{
         foreach ($purchases[0]->{'Datos Compras'} as $key => $liquidation) {
-          var_dump($liquidation);
-          //create_liquidation($liquidation);
+          create_liquidation($liquidation);
         }
 
       }
