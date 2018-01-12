@@ -150,9 +150,20 @@ function user_get_segment( $user )
 
 function ds_purchases_test(){
   $actual_date = new DateTime();
-  var_dump($actual_date->format('Ymd'));
-  $date_start = ( isset($_GET['date_start']) ) ? $_GET['date_start']:'20170101';
-  $date_end = ( isset($_GET['date_end']) ) ? $_GET['date_end']:'20170630';
+  $vocabulary = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('FechaInicio')->vid);
+  foreach($vocabulary as $key => $taxonomy){
+    $FechaInicio[] = taxonomy_term_load($taxonomy->tid);
+  }
+  if ($FechaInicio[0]->field_fecha['und'][0]['value'] == '1900-01-01 00:00:00') {
+    $date_start = new DateTime('first day of january');
+    $date_start = $date_start->format('Ymd'); 
+  }else
+  {
+    $date_start = new DateTime($FechaInicio[0]->field_fecha['und'][0]['value']);
+    $date_start = $date_start->format('Ymd'); 
+  }
+  $date_start = ( isset($_GET['date_start']) ) ? $_GET['date_start']:$date_start;
+  $date_end = ( isset($_GET['date_end']) ) ? $_GET['date_end']:$actual_date->format('Ymd');
 
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'node')
