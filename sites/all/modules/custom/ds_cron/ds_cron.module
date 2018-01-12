@@ -159,6 +159,7 @@ function ds_purchases_test(){
         ->propertyCondition('status', NODE_PUBLISHED);
   $workshops = $query->execute();
   foreach ( array_keys($workshops['node']) as $key => $workshop) {
+    var_dump(node_load($workshop)->title);
     if (node_load($workshop)->title == "1032412933") {
       $purchases = get_purchases($workshop,$date_start,$date_end);
       var_dump(json_encode($purchases));
