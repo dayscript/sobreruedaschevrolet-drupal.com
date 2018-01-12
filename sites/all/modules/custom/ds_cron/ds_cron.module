@@ -57,6 +57,7 @@ function ds_segments_calc()
   foreach ( array_keys($workshops['node']) as $key => $workshop) {
     if (node_load($workshop)->title == "1032412933") {
       var_dump(json_encode(node_load($workshop)));
+      user_calc_segment(node_load($workshop));
     }
   }
   /*
@@ -85,6 +86,9 @@ function ds_segments_calc()
 function user_calc_segment( $user ){
     $user_type = $user->field_workshop_type['und'][0]['value'];
     $user_taller = $user->field_workshop['und'][0]['target_id'];
+    var_dump($user_type);
+    var_dump($user_taller);
+  /*
     if($user_type == 'gasoline'){
       $vocabulary = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('segment')->vid);
     }
@@ -125,6 +129,7 @@ function user_calc_segment( $user ){
     $user->field_segment['und'][0]['tid'] = $user_segmento['tid'];
     $user->field_segment['und'][0]['value'] = $user_segmento['name'];
     user_save($user);
+    */
   return true;
 }
 
