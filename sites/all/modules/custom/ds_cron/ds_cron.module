@@ -49,6 +49,7 @@ function ds_cron_menu() {
 }
 function ds_segments_calc()
 {
+  /*
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'node')
         ->entityCondition('bundle', 'taller')
@@ -61,35 +62,30 @@ function ds_segments_calc()
       user_calc_segment($taller);
     }
   }
-  /*
+  */
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'user');
   $users = $query->execute();
-  //var_dump($users);
   foreach ( array_keys($users['user']) as $key => $userid ) {
       if( $userid != 0)
       {
         $usertempo = user_load($userid);
         //var_dump($usertempo);
         if ($usertempo->name ==  "1032412933") {
-          var_dump($usertempo->name);
+          //var_dump($usertempo->name);
           //var_dump($usertempo);
-          //user_calc_segment($usertempo);
+          user_calc_segment($usertempo);
         }
       }
   }
-  */
-
  return 'OK';
 }
   
 
-function user_calc_segment( $user ){
+function user_calc_segment( $user )
+{    
     $user_type = $user->field_workshop_type['und'][0]['value'];
     $user_taller = $user->field_workshop['und'][0]['target_id'];
-    var_dump($user_type);
-    var_dump($user_taller);
-  /*
     if($user_type == 'gasoline'){
       $vocabulary = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('segment')->vid);
     }
@@ -130,7 +126,6 @@ function user_calc_segment( $user ){
     $user->field_segment['und'][0]['tid'] = $user_segmento['tid'];
     $user->field_segment['und'][0]['value'] = $user_segmento['name'];
     user_save($user);
-    */
   return true;
 }
 
