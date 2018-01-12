@@ -47,7 +47,18 @@ function ds_cron_menu() {
 
   return $items;
 }
-function ds_segments_calc(){
+function ds_segments_calc()
+{
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'taller')
+        ->propertyCondition('status', NODE_PUBLISHED);
+  $workshops = $query->execute();
+  var_dump($workshops);
+  foreach ( array_keys($workshops['node']) as $key => $workshop) {
+
+  }
+  /*
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'user');
   $users = $query->execute();
@@ -64,6 +75,7 @@ function ds_segments_calc(){
         }
       }
   }
+  */
 
  return 'OK';
 }
