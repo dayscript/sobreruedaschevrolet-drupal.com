@@ -159,20 +159,22 @@ function ds_purchases_test(){
         ->propertyCondition('status', NODE_PUBLISHED);
   $workshops = $query->execute();
   foreach ( array_keys($workshops['node']) as $key => $workshop) {
-    $purchases = get_purchases($workshop,$date_start,$date_end);
-    var_dump(json_encode($purchases));
-    //var_dump($purchases);
-    //1032412933
-    /*
-    if ( !$purchases ){
-      write_log($date_start,$date_end,node_load($workshop)->title);
-    }else{
-      foreach ($purchases[0]->{'Datos Compras'} as $key => $liquidation) {
-        create_liquidation($liquidation);
-      }
+    if (node_load($workshop)->title == "1032412933") {
+      $purchases = get_purchases($workshop,$date_start,$date_end);
+      var_dump(json_encode($purchases));
+      //var_dump($purchases);
+      //1032412933
+      /*
+      if ( !$purchases ){
+        write_log($date_start,$date_end,node_load($workshop)->title);
+      }else{
+        foreach ($purchases[0]->{'Datos Compras'} as $key => $liquidation) {
+          create_liquidation($liquidation);
+        }
 
+      }
+      */
     }
-    */
   }
   return 'OK';
 }
