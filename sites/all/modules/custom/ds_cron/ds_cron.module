@@ -37,7 +37,12 @@ function ds_cron_menu() {
     'page callback' => 'ds_purchases_test',
     'access callback' => TRUE,
   );
-
+  $items['ds_cron/purchases/test1'] = array(
+    'title' => t('Workshops test api'),
+    'description' => t('Paso 2:Crear liquidacion de talleres job'),
+    'page callback' => 'ds_purchases_test1',
+    'access callback' => TRUE,
+  );
   $items['ds_cron/segments/calc'] = array(
     'title' => t('Workshops test api'),
     'description' => t('Paso 3: Calcular segmento'),
@@ -96,6 +101,35 @@ function ds_purchases_test(){
   }
   $date_start = ( isset($_GET['date_start']) ) ? $_GET['date_start']:$date_start;
   $date_end = ( isset($_GET['date_end']) ) ? $_GET['date_end']:$actual_date->format('Ymd');
+
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'taller')
+        ->propertyCondition('status', NODE_PUBLISHED);
+  $workshops = $query->execute();
+  foreach ( array_keys($workshops['node']) as $key => $workshop) {
+    //if (node_load($workshop)->title == "1016001033") {
+      $purchases = get_purchases($workshop,$date_start,$date_end);
+      if ( !$purchases ){
+        write_log($date_start,$date_end,node_load($workshop)->title);
+      }else{
+        foreach ($purchases[0]->{'Datos Compras'} as $key => $liquidation) {
+          create_liquidation($liquidation);
+        }
+
+      }
+    //}
+  }
+  return 'OK';
+}
+function ds_purchases_test1(){
+  $actual_date = new DateTime();
+  $fecha = date('Y-m-d');
+  $nuevafecha = strtotime ( '+1 day' , strtotime ( $fecha ) ) ;
+  $nuevafecha = date ( 'Ymd' , $nuevafecha );
+
+  $date_start = ( isset($_GET['date_start']) ) ? $_GET['date_start']:$nuevafecha;
+  $date_end = ( isset($_GET['date_end']) ) ? $_GET['date_end']:$nuevafecha;
 
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'node')
