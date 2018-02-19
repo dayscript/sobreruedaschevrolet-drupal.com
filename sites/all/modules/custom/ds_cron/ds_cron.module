@@ -26,28 +26,133 @@ function ds_cron_menu() {
 
   $items['admin/config/ds_cron/workshops/process'] = array(
     'title' => t('Process workshops'),
-    'description' => t('In this page can you see the results'),
+    'description' => t('Paso 1:Creacion de usuarios y talleres'),
     'page callback' => 'ds_workshops_test',
     'access arguments' => array('access administration pages'),
   );
 
   $items['ds_cron/purchases/test'] = array(
     'title' => t('Workshops test api'),
-    'description' => t('In this page can you see the results'),
+    'description' => t('Paso 2:Crear liquidacion de talleres'),
     'page callback' => 'ds_purchases_test',
     'access callback' => TRUE,
   );
-
+  $items['ds_cron/purchases/test1'] = array(
+    'title' => t('Workshops test api'),
+    'description' => t('Paso 2:Crear liquidacion de talleres job'),
+    'page callback' => 'ds_purchases_test1',
+    'access callback' => TRUE,
+  );
   $items['ds_cron/segments/calc'] = array(
     'title' => t('Workshops test api'),
-    'description' => t('In this page can you see the results'),
+    'description' => t('Paso 3: Calcular segmento'),
     'page callback' => 'ds_segments_calc',
     'access callback' => TRUE,
   );
 
   return $items;
 }
-function ds_segments_calc(){
+function ds_workshops_test(){
+  $actual_date = new DateTime();
+  $result = get_visitadores( $date_start= NULL , $date_end = $actual_date->format('Y-m-d') );
+  $contRegister = 0;
+  $contRegisterNew = 0;
+  $contRegisterExist = 0;
+  if( isset($result[0]->Response)  && $result[0]->Response == 'No Tiene Informacion de visitadores en el Periodo' ){
+      drupal_set_message(t($result[0]->Response), 'status', FALSE);
+        /*Aqui se debe genrar en log de visitadores*/
+      return '';
+  }
+  if(isset($result[0]->{'Detalle Talleres'})){
+    $workshops = $result[0]->{'Detalle Talleres'};
+    foreach ($workshops as $key => $workshop) {
+        //if ((int) $workshop->nit_cliente == 1016001033) {
+          $dato = create_workshop($workshop);
+          $contRegister = $contRegister+1;
+          if( $dato->nid === false )
+          {
+            $contRegisterNew = $contRegisterNew +1;
+          }
+          else
+          {
+            $contRegisterExist = $contRegisterExist +1;
+          }
+        //}
+    }
+  }
+
+  $return = array('estatus'=>'ok','contRegister' => $contRegister, 'contRegisterNew' => $contRegisterNew,'contRegisterExist' => $contRegisterExist);
+  dpm($return);
+  return $return;
+}
+function ds_purchases_test(){
+  $actual_date = new DateTime();
+  $vocabulary = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('FechaInicio')->vid);
+  foreach($vocabulary as $key => $taxonomy){
+    $FechaInicio[] = taxonomy_term_load($taxonomy->tid);
+  }
+  if ($FechaInicio[0]->field_fecha['und'][0]['value'] == '1900-01-01 00:00:00') {
+    $date_start = new DateTime('first day of january');
+    $date_start = $date_start->format('Ymd'); 
+  }else
+  {
+    $date_start = new DateTime($FechaInicio[0]->field_fecha['und'][0]['value']);
+    $date_start = $date_start->format('Ymd'); 
+  }
+  $date_start = ( isset($_GET['date_start']) ) ? $_GET['date_start']:$date_start;
+  $date_end = ( isset($_GET['date_end']) ) ? $_GET['date_end']:$actual_date->format('Ymd');
+
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'taller')
+        ->propertyCondition('status', NODE_PUBLISHED);
+  $workshops = $query->execute();
+  foreach ( array_keys($workshops['node']) as $key => $workshop) {
+    //if (node_load($workshop)->title == "1016001033") {
+      $purchases = get_purchases($workshop,$date_start,$date_end);
+      if ( !$purchases ){
+        write_log($date_start,$date_end,node_load($workshop)->title);
+      }else{
+        foreach ($purchases[0]->{'Datos Compras'} as $key => $liquidation) {
+          create_liquidation($liquidation);
+        }
+
+      }
+    //}
+  }
+  return 'OK';
+}
+function ds_purchases_test1(){
+  $actual_date = new DateTime();
+  $fecha = date('Y-m-d');
+  $nuevafecha = strtotime ( '+1 day' , strtotime ( $fecha ) ) ;
+  $nuevafecha = date ( 'Ymd' , $nuevafecha );
+
+  $date_start = ( isset($_GET['date_start']) ) ? $_GET['date_start']:$nuevafecha;
+  $date_end = ( isset($_GET['date_end']) ) ? $_GET['date_end']:$nuevafecha;
+
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'taller')
+        ->propertyCondition('status', NODE_PUBLISHED);
+  $workshops = $query->execute();
+  foreach ( array_keys($workshops['node']) as $key => $workshop) {
+    //if (node_load($workshop)->title == "1016001033") {
+      $purchases = get_purchases($workshop,$date_start,$date_end);
+      if ( !$purchases ){
+        write_log($date_start,$date_end,node_load($workshop)->title);
+      }else{
+        foreach ($purchases[0]->{'Datos Compras'} as $key => $liquidation) {
+          create_liquidation($liquidation);
+        }
+
+      }
+    //}
+  }
+  return 'OK';
+}
+function ds_segments_calc()
+{
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'user');
   $users = $query->execute();
@@ -60,12 +165,12 @@ function ds_segments_calc(){
         //}
       }
   }
-
  return 'OK';
 }
   
 
-function user_calc_segment( $user ){
+function user_calc_segment( $user )
+{    
     $user_type = $user->field_workshop_type['und'][0]['value'];
     $user_taller = $user->field_workshop['und'][0]['target_id'];
     if($user_type == 'gasoline'){
@@ -143,34 +248,6 @@ function user_get_segment( $user )
   
 }
 
-
-function ds_purchases_test(){
-
-  $date_start = ( isset($_GET['date_start']) ) ? $_GET['date_start']:'20170601';
-  $date_end = ( isset($_GET['date_end']) ) ? $_GET['date_end']:'20170630';
-
-  $query = new EntityFieldQuery();
-  $query->entityCondition('entity_type', 'node')
-        ->entityCondition('bundle', 'taller')
-        ->propertyCondition('status', NODE_PUBLISHED);
-  $workshops = $query->execute();
-
-  foreach ( array_keys($workshops['node']) as $key => $workshop) {
-    $purchases = get_purchases($workshop,$date_start,$date_end);
-    if ( !$purchases ){
-      write_log($date_start,$date_end,node_load($workshop)->title);
-    }else{
-      foreach ($purchases[0]->{'Datos Compras'} as $key => $liquidation) {
-        create_liquidation($liquidation);
-      }
-
-    }
-  }
-  ds_segments_calc();
-  return 'OK';
-}
-
-
 function get_purchases($workshop ,$date_start = NULL, $date_end = NULL){
 
   $idKey = '900111222'. date('Ymd') .'190146238120';
@@ -203,46 +280,25 @@ function ds_workshops_list(){
   return theme('ds_cron_workshops_list',array('node'=>$result));
 }
 
-
-function ds_workshops_test(){
-  $actual_date = new DateTime();
-  $result = get_visitadores( $date_start= NULL , $date_end = $actual_date->format('Y-m-d') );
-  $contRegister = 0;
-  $contRegisterNew = 0;
-  $contRegisterExist = 0;
-  if( isset($result[0]->Response)  && $result[0]->Response == 'No Tiene Informacion de visitadores en el Periodo' ){
-      drupal_set_message(t($result[0]->Response), 'status', FALSE);
-        /*Aqui se debe genrar en log de visitadores*/
-      return '';
-  }
-  if(isset($result[0]->{'Detalle Talleres'})){
-    $workshops = $result[0]->{'Detalle Talleres'};
-    foreach ($workshops as $key => $workshop) {
-        $dato = create_workshop($workshop);
-        $contRegister = $contRegister+1;
-        if( $dato->nid === false )
-        {
-          $contRegisterNew = $contRegisterNew +1;
-        }
-        else
-        {
-          $contRegisterExist = $contRegisterExist +1;
-        }
-    }
-  }
-  $return = array('estatus'=>'ok','contRegister' => $contRegister, 'contRegisterNew' => $contRegisterNew,'contRegisterExist' => $contRegisterExist);
-  dpm($return);
-  return $return;
-}
-
-function get_visitadores($date_start = NULL, $date_end = NULL){
+function get_visitadores($date_start = NULL, $date_end = NULL)
+{
   if( $date_start == NULL && $date_end == NULL ){
     drupal_set_message(t('Error in function get_visitarores params NULL'), 'warning', FALSE);
     return 'error';
   }
   elseif( $date_start == NULL && $date_end != NULL ){
-    $date_start = new DateTime('first day of january');
-    $date_start = $date_start->format('Y-m-d');
+    $vocabulary = taxonomy_get_tree(taxonomy_vocabulary_machine_name_load('FechaInicio')->vid);
+    foreach($vocabulary as $key => $taxonomy){
+      $FechaInicio[] = taxonomy_term_load($taxonomy->tid);
+    }
+    if ($FechaInicio[0]->field_fecha['und'][0]['value'] == '1900-01-01 00:00:00') {
+      $date_start = new DateTime('first day of january');
+      $date_start = $date_start->format('Y-m-d'); 
+    }else
+    {
+      $date_start = new DateTime($FechaInicio[0]->field_fecha['und'][0]['value']);
+      $date_start = $date_start->format('Y-m-d'); 
+    }
   }else{
     drupal_set_message(t('Error inesperado en get_visitarores '), 'error', FALSE);
   }
@@ -250,8 +306,6 @@ function get_visitadores($date_start = NULL, $date_end = NULL){
   $keyuserid = variable_get('sobre_ruedas_api_connection_keyuserid');
   $keysecurity = variable_get('sobre_ruedas_api_connection_keysecurity');
   $client = new SoapClient('http://visitadorchevrolet.appsxw.co/api/api.ws?wsdl');
-  #$date_start = '2017-06-13' ;
-  #$date_end = '2017-06-14';
   $response_data = $client->RequestVisitadores($idKey, $keyuserid ,$keysecurity, str_replace('-','',$date_start), str_replace('-','',$date_end));
   return json_decode($response_data);
 }
@@ -265,7 +319,6 @@ function create_liquidation($liquidation){
       $node = entity_create( 'node',array( 'type'=>'liquidacion' ) );
       $node->uid = 1;
     }
-
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'node')
       ->entityCondition('bundle', 'taller')
@@ -313,6 +366,7 @@ function create_workshop($workshop)
       $newNode->save();
       foreach($concatcs->{'Contactos Detalle'} as $key => $contact){
           if( strlen($contact->documento) === 0 ){
+              write_log($date_start,$date_end,'Sin datos :'.$workshop->nit_cliente);
               dpm('Sin datos :'.$workshop->nit_cliente);
               continue;
           }
