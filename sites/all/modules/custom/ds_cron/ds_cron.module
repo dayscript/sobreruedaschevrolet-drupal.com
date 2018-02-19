@@ -38,7 +38,7 @@ function ds_cron_menu() {
     'access callback' => TRUE,
   );
   $items['ds_cron/purchases/test1'] = array(
-    'title' => t('Workshops test api'),
+    'title' => t('Workshops test api de job'),
     'description' => t('Paso 2:Crear liquidacion de talleres job'),
     'page callback' => 'ds_purchases_test1',
     'access callback' => TRUE,
@@ -213,7 +213,7 @@ function user_calc_segment( $user )
     $user->field_segment['und'][0]['tid'] = $user_segmento['tid'];
     $user->field_segment['und'][0]['value'] = $user_segmento['name'];
     user_save($user);
-  return true;
+      return true;
 }
 
 function user_get_segment( $user )
@@ -245,7 +245,6 @@ function user_get_segment( $user )
   }
   $user_segmento = calc_segment_user($segments,$value_total,$user_type);
   return array_merge($user_segmento,array('total' => $value_total));
-  
 }
 
 function get_purchases($workshop ,$date_start = NULL, $date_end = NULL){
