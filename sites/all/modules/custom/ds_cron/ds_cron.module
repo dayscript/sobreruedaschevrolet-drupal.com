@@ -160,7 +160,11 @@ function ds_segments_calc()
       if( $userid != 0)
       {
         $usertempo = user_load($userid);
+<<<<<<< HEAD
         //if ($usertempo->name ==  "1016001033") {
+=======
+        //if ($usertempo->name ==  "830013443") {
+>>>>>>> master
           user_calc_segment($usertempo);
         //}
       }
