@@ -37,7 +37,7 @@ function ds_cron_menu() {
     'page callback' => 'ds_purchases_test',
     'access callback' => TRUE,
   );
-  $items['admin/ds_cron/workshops/test1'] = array(
+  $items['ds_cron/purchases/test1'] = array(
     'title' => t('Workshops test api de job'),
     'description' => t('Paso 2:Crear liquidacion de talleres job'),
     'page callback' => 'ds_purchases_test1',
