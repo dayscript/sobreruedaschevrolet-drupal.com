@@ -125,7 +125,7 @@ function ds_purchases_test(){
 function ds_purchases_test1(){
   $actual_date = new DateTime();
   $fecha = date('Y-m-d');
-  $nuevafecha = strtotime ( '-2 day' , strtotime ( $fecha ) ) ;
+  $nuevafecha = strtotime ( '-3 day' , strtotime ( $fecha ) ) ;
   $nuevafecha = date ( 'Ymd' , $nuevafecha );
 
   $date_start = ( isset($_GET['date_start']) ) ? $_GET['date_start']:$nuevafecha;
@@ -149,7 +149,7 @@ function ds_purchases_test1(){
       }
     //}
   }
-  return 'OK';
+  return 'OK '.$nuevafecha;
 }
 function ds_segments_calc()
 {
